@@ -1,10 +1,10 @@
-517fa523eafa811a1dcbf3285c1714cd *DESCRIPTION
+a97e8b4cddd80fc329fd8ff3c361c583 *DESCRIPTION
 1c4855e5b2fffeb54de037589b19b8d4 *NAMESPACE
-a93523962cf0e99f4c0fccee439c7f38 *NEWS.md
+2f7a67824e7cadc3d95fcce5edd9246a *NEWS.md
 8659eec9561af26b7c6b87cb38a5b38d *R/client.R
-a8891b6b95d3774df7af771a63dfa9e3 *R/config.R
+a6e5f5eb81294876051485f1a92a3b01 *R/config.R
 5d897b1db7b03d26d74c4655248a6fe6 *R/convert.R
-a590b23e183206c4de48b8cbd546809c *R/credential_providers.R
+6f5744cc10f1a3c542e98924c0839032 *R/credential_providers.R
 dd6069fe7f8e42dec9269dff712855aa *R/credentials.R
 6ba25859455de9e3915355bd0dd224b4 *R/custom_dynamodb.R
 9ff39069d78ddc679ce54e74f4cfecd2 *R/custom_s3.R
@@ -29,7 +29,7 @@ a8d9abada76b4b3018e539b8395e0f20 *R/queryutil.R
 de8266b8dbcf95cda3856542f4727c4e *R/signer_s3.R
 928fcc5ca6ac37f8e5f2546637890c95 *R/signer_s3v4.R
 09e3d86572420b9835aefc5e3bacec42 *R/signer_v2.R
-03ee5d451878158b1824cb72a78bfb3e *R/signer_v4.R
+96044fd19eda5496e6af8a960138e2da *R/signer_v4.R
 ab002f3a4cd2a2fc71d520478972be7e *R/struct.R
 aabb6910571e973e5c086d444147d8c4 *R/tags.R
 f77ecf07b848d480e2ff2417fb4f419e *R/time.R
