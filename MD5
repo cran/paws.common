@@ -1,8 +1,8 @@
-a97e8b4cddd80fc329fd8ff3c361c583 *DESCRIPTION
+2bd8b2f7341d822819ba4a4be5f6d342 *DESCRIPTION
 1c4855e5b2fffeb54de037589b19b8d4 *NAMESPACE
-2f7a67824e7cadc3d95fcce5edd9246a *NEWS.md
-8659eec9561af26b7c6b87cb38a5b38d *R/client.R
-a6e5f5eb81294876051485f1a92a3b01 *R/config.R
+b97570829432cf55ddb6f539d0b5b7ac *NEWS.md
+70f18a99cedc94139d78197dbf48492e *R/client.R
+7b616e22e47965218e57df03c5316fd7 *R/config.R
 5d897b1db7b03d26d74c4655248a6fe6 *R/convert.R
 6f5744cc10f1a3c542e98924c0839032 *R/credential_providers.R
 dd6069fe7f8e42dec9269dff712855aa *R/credentials.R
@@ -25,7 +25,7 @@ ea19372eb3158956a59cd1a919e74f7e *R/jsonutil.R
 5d15ebcfd1416261312a46e55a6c613e *R/populateutil.R
 a8d9abada76b4b3018e539b8395e0f20 *R/queryutil.R
 770c8a06d6f86b4870fa2a70ff311e7d *R/request.R
-6215513c53e6671910bf5c0a8835a816 *R/service.R
+a2570135fa65a15fc85bc7d96d8f2ede *R/service.R
 de8266b8dbcf95cda3856542f4727c4e *R/signer_s3.R
 928fcc5ca6ac37f8e5f2546637890c95 *R/signer_s3v4.R
 09e3d86572420b9835aefc5e3bacec42 *R/signer_v2.R
@@ -42,12 +42,12 @@ c8333e1e7fca75442559aac352fff21e *man/is_empty.Rd
 ed79cdb4f60ca0e752df1e4904530f3b *man/new_handlers.Rd
 90d27d41fcf6957f3e85e713bc3c7584 *man/new_operation.Rd
 8c62e17a7fbde25895f6654d01c88d12 *man/new_request.Rd
-2befd1cc6ae47d2eb80bbaeff3cd32d3 *man/new_service.Rd
+72e27308b2c1827103f5101af045e5d8 *man/new_service.Rd
 2ce8474190ba64909221e3b48917a789 *man/populate.Rd
 c8ab344124a07bd2fed48c9424e1f3e0 *man/send_request.Rd
 1b4f6eeaa8043c63b6a9451c3eadbf43 *man/tags.Rd
 0d841a4d68bea12a63248f6dc87a129f *tests/testthat.R
-cf9512c6a95c498c921954182cc0b440 *tests/testthat/test_client.R
+a5e6273c6035bc9e05400f586dd91165 *tests/testthat/test_client.R
 eebda32105dc98ed24f05176105b649b *tests/testthat/test_convert.R
 052877a2dbd05db945f489032ad1e17b *tests/testthat/test_credential_providers.R
 e00e6738b87d9f4dea2b40a97d070b02 *tests/testthat/test_dateutil.R
@@ -63,7 +63,7 @@ c4a992e0f0729add0e1618b7cf84c695 *tests/testthat/test_handlers_restjson.R
 66131a08cfb9f2214d7b70660fdb995f *tests/testthat/test_populateutil.R
 39e7cad0b72040299f58136824b62270 *tests/testthat/test_queryutil.R
 02a71632c22533eba08ddd9bcda55867 *tests/testthat/test_request.R
-81fcf6a372be07955f7e24371f1a82f5 *tests/testthat/test_service.R
+a038c5b4201f8bdc48aba3835613e64f *tests/testthat/test_service.R
 4f74e6ffc2e6ac87129075ef29ddf427 *tests/testthat/test_signer_v4.R
 94be6b2f5f6134a1f3f50fcaed2183b5 *tests/testthat/test_struct.R
 da87980016dcd3b0cf9ce09122423530 *tests/testthat/test_tags.R
