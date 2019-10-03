@@ -1,6 +1,6 @@
-e626482c4cbd95332b84fb71fc73bdae *DESCRIPTION
+6956898e928459768b4f7a7d633c01cf *DESCRIPTION
 1c4855e5b2fffeb54de037589b19b8d4 *NAMESPACE
-32364d095493edeb49cdf402be4e4160 *NEWS.md
+bd3efad77b7d28e057d84a4b2d689266 *NEWS.md
 70f18a99cedc94139d78197dbf48492e *R/client.R
 7b616e22e47965218e57df03c5316fd7 *R/config.R
 5d897b1db7b03d26d74c4655248a6fe6 *R/convert.R
@@ -15,7 +15,7 @@ ab06819295886e7345499cf544880cda *R/handlers.R
 67a6f7c1c01a015c130f4315a3218aee *R/handlers_ec2query.R
 f737ff8e93d6c2b412a1395d23f2f004 *R/handlers_jsonrpc.R
 d516b0826d9a882794d50365ffe9dda2 *R/handlers_query.R
-8438c7cc2ed5fef5dd897e1cfe5ecfa1 *R/handlers_rest.R
+cf1e27cf788bf5e50a81fd5a5999b4fc *R/handlers_rest.R
 63aaed7cc748e1d78968100ed03e2cbb *R/handlers_restjson.R
 d5700c5c4ff851a81ce20f8f8904041d *R/handlers_restxml.R
 42a985d6eaed60f56fd39ac28d0a6e79 *R/idempotency.R
@@ -35,7 +35,7 @@ aabb6910571e973e5c086d444147d8c4 *R/tags.R
 f77ecf07b848d480e2ff2417fb4f419e *R/time.R
 2a14cf5023c426cce5186518c976c589 *R/url.R
 8fc8b8af5b261ad19e43102f97672696 *R/util.R
-e5e19803a23b8c57438784358282fc1b *R/xmlutil.R
+e6aacb2329c0d58baab05c70c3016e01 *R/xmlutil.R
 86be1f4ac4b7a816e02692871cfcfda7 *README.md
 d2c683b2bd0d1454196ef052b8817821 *man/handlers.Rd
 c8333e1e7fca75442559aac352fff21e *man/is_empty.Rd
@@ -56,8 +56,9 @@ e00e6738b87d9f4dea2b40a97d070b02 *tests/testthat/test_dateutil.R
 4b09fd604966d94bb3a27c97ef58b788 *tests/testthat/test_handlers_ec2query.R
 41abbb91e5575b811a7906f00cf71578 *tests/testthat/test_handlers_jsonrpc.R
 657babee0567b10e37e0343fe33f5634 *tests/testthat/test_handlers_query.R
+0e3de616fb6409480c4059606dce0a67 *tests/testthat/test_handlers_rest.R
 c4a992e0f0729add0e1618b7cf84c695 *tests/testthat/test_handlers_restjson.R
-4254fbf73a9c21451a66819d426cae55 *tests/testthat/test_handlers_restxml.R
+0e72f32ee324e9a68878bb8ffba59e75 *tests/testthat/test_handlers_restxml.R
 6765ceb7a5d3ff97193642d4f862ed05 *tests/testthat/test_jsonutil.R
 66c3680a567af43a564e717e8ef03b86 *tests/testthat/test_net.R
 66131a08cfb9f2214d7b70660fdb995f *tests/testthat/test_populateutil.R
