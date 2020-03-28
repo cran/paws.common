@@ -82,6 +82,21 @@ content_md5 <- function(request) {
 
 ################################################################################
 
+s3_unmarshal_get_bucket_location <- function(request) {
+  if (request$operation$name != "GetBucketLocation") return(request)
+  response <- decode_xml(request$http_response$body)
+  data <- request$data
+  location <- response$LocationConstraint
+  if (length(location) == 0) location <- "us-east-1"
+  else location <- location[[1]]
+  if (location == "EU") location <- "eu-west-1"
+  data$LocationConstraint <- location
+  request$data <- data
+  return(request)
+}
+
+################################################################################
+
 s3_unmarshal_error <- function(request) {
 
   data <- tryCatch(
@@ -91,20 +106,23 @@ s3_unmarshal_error <- function(request) {
 
   if (is.null(data)) {
     request$error <- Error("SerializationError",
-                           "failed to read from query HTTP response body")
+                           "failed to read from query HTTP response body",
+                           request$http_response$status_code)
     return(request)
   }
 
-  code <- unlist(data$Error$Code)
-  message <- unlist(data$Error$Message)
+  error_response <- lapply(data$Error, unlist)
+  code <- error_response$Code
+  message <- error_response$Message
 
   if (is.null(message) && is.null(code)) {
     request$error <- Error("SerializationError",
-                           "failed to decode query XML error response")
+                           "failed to decode query XML error response",
+                           request$http_response$status_code)
     return(request)
   }
 
-  request$error <- Error(code, message)
+  request$error <- Error(code, message, request$http_response$status_code, error_response)
   return(request)
 }
 
@@ -118,6 +136,8 @@ customizations$s3 <- function(handlers) {
                                        populate_location_constraint)
   handlers$build <- handlers_add_back(handlers$build,
                                       content_md5)
+  handlers$unmarshal <- handlers_add_back(handlers$unmarshal,
+                                          s3_unmarshal_get_bucket_location)
   handlers$unmarshal_error <- handlers_set(s3_unmarshal_error)
   handlers
 }

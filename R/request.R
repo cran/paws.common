@@ -88,7 +88,7 @@ Request <- struct(
 #'
 #' @examples
 #' # Make a request object for the S3 ListBuckets operation.
-#' \donttest{metadata <- list(
+#' \dontrun{metadata <- list(
 #'   endpoints = list("*" = list(endpoint = "s3.{region}.amazonaws.com", global = FALSE)),
 #'   service_name = "s3"
 #' )
@@ -146,7 +146,7 @@ new_request <- function(client, operation, params, data) {
 #'
 #' @examples
 #' # Send a request and handle the response.
-#' \donttest{resp <- send_request(req)}
+#' \dontrun{resp <- send_request(req)}
 #'
 #' @export
 send_request <- function(request) {
@@ -154,7 +154,7 @@ send_request <- function(request) {
   request <- sign(request)
 
   if (!is.null(request$error)) {
-    stop(format_error(request$error), call. = FALSE)
+    stop(aws_error(request$error))
   }
 
   request <- send(request)
@@ -163,7 +163,7 @@ send_request <- function(request) {
 
   if (!is.null(request$error)) {
     request <- unmarshal_error(request)
-    stop(format_error(request$error), call. = FALSE)
+    stop(aws_error(request$error))
   }
 
   request <- unmarshal(request)
