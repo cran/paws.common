@@ -64,14 +64,16 @@ Handlers <- struct(
 #' @param ... One or more request-handling functions to add.
 #'
 #' @examples
+#' \dontrun{
 #' # Replace a handler list with a new handler list.
-#' \dontrun{handlers$build <- handlers_set(restxml_build)}
+#' handlers$build <- handlers_set(restxml_build)
 #'
 #' # Add a new handler onto the end of an existing handler list.
-#' \dontrun{handlers$build <- handlers_add_back(handlers$build, restxml_build)}
+#' handlers$build <- handlers_add_back(handlers$build, restxml_build)
 #'
 #' # Add a new handler at the beginning of an existing handler list.
-#' \dontrun{handlers$build <- handlers_add_front(handlers$build, restxml_build)}
+#' handlers$build <- handlers_add_front(handlers$build, restxml_build)
+#' }
 #'
 #' @name handlers
 #' @keywords internal
@@ -152,6 +154,7 @@ validate_response <- function(request) {
 }
 
 unmarshal <- function(request) {
+  if (length(request$data) == 0) return(request)
   request <- run(request, unmarshal)
   return(request)
 }

@@ -266,7 +266,7 @@ test_that("build blob argument", {
 op_input12 <- function(TimeArg) {
   args <- list(TimeArg = TimeArg)
   interface <- Structure(
-    TimeArg = Scalar(type = "timestamp", .tags = list(timestampFormat = "iso8601"))
+    TimeArg = Scalar(type = "timestamp")
   )
   return(populate(args, interface))
 }
@@ -699,6 +699,17 @@ test_that("unmarshal enums", {
   out <- req$data
   expect_equal(out$FooEnum, "foo")
   expect_equal(out$ListEnums, c("foo", "bar"))
+})
+
+op_output15 <- list()
+
+test_that("unmarshal empty output shape", {
+  req <- new_request(svc, op, NULL, op_output15)
+  req$http_response <- HttpResponse(
+    status_code = 200,
+    body = charToRaw("<OperationResponse xmlns=\"http://monitoring.amazonaws.com/doc/2010-08-01/\">\n  <ResponseMetadata>\n    <RequestId>123</RequestId>\n  </ResponseMetadata>\n</OperationResponse>\n")
+  )
+  expect_error(unmarshal(req), NA)
 })
 
 #-------------------------------------------------------------------------------

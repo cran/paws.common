@@ -40,13 +40,13 @@ os_env_provider <- function() {
 }
 
 # Retrieve credentials stored in credentials file.
-credentials_file_provider <- function() {
+credentials_file_provider <- function(profile = "") {
 
   credentials_path <- file.path(get_aws_path(), "credentials")
 
   if (!file.exists(credentials_path)) return(NULL)
 
-  aws_profile <- get_profile_name()
+  aws_profile <- get_profile_name(profile)
 
   credentials <- ini::read.ini(credentials_path)
 
@@ -54,14 +54,19 @@ credentials_file_provider <- function() {
 
   access_key_id <- credentials[[aws_profile]]$aws_access_key_id
   secret_access_key <- credentials[[aws_profile]]$aws_secret_access_key
+  session_token <- credentials[[aws_profile]]$aws_session_token
 
   if (is.null(access_key_id) || is.null(secret_access_key)) return(NULL)
+
+  if (is.null(session_token)) {
+    session_token <- ""
+  }
 
   if (access_key_id != "" && secret_access_key != "") {
     creds <- list(
       access_key_id = access_key_id,
       secret_access_key = secret_access_key,
-      session_token = "",
+      session_token = session_token,
       provider_name = ""
     )
   } else {
