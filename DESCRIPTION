@@ -1,7 +1,7 @@
 Package: paws.common
 Type: Package
 Title: Paws Low-Level Amazon Web Services API
-Version: 0.3.1
+Version: 0.3.2
 Authors@R: c(
         person("David", "Kretch", email = "david.kretch@gmail.com", role = c("aut", "cre")),
         person("Adam", "Banker", email = "adam.banker39@gmail.com", role = "aut"),
@@ -22,17 +22,18 @@ RoxygenNote: 7.1.0
 Collate: 'struct.R' 'handlers.R' 'url.R' 'net.R'
         'credential_providers.R' 'credentials.R' 'client.R' 'config.R'
         'convert.R' 'service.R' 'custom_dynamodb.R' 'custom_rds.R'
-        'custom_s3.R' 'dateutil.R' 'error.R' 'handlers_core.R'
-        'handlers_ec2query.R' 'handlers_jsonrpc.R' 'handlers_query.R'
-        'handlers_rest.R' 'handlers_restjson.R' 'handlers_restxml.R'
-        'idempotency.R' 'jsonutil.R' 'populate.R' 'populateutil.R'
-        'tags.R' 'queryutil.R' 'request.R' 'signer_v4.R' 'signer_s3.R'
-        'signer_s3v4.R' 'signer_v2.R' 'time.R' 'util.R' 'xmlutil.R'
+        'xmlutil.R' 'util.R' 'stream.R' 'custom_s3.R' 'dateutil.R'
+        'error.R' 'handlers_core.R' 'handlers_ec2query.R'
+        'handlers_jsonrpc.R' 'handlers_query.R' 'handlers_rest.R'
+        'handlers_restjson.R' 'handlers_restxml.R' 'idempotency.R'
+        'jsonutil.R' 'populate.R' 'populateutil.R' 'tags.R'
+        'queryutil.R' 'request.R' 'signer_v4.R' 'signer_s3.R'
+        'signer_s3v4.R' 'signer_v2.R' 'time.R'
 NeedsCompilation: no
-Packaged: 2020-04-25 23:42:41 UTC; david.kretch
+Packaged: 2020-06-21 22:34:28 UTC; david.kretch
 Author: David Kretch [aut, cre],
   Adam Banker [aut],
   Amazon.com, Inc. [cph]
 Maintainer: David Kretch <david.kretch@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-04-26 04:50:06 UTC
+Date/Publication: 2020-06-22 05:10:12 UTC
