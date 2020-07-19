@@ -1,7 +1,7 @@
 Package: paws.common
 Type: Package
 Title: Paws Low-Level Amazon Web Services API
-Version: 0.3.2
+Version: 0.3.3
 Authors@R: c(
         person("David", "Kretch", email = "david.kretch@gmail.com", role = c("aut", "cre")),
         person("Adam", "Banker", email = "adam.banker39@gmail.com", role = "aut"),
@@ -30,10 +30,10 @@ Collate: 'struct.R' 'handlers.R' 'url.R' 'net.R'
         'queryutil.R' 'request.R' 'signer_v4.R' 'signer_s3.R'
         'signer_s3v4.R' 'signer_v2.R' 'time.R'
 NeedsCompilation: no
-Packaged: 2020-06-21 22:34:28 UTC; david.kretch
+Packaged: 2020-07-19 17:17:16 UTC; david.kretch
 Author: David Kretch [aut, cre],
   Adam Banker [aut],
   Amazon.com, Inc. [cph]
 Maintainer: David Kretch <david.kretch@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-06-22 05:10:12 UTC
+Date/Publication: 2020-07-19 17:50:03 UTC
