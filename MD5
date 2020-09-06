@@ -1,6 +1,6 @@
-495b2f96937a82be23e92ee9a9a1763f *DESCRIPTION
+daf676b5c68a46cff9f3d34912c852bf *DESCRIPTION
 a0bd7c6c7ac8b2dc9fddfe0e5a4c793b *NAMESPACE
-0234f3bdaa496f352bfd02459035d293 *NEWS.md
+95e8ac7b34b456491a3622fefd4aaa6a *NEWS.md
 330ae67865c3eb40082f984d64ea4432 *R/client.R
 74ecc26bb0ccc105780a73dda8a33428 *R/config.R
 967b3622a598b4dbfdc8215e28048ff1 *R/convert.R
@@ -8,7 +8,7 @@ a0bd7c6c7ac8b2dc9fddfe0e5a4c793b *NAMESPACE
 19dcc2e99e1ea98aae6eea2b14ac5e50 *R/credentials.R
 6ba25859455de9e3915355bd0dd224b4 *R/custom_dynamodb.R
 615dc6b3403b41b5cc37272c1db8906d *R/custom_rds.R
-f5ffc8dfd9b35a12043d27aa6a120b71 *R/custom_s3.R
+b07111e0188e5d9225133f9aee402e34 *R/custom_s3.R
 b4f878e7276ed24f302cfc67a6732ef0 *R/dateutil.R
 ccb6466ffe43d68740c71b1fb6bc7243 *R/error.R
 1b1fd3434dfceedeecdfd08a76cb46c2 *R/handlers.R
@@ -20,7 +20,7 @@ f6c7c5ae0d7bff2a4585626246adb3c6 *R/handlers_rest.R
 4b6e6ff055377eaa075002c85c573123 *R/handlers_restjson.R
 d5700c5c4ff851a81ce20f8f8904041d *R/handlers_restxml.R
 42a985d6eaed60f56fd39ac28d0a6e79 *R/idempotency.R
-b7b69fc757f5b1807fe3e0a1f8a1b932 *R/jsonutil.R
+80e1053b2393c25ef33c23d5ed8c66c7 *R/jsonutil.R
 bef5062e637388afd505197090eeb82e *R/net.R
 507607e1f08309e7ea462ac168e7bd1e *R/populate.R
 5d15ebcfd1416261312a46e55a6c613e *R/populateutil.R
@@ -35,9 +35,9 @@ de8266b8dbcf95cda3856542f4727c4e *R/signer_s3.R
 0f4f568451998ba8012ce0679dc80186 *R/struct.R
 07992bd2b28d1f5a7d273c4e726505e1 *R/tags.R
 f77ecf07b848d480e2ff2417fb4f419e *R/time.R
-783a2df90341f7ff685dcb8ed8b619ca *R/url.R
+c2179ebcc7c96cab8d7eb21d2cb578c2 *R/url.R
 84220a6119907757cfa27b3a8a199b19 *R/util.R
-6b739ec5a48feef43f864c2328abef9a *R/xmlutil.R
+30e05b8f6a7e526edc1f45a4123285bc *R/xmlutil.R
 86be1f4ac4b7a816e02692871cfcfda7 *README.md
 28e2deb3e008ffbe43bf5e28def5a47c *man/aws_error.Rd
 d9110c902f573f395cb5733925047c1c *man/get_config.Rd
@@ -59,7 +59,7 @@ f9f973c0c7fa995bfadbc0e894d883db *man/tags.Rd
 144d589b45c69624c438d2f46398751e *tests/testthat/test_credential_providers.R
 b63b6a0504f4e026a645466156b0ab25 *tests/testthat/test_credentials.R
 8cb900c6757ac7758358482c69abcfc0 *tests/testthat/test_custom_rds.R
-2647c3a9c548021af6cd5be15cb42934 *tests/testthat/test_custom_s3.R
+64b7433065bfdcf941311eb8036bcf05 *tests/testthat/test_custom_s3.R
 e00e6738b87d9f4dea2b40a97d070b02 *tests/testthat/test_dateutil.R
 4c5542356ad335af2ccaa0e0dc6ff655 *tests/testthat/test_handlers.R
 4e9d59bf0bc40d0171da7bcd70501267 *tests/testthat/test_handlers_core.R
@@ -78,5 +78,6 @@ a517ab64cda7a2da3ac52fd5d5607b82 *tests/testthat/test_service.R
 cb2c72f61c3cc176ddc31198352f571b *tests/testthat/test_signer_v4.R
 50d98728cd80a94961e2abb8dfccc441 *tests/testthat/test_struct.R
 204e18eb83abfa98ade7f34dbaa26e8e *tests/testthat/test_tags.R
+ab85e6131d355e6dfed90bb7c2e8c468 *tests/testthat/test_url.R
 100866197c0e54509c087c5fc2217ec6 *tests/testthat/test_util.R
 18d15b4b32dd250d419b0bbf46ae1e5e *tests/testthat/test_xmlutil.R
