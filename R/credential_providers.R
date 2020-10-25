@@ -1,4 +1,5 @@
 #' @include net.R
+#' @include credential_sts.R
 NULL
 
 # Retrieve credentials stored in R environment variables.
@@ -75,6 +76,116 @@ credentials_file_provider <- function(profile = "") {
   return(creds)
 }
 
+# Get credentials that are specified by an item in the AWS config file.
+config_file_provider <- function(profile = "") {
+
+  config_path <- file.path(get_aws_path(), "config")
+
+  if (!file.exists(config_path)) return(NULL)
+  config <- ini::read.ini(config_path)
+
+  profile_name <- get_profile_name(profile)
+  if (profile_name != "default") profile_name <- paste("profile", profile_name)
+  if (is.null(config[[profile_name]])) return(NULL)
+  profile <- config[[profile_name]]
+
+  if ("credential_process" %in% names(profile)) {
+    creds <- config_file_credential_process(profile$credential_process)
+    if (!is.null(creds)) return(creds)
+  }
+
+  if ("role_arn" %in% names(profile)) {
+    role_arn <- profile$role_arn
+    role_session_name <- profile$role_session_name
+    if (is.null(role_session_name)) {
+      sys <- Sys.info()
+      role_session_name <- digest::digest(paste0(sys["user"], sys["nodename"]))
+    }
+    if ("credential_source" %in% names(profile)) {
+      credential_source <- profile$credential_source
+      creds <- config_file_credential_source(role_arn, role_session_name, credential_source)
+      if (!is.null(creds)) return(creds)
+    }
+    if ("source_profile" %in% names(profile)) {
+      source_profile <- profile$source_profile
+      creds <- config_file_source_profile(role_arn, role_session_name, source_profile)
+      if (!is.null(creds)) return(creds)
+    }
+  }
+
+  return(NULL)
+}
+
+# Get credentials by running a process specified in `command`.
+config_file_credential_process <- function(command) {
+  output <- system(command, intern = TRUE)
+  data <- jsonlite::fromJSON(output)
+
+  if (data$Version != 1) return(NULL)
+
+  access_key_id <- data$AccessKeyId
+  secret_access_key <- data$SecretAccessKey
+  if (is.null(access_key_id) || access_key_id == "" ||
+      is.null(secret_access_key) || secret_access_key == "") {
+    return(NULL)
+  }
+
+  session_token <- data$SessionToken
+  if (is.null(session_token)) session_token <- ""
+
+  creds <- list(
+    access_key_id = access_key_id,
+    secret_access_key = secret_access_key,
+    session_token = session_token,
+    provider_name = ""
+  )
+  return(creds)
+}
+
+# Get the `role_arn`'s temporary credentials given a `credential_source`,
+# either "Environment", "Ec2InstanceMetadata", or "EcsContainer".
+# See https://docs.aws.amazon.com/credref/latest/refdocs/setting-global-credential_source.html.
+config_file_credential_source <- function(role_arn, role_session_name, credential_source) {
+  if (credential_source == "Environment") {
+    creds <- r_env_provider()
+    if (is.null(creds)) creds <- os_env_provider()
+  } else if (credential_source == "Ec2InstanceMetadata") {
+    creds <- iam_credentials_provider()
+  } else if (credential_source == "EcsContainer") {
+    creds <- container_credentials_provider()
+  }
+  if (is.null(creds)) return(NULL)
+  svc <- sts(config = list(credentials = list(creds = creds), region = "us-east-1"))
+  resp <- svc$assume_role(role_arn, role_session_name)
+  if (is.null(resp)) return(NULL)
+  role_creds <- list(
+    access_key_id = resp$Credentials$AccessKeyId,
+    secret_access_key = resp$Credentials$SecretAccessKey,
+    session_token = resp$Credentials$SessionToken,
+    provider_name = ""
+  )
+  return(role_creds)
+}
+
+# Get STS temporary credentials for the role with ARN `role_arn` using
+# credentials found in profile named `source_profile`.
+# See https://docs.aws.amazon.com/credref/latest/refdocs/setting-global-source_profile.html.
+config_file_source_profile <- function(role_arn, role_session_name, source_profile) {
+  creds <- credentials_file_provider(source_profile)
+  if (is.null(creds)) creds <- config_file_provider(source_profile)
+  if (is.null(creds)) return(NULL)
+  svc <- sts(config = list(credentials = list(creds = creds), region = "us-east-1"))
+  resp <- svc$assume_role(role_arn, role_session_name)
+  if (is.null(resp)) return(NULL)
+  role_creds <- list(
+    access_key_id = resp$Credentials$AccessKeyId,
+    secret_access_key = resp$Credentials$SecretAccessKey,
+    session_token = resp$Credentials$SessionToken,
+    provider_name = ""
+  )
+  return(role_creds)
+}
+
 # Retrieve container job role credentials
 container_credentials_provider <- function() {
 
@@ -114,7 +225,6 @@ container_credentials_provider <- function() {
   }
   return(creds)
 }
-
 
 # Retrieve credentials for EC2 IAM Role
 iam_credentials_provider <- function() {

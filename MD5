@@ -1,11 +1,12 @@
-daf676b5c68a46cff9f3d34912c852bf *DESCRIPTION
+990ea0a0e91b8e8e83c0c313899906d1 *DESCRIPTION
 a0bd7c6c7ac8b2dc9fddfe0e5a4c793b *NAMESPACE
-95e8ac7b34b456491a3622fefd4aaa6a *NEWS.md
+de64a84e15e216474adac9f892bdedf3 *NEWS.md
 330ae67865c3eb40082f984d64ea4432 *R/client.R
 74ecc26bb0ccc105780a73dda8a33428 *R/config.R
 967b3622a598b4dbfdc8215e28048ff1 *R/convert.R
-316cbdaa79e9f4f3be422e0827b30819 *R/credential_providers.R
-19dcc2e99e1ea98aae6eea2b14ac5e50 *R/credentials.R
+497be0574eca79cca9a9b291a1129e45 *R/credential_providers.R
+64ae970edbb7d34da4a02db260d5d030 *R/credential_sts.R
+74cd2e021c46088ec3c2bf505be9aea7 *R/credentials.R
 6ba25859455de9e3915355bd0dd224b4 *R/custom_dynamodb.R
 615dc6b3403b41b5cc37272c1db8906d *R/custom_rds.R
 b07111e0188e5d9225133f9aee402e34 *R/custom_s3.R
@@ -13,7 +14,7 @@ b4f878e7276ed24f302cfc67a6732ef0 *R/dateutil.R
 ccb6466ffe43d68740c71b1fb6bc7243 *R/error.R
 1b1fd3434dfceedeecdfd08a76cb46c2 *R/handlers.R
 7069df20c2641a766ad17f003564bab3 *R/handlers_core.R
-ccc13c560ed22bc7e8f0632b44394e46 *R/handlers_ec2query.R
+5bc83185ad720f65ad171060890f3489 *R/handlers_ec2query.R
 4fa52f96ebf2f54a515220c01ea9d19b *R/handlers_jsonrpc.R
 d655057f810ced11c40473deeb4f5eda *R/handlers_query.R
 f6c7c5ae0d7bff2a4585626246adb3c6 *R/handlers_rest.R
@@ -37,7 +38,7 @@ de8266b8dbcf95cda3856542f4727c4e *R/signer_s3.R
 f77ecf07b848d480e2ff2417fb4f419e *R/time.R
 c2179ebcc7c96cab8d7eb21d2cb578c2 *R/url.R
 84220a6119907757cfa27b3a8a199b19 *R/util.R
-30e05b8f6a7e526edc1f45a4123285bc *R/xmlutil.R
+9fad0b2f40f7742ec2bf3c2f16883af6 *R/xmlutil.R
 86be1f4ac4b7a816e02692871cfcfda7 *README.md
 28e2deb3e008ffbe43bf5e28def5a47c *man/aws_error.Rd
 d9110c902f573f395cb5733925047c1c *man/get_config.Rd
@@ -63,12 +64,12 @@ b63b6a0504f4e026a645466156b0ab25 *tests/testthat/test_credentials.R
 e00e6738b87d9f4dea2b40a97d070b02 *tests/testthat/test_dateutil.R
 4c5542356ad335af2ccaa0e0dc6ff655 *tests/testthat/test_handlers.R
 4e9d59bf0bc40d0171da7bcd70501267 *tests/testthat/test_handlers_core.R
-bc27a69ec22321e3e57db082436607e5 *tests/testthat/test_handlers_ec2query.R
+d411d143fcab1dc6f5f2c633ed093afd *tests/testthat/test_handlers_ec2query.R
 0b9ee317f3550975ffd0bf7b7b915b1c *tests/testthat/test_handlers_jsonrpc.R
 dbd631ac677bde6129fab725f62d35d3 *tests/testthat/test_handlers_query.R
 ce47827181031cfa76dc8d7759c0718e *tests/testthat/test_handlers_rest.R
 327f8eea622383cd9e7e31ecfd10291e *tests/testthat/test_handlers_restjson.R
-b182649bc80d38187b4529f45efc02e3 *tests/testthat/test_handlers_restxml.R
+84602d84bea9bbefd9c77ab5bb78060e *tests/testthat/test_handlers_restxml.R
 6765ceb7a5d3ff97193642d4f862ed05 *tests/testthat/test_jsonutil.R
 e751466d6f8da58e16e8867530cc82b5 *tests/testthat/test_net.R
 66131a08cfb9f2214d7b70660fdb995f *tests/testthat/test_populateutil.R
@@ -78,6 +79,6 @@ a517ab64cda7a2da3ac52fd5d5607b82 *tests/testthat/test_service.R
 cb2c72f61c3cc176ddc31198352f571b *tests/testthat/test_signer_v4.R
 50d98728cd80a94961e2abb8dfccc441 *tests/testthat/test_struct.R
 204e18eb83abfa98ade7f34dbaa26e8e *tests/testthat/test_tags.R
-ab85e6131d355e6dfed90bb7c2e8c468 *tests/testthat/test_url.R
+fcc05f906ab694aa07aa818ba7040562 *tests/testthat/test_url.R
 100866197c0e54509c087c5fc2217ec6 *tests/testthat/test_util.R
 18d15b4b32dd250d419b0bbf46ae1e5e *tests/testthat/test_xmlutil.R
