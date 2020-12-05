@@ -1,6 +1,6 @@
-990ea0a0e91b8e8e83c0c313899906d1 *DESCRIPTION
+0ea0c91f459cf3e64aabb57931ffa34d *DESCRIPTION
 a0bd7c6c7ac8b2dc9fddfe0e5a4c793b *NAMESPACE
-de64a84e15e216474adac9f892bdedf3 *NEWS.md
+a7ddf92b3fab7c8ae0b4627545412673 *NEWS.md
 330ae67865c3eb40082f984d64ea4432 *R/client.R
 74ecc26bb0ccc105780a73dda8a33428 *R/config.R
 967b3622a598b4dbfdc8215e28048ff1 *R/convert.R
@@ -11,7 +11,7 @@ de64a84e15e216474adac9f892bdedf3 *NEWS.md
 615dc6b3403b41b5cc37272c1db8906d *R/custom_rds.R
 b07111e0188e5d9225133f9aee402e34 *R/custom_s3.R
 b4f878e7276ed24f302cfc67a6732ef0 *R/dateutil.R
-ccb6466ffe43d68740c71b1fb6bc7243 *R/error.R
+543b84841f9ee785ae2e764678a909af *R/error.R
 1b1fd3434dfceedeecdfd08a76cb46c2 *R/handlers.R
 7069df20c2641a766ad17f003564bab3 *R/handlers_core.R
 5bc83185ad720f65ad171060890f3489 *R/handlers_ec2query.R
