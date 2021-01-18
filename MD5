@@ -1,15 +1,15 @@
-0ea0c91f459cf3e64aabb57931ffa34d *DESCRIPTION
+66475c755b43da6d19321c33e5a05b97 *DESCRIPTION
 a0bd7c6c7ac8b2dc9fddfe0e5a4c793b *NAMESPACE
-a7ddf92b3fab7c8ae0b4627545412673 *NEWS.md
+221075fd5724abe89ce4f58603bf99aa *NEWS.md
 330ae67865c3eb40082f984d64ea4432 *R/client.R
-74ecc26bb0ccc105780a73dda8a33428 *R/config.R
+13cbf58ff416a4c8f614f599325a5809 *R/config.R
 967b3622a598b4dbfdc8215e28048ff1 *R/convert.R
 497be0574eca79cca9a9b291a1129e45 *R/credential_providers.R
 64ae970edbb7d34da4a02db260d5d030 *R/credential_sts.R
 74cd2e021c46088ec3c2bf505be9aea7 *R/credentials.R
 6ba25859455de9e3915355bd0dd224b4 *R/custom_dynamodb.R
 615dc6b3403b41b5cc37272c1db8906d *R/custom_rds.R
-b07111e0188e5d9225133f9aee402e34 *R/custom_s3.R
+b128738898fdae8d4d1a39c5f855eb92 *R/custom_s3.R
 b4f878e7276ed24f302cfc67a6732ef0 *R/dateutil.R
 543b84841f9ee785ae2e764678a909af *R/error.R
 1b1fd3434dfceedeecdfd08a76cb46c2 *R/handlers.R
@@ -22,7 +22,7 @@ f6c7c5ae0d7bff2a4585626246adb3c6 *R/handlers_rest.R
 d5700c5c4ff851a81ce20f8f8904041d *R/handlers_restxml.R
 42a985d6eaed60f56fd39ac28d0a6e79 *R/idempotency.R
 80e1053b2393c25ef33c23d5ed8c66c7 *R/jsonutil.R
-bef5062e637388afd505197090eeb82e *R/net.R
+193ca26b7b9be14a9b7a43f8af883aa5 *R/net.R
 507607e1f08309e7ea462ac168e7bd1e *R/populate.R
 5d15ebcfd1416261312a46e55a6c613e *R/populateutil.R
 c4ecf931f38bdc68b60dc7bd52d0fb4e *R/queryutil.R
@@ -36,7 +36,7 @@ de8266b8dbcf95cda3856542f4727c4e *R/signer_s3.R
 0f4f568451998ba8012ce0679dc80186 *R/struct.R
 07992bd2b28d1f5a7d273c4e726505e1 *R/tags.R
 f77ecf07b848d480e2ff2417fb4f419e *R/time.R
-c2179ebcc7c96cab8d7eb21d2cb578c2 *R/url.R
+554a3464934b0d9a04710517d187e13a *R/url.R
 84220a6119907757cfa27b3a8a199b19 *R/util.R
 9fad0b2f40f7742ec2bf3c2f16883af6 *R/xmlutil.R
 86be1f4ac4b7a816e02692871cfcfda7 *README.md
