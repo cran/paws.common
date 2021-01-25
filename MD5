@@ -1,6 +1,6 @@
-66475c755b43da6d19321c33e5a05b97 *DESCRIPTION
+b2753d7d5f43ff1f154b9fa38196b755 *DESCRIPTION
 a0bd7c6c7ac8b2dc9fddfe0e5a4c793b *NAMESPACE
-221075fd5724abe89ce4f58603bf99aa *NEWS.md
+f96bdd3e168e5bf84312bc6d7f62798b *NEWS.md
 330ae67865c3eb40082f984d64ea4432 *R/client.R
 13cbf58ff416a4c8f614f599325a5809 *R/config.R
 967b3622a598b4dbfdc8215e28048ff1 *R/convert.R
@@ -22,7 +22,7 @@ f6c7c5ae0d7bff2a4585626246adb3c6 *R/handlers_rest.R
 d5700c5c4ff851a81ce20f8f8904041d *R/handlers_restxml.R
 42a985d6eaed60f56fd39ac28d0a6e79 *R/idempotency.R
 80e1053b2393c25ef33c23d5ed8c66c7 *R/jsonutil.R
-193ca26b7b9be14a9b7a43f8af883aa5 *R/net.R
+cd41475b027b92b26eeab53745e446bb *R/net.R
 507607e1f08309e7ea462ac168e7bd1e *R/populate.R
 5d15ebcfd1416261312a46e55a6c613e *R/populateutil.R
 c4ecf931f38bdc68b60dc7bd52d0fb4e *R/queryutil.R
