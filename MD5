@@ -1,6 +1,6 @@
-93756709939977e840e8c2f3a2cff332 *DESCRIPTION
+92b06d4d1b17822980aabdc37aea0339 *DESCRIPTION
 a0bd7c6c7ac8b2dc9fddfe0e5a4c793b *NAMESPACE
-944b53dda4a70435d501acb34b309be2 *NEWS.md
+765393d28f662f04ea6e365095853a61 *NEWS.md
 ae51e6b76be5414671326e1c9e479c65 *R/client.R
 5230dea5426d068da8c96a802ffe9d00 *R/config.R
 967b3622a598b4dbfdc8215e28048ff1 *R/convert.R
@@ -21,7 +21,7 @@ fbd5212f348a0c01814e807b7da64bf8 *R/handlers_rest.R
 4b6e6ff055377eaa075002c85c573123 *R/handlers_restjson.R
 d5700c5c4ff851a81ce20f8f8904041d *R/handlers_restxml.R
 42a985d6eaed60f56fd39ac28d0a6e79 *R/idempotency.R
-cf3e7d99c700995cedcc47e6bd813223 *R/iniutil.R
+f5303e151ee1ac7dc46682301af2181b *R/iniutil.R
 80e1053b2393c25ef33c23d5ed8c66c7 *R/jsonutil.R
 e2ee9845e8a56ffd3c59e7709ceea1eb *R/net.R
 507607e1f08309e7ea462ac168e7bd1e *R/populate.R
@@ -54,7 +54,7 @@ aa518a7f75a95f25c2f119bca130c4c2 *man/new_request.Rd
 3f3b26a448aea333d8289798ff3ff012 *man/set_config.Rd
 f9f973c0c7fa995bfadbc0e894d883db *man/tags.Rd
 0d841a4d68bea12a63248f6dc87a129f *tests/testthat.R
-7425b0a4b3b381e87546605555a1e6bc *tests/testthat/data_ini
+b716c2e390e4c797e9407f0cbdf9c072 *tests/testthat/data_ini
 ab7d4ad90c59ccb98fc27ccdbfa40b8a *tests/testthat/test_aws_error.R
 4490b59b6969eb61837c4e568948e51a *tests/testthat/test_client.R
 7cbbfac6469eae4c9d69ab2b288d5580 *tests/testthat/test_config.R
@@ -72,7 +72,7 @@ d70d06be583bf61533a7d363f464e1bb *tests/testthat/test_handlers.R
 4459340e82a77babfc012d4212e65f4f *tests/testthat/test_handlers_rest.R
 e0bfe0851351e064192439d6d8a25a59 *tests/testthat/test_handlers_restjson.R
 6dd731e0f08825d2a0ffbdd331519cf0 *tests/testthat/test_handlers_restxml.R
-79207ccc1dc21eaf45eddc31a1ad893b *tests/testthat/test_iniutil.R
+a53df64928acfc6034f60f7f7c5dafd4 *tests/testthat/test_iniutil.R
 73e3051b1a36656a7fabe6498e35c2b8 *tests/testthat/test_jsonutil.R
 2988178c30291e67f5590ad63414a93b *tests/testthat/test_net.R
 c1b285bb85b26fbb2f10c283f02397ab *tests/testthat/test_populateutil.R
