@@ -1,10 +1,20 @@
+# paws.common 0.3.13
+
+* Support `AWS_DEFAULT_REGION` in addition to `AWS_REGION`.
+* Support calling SDK operations within `do.call`, including any user-supplied
+  configuration to the service, e.g. a custom endpoint.
+
 # paws.common 0.3.12
 
+* Support S3 access points in all S3 operations that accept a bucket argument.
+  Fixes #403.
 * Fix certain API requests for S3 that were malformed due to mistakenly 
   including empty list elements, e.g. `s3_put_bucket_lifecycle_configuration`.
   Fixes #438.
 * Add an option to immediately close all HTTP connections, instead of the 
   default behavior which will reuse connections for requests within 5 seconds.
+  Using this feature allows you to switch credentials within 5 seconds without 
+  getting your request rejected with a SignatureDoesNotMatch error.
   Example usage: `s3 <- paws::s3(config = list(close_connection = TRUE))`.
   Fixes #431.
 
