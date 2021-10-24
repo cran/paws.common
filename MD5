@@ -1,6 +1,6 @@
-15866b8a59e8c56779c5f152e5ff0c0c *DESCRIPTION
+f6be1a6aa1fd0d871774bbd40f006ef4 *DESCRIPTION
 b289b5b4be7fd903a41ff5729e508ed9 *NAMESPACE
-42c0d344a441927120b0b8ae58bb222e *NEWS.md
+609ef31174c253adde313925fd07f162 *NEWS.md
 515a43375d0f92f7f8afc2f6d5cefa40 *R/client.R
 d1c869d01d5f5d6629eb913c27cb9d74 *R/config.R
 42915057eb4edad2ad1894c0cbef8821 *R/convert.R
@@ -74,7 +74,7 @@ b97c0df368ff3366117db7ab625a148a *tests/testthat/test_handlers_rest.R
 1738ff4c173957ae2de4b9dcaf50164f *tests/testthat/test_handlers_restxml.R
 82bf8947b392ac93a3ab5d9b1924be02 *tests/testthat/test_iniutil.R
 a3422df8b3a47201366f62366e577249 *tests/testthat/test_jsonutil.R
-9774009a473d791fb43aa83d1786c77d *tests/testthat/test_net.R
+a20f9c8c3b4ab71b359b75c868b3772b *tests/testthat/test_net.R
 2a1ec5cf8eace980c7096f5a6428864f *tests/testthat/test_populateutil.R
 aca48b505f482538a9105f783b3ed4c1 *tests/testthat/test_queryutil.R
 7fe8c489ed8c8227bfab256c9bde3a9e *tests/testthat/test_request.R
