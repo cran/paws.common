@@ -1,10 +1,10 @@
-9e6ace619532268c5fb35a243140de3a *DESCRIPTION
+bdfa197a5a9861a893e8568b0256979b *DESCRIPTION
 b289b5b4be7fd903a41ff5729e508ed9 *NAMESPACE
-d80f92990cf7eb510fd8ee625c4dabb6 *NEWS.md
+241910afa757bdde54c5c642cb723da6 *NEWS.md
 515a43375d0f92f7f8afc2f6d5cefa40 *R/client.R
 d1c869d01d5f5d6629eb913c27cb9d74 *R/config.R
 42915057eb4edad2ad1894c0cbef8821 *R/convert.R
-0e57a5b2560f9db92333a527883ef475 *R/credential_providers.R
+286232819a73c2a0ddb11daa47a4bfb4 *R/credential_providers.R
 b03d6bedd322ae27559d70eacb0eb6c6 *R/credential_sso.R
 380a3500e9fa9396bea025b202564839 *R/credential_sts.R
 da5a4d6ffbdd97c151b13c418a934cac *R/credentials.R
