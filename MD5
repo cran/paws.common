@@ -1,6 +1,6 @@
-bdfa197a5a9861a893e8568b0256979b *DESCRIPTION
+bb48490302556db1087a1358a1da3d55 *DESCRIPTION
 b289b5b4be7fd903a41ff5729e508ed9 *NAMESPACE
-241910afa757bdde54c5c642cb723da6 *NEWS.md
+50b6cab9904bcee4c695531bc08bf0b7 *NEWS.md
 515a43375d0f92f7f8afc2f6d5cefa40 *R/client.R
 d1c869d01d5f5d6629eb913c27cb9d74 *R/config.R
 42915057eb4edad2ad1894c0cbef8821 *R/convert.R
@@ -38,7 +38,7 @@ df02207b69741d27d0bd6878fa41e96d *R/queryutil.R
 d28d4d3bcf2e8a341286a6058ad523bf *R/struct.R
 b777fcdca9b60dffaa7c884b887bd49b *R/tags.R
 0f181d79519cc5b7b6886220747f60ed *R/time.R
-4f0d4f7c05e83748bb57c85dfb8dec4b *R/url.R
+74f9964da78dcfedd9dfb9bb02c7cf68 *R/url.R
 e2705f5d708f10389367336c6586e50d *R/util.R
 1454783e3fd79b3c18d92419ec11cfe2 *R/xmlutil.R
 98430c827ba1fa5287be70023fb0916d *README.md
@@ -83,6 +83,6 @@ d81c0b6a042ccbebe2e9aaf65578ddf2 *tests/testthat/test_service.R
 50084cff823709fd7185f8603d7910d2 *tests/testthat/test_signer_v4.R
 2302c390814acedd43aa38dfa32e9e5d *tests/testthat/test_struct.R
 9a1357b5c4d432257a28268531b4e699 *tests/testthat/test_tags.R
-58d94bb0c5e6e8b6e1e9ae40044c4a21 *tests/testthat/test_url.R
+13a4310d61530df6d56205cbf0d85be0 *tests/testthat/test_url.R
 606b224cb0b8a52e12c1cf1014ca05a3 *tests/testthat/test_util.R
 0608076cd13bedfde6f4f8bbec0d128b *tests/testthat/test_xmlutil.R
