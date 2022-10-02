@@ -1,6 +1,6 @@
-650196f8a85810848065cb2445f93f8c *DESCRIPTION
+9a6cae8666eabadc5b19dff780327a46 *DESCRIPTION
 b20d7487ccdad26e58591508daf782ff *NAMESPACE
-836715b9b2758ae8b7e56c2d06e6c953 *NEWS.md
+31799e13fb0a2f912ec25293548022d4 *NEWS.md
 f85867c3fd353b25a8266e727fe0e9e5 *R/RcppExports.R
 515a43375d0f92f7f8afc2f6d5cefa40 *R/client.R
 d1c869d01d5f5d6629eb913c27cb9d74 *R/config.R
@@ -40,8 +40,8 @@ d28d4d3bcf2e8a341286a6058ad523bf *R/struct.R
 b777fcdca9b60dffaa7c884b887bd49b *R/tags.R
 0f181d79519cc5b7b6886220747f60ed *R/time.R
 7f0d75f2e126d150a11771bbadf6b981 *R/url.R
-c9639c58fa3bbb159d20d75e179975b5 *R/util.R
-25cb983a6b28273f7f34b8043043a590 *R/xmlutil.R
+ddf2cd2b9a366336a77a4596f7a840b2 *R/util.R
+91a533b4c00290686252384e4f630fda *R/xmlutil.R
 98430c827ba1fa5287be70023fb0916d *README.md
 81f9e381612d586dafe882edabf2db34 *man/aws_error.Rd
 d9110c902f573f395cb5733925047c1c *man/get_config.Rd
@@ -90,4 +90,4 @@ d81c0b6a042ccbebe2e9aaf65578ddf2 *tests/testthat/test_service.R
 9a1357b5c4d432257a28268531b4e699 *tests/testthat/test_tags.R
 13a4310d61530df6d56205cbf0d85be0 *tests/testthat/test_url.R
 0a92812903984774f0d44b453376b0f0 *tests/testthat/test_util.R
-0608076cd13bedfde6f4f8bbec0d128b *tests/testthat/test_xmlutil.R
+9f5947584199642755ffe1a2abc7a946 *tests/testthat/test_xmlutil.R
