@@ -1,7 +1,7 @@
 Package: paws.common
 Type: Package
 Title: Paws Low-Level Amazon Web Services API
-Version: 0.5.1
+Version: 0.5.2
 Authors@R: c(
         person("David", "Kretch", email = "david.kretch@gmail.com", role = "aut"),
         person("Adam", "Banker", email = "adam.banker39@gmail.com", role = "aut"),
@@ -18,26 +18,27 @@ Encoding: UTF-8
 LinkingTo: Rcpp
 Imports: base64enc, curl, digest, httr, jsonlite, methods, utils, Rcpp,
         xml2
-Suggests: covr, rstudioapi, testthat
+Suggests: covr, crayon, mockery, rstudioapi, testthat
 SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
 RoxygenNote: 7.2.1
 Collate: 'RcppExports.R' 'struct.R' 'handlers.R' 'iniutil.R'
         'dateutil.R' 'credential_sso.R' 'credential_sts.R' 'url.R'
         'net.R' 'credential_providers.R' 'credentials.R' 'client.R'
         'config.R' 'convert.R' 'service.R' 'custom_dynamodb.R'
-        'custom_rds.R' 'xmlutil.R' 'util.R' 'stream.R' 'custom_s3.R'
+        'custom_rds.R' 'util.R' 'xmlutil.R' 'stream.R' 'custom_s3.R'
         'error.R' 'handlers_core.R' 'handlers_ec2query.R'
         'handlers_jsonrpc.R' 'handlers_query.R' 'handlers_rest.R'
         'handlers_restjson.R' 'handlers_restxml.R' 'idempotency.R'
-        'jsonutil.R' 'populate.R' 'populateutil.R' 'tags.R'
-        'queryutil.R' 'request.R' 'signer_v4.R' 'signer_s3.R'
-        'signer_s3v4.R' 'signer_v2.R' 'time.R'
+        'jsonutil.R' 'logging.R' 'onLoad.R' 'populate.R'
+        'populateutil.R' 'tags.R' 'queryutil.R' 'request.R'
+        'signer_v4.R' 'signer_s3.R' 'signer_s3v4.R' 'signer_v2.R'
+        'time.R'
 NeedsCompilation: yes
-Packaged: 2022-10-02 12:00:17 UTC; dyfanjones
+Packaged: 2022-12-01 12:23:05 UTC; dyfanjones
 Author: David Kretch [aut],
   Adam Banker [aut],
   Dyfan Jones [cre],
   Amazon.com, Inc. [cph]
 Maintainer: Dyfan Jones <dyfan.r.jones@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-10-02 12:20:02 UTC
+Date/Publication: 2022-12-01 12:40:02 UTC
