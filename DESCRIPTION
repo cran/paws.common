@@ -1,7 +1,7 @@
 Package: paws.common
 Type: Package
 Title: Paws Low-Level Amazon Web Services API
-Version: 0.5.3
+Version: 0.5.4
 Authors@R: c(
         person("David", "Kretch", email = "david.kretch@gmail.com", role = "aut"),
         person("Adam", "Banker", email = "adam.banker39@gmail.com", role = "aut"),
@@ -20,7 +20,7 @@ Imports: base64enc, curl, digest, httr, jsonlite, methods, utils, Rcpp,
         xml2
 Suggests: covr, crayon, mockery, rstudioapi, testthat
 SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Collate: 'RcppExports.R' 'struct.R' 'handlers.R' 'iniutil.R'
         'dateutil.R' 'credential_sso.R' 'credential_sts.R' 'url.R'
         'net.R' 'credential_providers.R' 'credentials.R' 'client.R'
@@ -31,14 +31,14 @@ Collate: 'RcppExports.R' 'struct.R' 'handlers.R' 'iniutil.R'
         'handlers_restjson.R' 'handlers_restxml.R' 'idempotency.R'
         'jsonutil.R' 'logging.R' 'onLoad.R' 'populate.R'
         'populateutil.R' 'tags.R' 'queryutil.R' 'request.R'
-        'signer_v4.R' 'signer_s3.R' 'signer_s3v4.R' 'signer_v2.R'
-        'time.R'
+        'signer_v4.R' 'signer_query.R' 'signer_s3.R' 'signer_s3v4.R'
+        'signer_v2.R' 'time.R'
 NeedsCompilation: yes
-Packaged: 2022-12-06 16:14:52 UTC; dyfanjones
+Packaged: 2023-01-11 15:05:03 UTC; dyfanjones
 Author: David Kretch [aut],
   Adam Banker [aut],
   Dyfan Jones [cre],
   Amazon.com, Inc. [cph]
 Maintainer: Dyfan Jones <dyfan.r.jones@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-12-06 17:50:02 UTC
+Date/Publication: 2023-01-11 15:30:02 UTC
