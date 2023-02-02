@@ -1,11 +1,11 @@
-eb5b90dda5aec04c30225813511aac63 *DESCRIPTION
+afb91bf9a4b9cd09f6d7b2c0b3a05905 *DESCRIPTION
 a8743e6d7167b54a789c822dcd1ab4da *NAMESPACE
-6d5929206c2b7a35962f17872692b079 *NEWS.md
+d43568bfb22b12e2a42fceadd658cfb1 *NEWS.md
 f85867c3fd353b25a8266e727fe0e9e5 *R/RcppExports.R
 515a43375d0f92f7f8afc2f6d5cefa40 *R/client.R
 1ad23ca1053a67636d654a32774822e7 *R/config.R
 f6652f4bd9a09c8f5ad3213328251a76 *R/convert.R
-131facfd2af0740c0d3dcc7f226b822e *R/credential_providers.R
+5e991979ed05e86449b985ac2a3efa56 *R/credential_providers.R
 b03d6bedd322ae27559d70eacb0eb6c6 *R/credential_sso.R
 c1d9894bd1882a7a75b9f24d0d9a0695 *R/credential_sts.R
 c87f5ac07f3ef808f2e94fe086d615f9 *R/credentials.R
@@ -64,10 +64,11 @@ ec0719c0209b8b3b0f22f36b2163e5d8 *man/set_config.Rd
 37497d0d3cf88e95f24d8dcb3b3ed7c2 *src/encoding.cpp
 939d828f7d90be0f91f7620af59d0987 *tests/testthat.R
 c47f6eacf8677f7cc44061e9a0cbe175 *tests/testthat/data_ini
+d8d7f2955ab8a755be89d9fea703e3a3 *tests/testthat/data_sso_ini
 a655e205dc759ee53f385d27be56075d *tests/testthat/helper.R
 4b6ce34897e542c4f516a0d8ab0c600d *tests/testthat/test_aws_error.R
 d698939ec1dce1c66bfdeb3144aa1227 *tests/testthat/test_client.R
-29eddf2c2eea207db49d4c04dc9b8ccb *tests/testthat/test_config.R
+93646c9bf65f575a4f5b0f0e5a524bea *tests/testthat/test_config.R
 7097fb7d5f379bc6e4c391b98fa87d3a *tests/testthat/test_convert.R
 bde98301f09d7a7321c88d9ee32e2287 *tests/testthat/test_credential_providers.R
 5cf7e66acbfe18f399f35349ed34aaef *tests/testthat/test_credentials.R
