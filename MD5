@@ -1,11 +1,11 @@
-afb91bf9a4b9cd09f6d7b2c0b3a05905 *DESCRIPTION
-a8743e6d7167b54a789c822dcd1ab4da *NAMESPACE
-d43568bfb22b12e2a42fceadd658cfb1 *NEWS.md
+964965b057f184d31178eb1b5dc2c9bf *DESCRIPTION
+c14006fc77c990257e1431f28183ce2f *NAMESPACE
+767166ae71892815fb1a824f3ddcebd0 *NEWS.md
 f85867c3fd353b25a8266e727fe0e9e5 *R/RcppExports.R
 515a43375d0f92f7f8afc2f6d5cefa40 *R/client.R
 1ad23ca1053a67636d654a32774822e7 *R/config.R
 f6652f4bd9a09c8f5ad3213328251a76 *R/convert.R
-5e991979ed05e86449b985ac2a3efa56 *R/credential_providers.R
+09b6a027a0742bbf8ae9054f70ca0999 *R/credential_providers.R
 b03d6bedd322ae27559d70eacb0eb6c6 *R/credential_sso.R
 c1d9894bd1882a7a75b9f24d0d9a0695 *R/credential_sts.R
 c87f5ac07f3ef808f2e94fe086d615f9 *R/credentials.R
@@ -25,7 +25,7 @@ fe04cf3d19655fd08d9c101a49aa74a5 *R/handlers_restxml.R
 9985ef652b760bea5f12ce630c856ab6 *R/idempotency.R
 8cb2f9425991939161d99915fa1d036c *R/iniutil.R
 af08b103aa8821aa58857804bbc28ed0 *R/jsonutil.R
-43714a6f268fc79fed787ee46c78ae3b *R/logging.R
+488650e775d7f3e7192c15c17248247a *R/logging.R
 7166e2423ba3c98d55911cae3eaa4252 *R/net.R
 e7fdce437d52dd1032fad898a7cfdfd3 *R/onLoad.R
 66ff9205215a1eaaaabda32e1893ba48 *R/populate.R
