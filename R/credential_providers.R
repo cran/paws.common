@@ -229,7 +229,11 @@ sso_credential_process <- function(sso_session,
   input_str <- sso_session %||% sso_start_url
   cache_key <- digest::digest(enc2utf8(input_str), algo = "sha1", serialize = FALSE)
   json_file <- paste0(cache_key, ".json")
-  root <- ifelse(Sys.info()[[1]] == "Windows", Sys.getenv("HOMEPATH"), "~")
+  root <- ifelse(
+    Sys.info()[[1]] == "Windows",
+    file.path(Sys.getenv("HOMEDRIVE"), Sys.getenv("HOMEPATH")),
+    "~"
+  )
   sso_cache <- file.path(root, ".aws", "sso", "cache", json_file)
   if (!file.exists(sso_cache)) {
     stop(sprintf(
@@ -311,7 +315,7 @@ get_creds_from_sts_resp <- function(resp) {
 # `mfa_serial`, and the user will be prompted interactively to provide the
 # current MFA token code.
 get_assumed_role_creds <- function(role_arn, role_session_name, mfa_serial, creds) {
-  svc <- sts(config = list(credentials = list(creds = creds), region = "us-east-1"))
+  svc <- sts(config = list(credentials = list(creds = creds)))
   if (is.null(mfa_serial) || mfa_serial == "") {
     resp <- svc$assume_role(
       RoleArn = role_arn,
