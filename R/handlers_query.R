@@ -24,7 +24,7 @@ query_build <- function(request) {
 
 # Unmarshal the response from a Query protocol response.
 query_unmarshal <- function(request) {
-  data <- decode_xml(request$http_response$body)
+  data <- request$http_response$body
   interface <- request$data
   result_name <- paste0(request$operation$name, "Result")
   request$data <- xml_unmarshal(data, interface, result_name)
@@ -45,9 +45,11 @@ query_unmarshal_error <- function(request) {
   )
 
   if (is.null(data)) {
-    request$error <- Error("SerializationError",
-                           "failed to read from query HTTP response body",
-                           request$http_response$status_code)
+    request$error <- Error(
+      "SerializationError",
+      "failed to read from query HTTP response body",
+      request$http_response$status_code
+    )
     return(request)
   }
 
@@ -57,9 +59,11 @@ query_unmarshal_error <- function(request) {
   )
 
   if (is.null(error)) {
-    request$error <- Error("SerializationError",
-                           "failed to decode query XML error response",
-                           request$http_response$status_code)
+    request$error <- Error(
+      "SerializationError",
+      "failed to decode query XML error response",
+      request$http_response$status_code
+    )
     return(request)
   }
 

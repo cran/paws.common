@@ -9,18 +9,21 @@
 \usage{
 config(
   credentials = list(creds = list(access_key_id = "", secret_access_key = "",
-    session_token = "", access_token = ""), profile = "", anonymous = FALSE),
+    session_token = "", access_token = "", expiration = Inf), profile = "", anonymous =
+    FALSE),
   endpoint = "",
   region = "",
   close_connection = FALSE,
+  max_retries = 3,
   connect_timeout = 60,
   s3_force_path_style = FALSE,
-  sts_regional_endpoint = ""
+  sts_regional_endpoint = "",
+  signature_version = ""
 )
 
 credentials(
   creds = list(access_key_id = "", secret_access_key = "", session_token = "",
-    access_token = ""),
+    access_token = "", expiration = Inf),
   profile = "",
   anonymous = FALSE
 )
@@ -29,7 +32,8 @@ creds(
   access_key_id = "",
   secret_access_key = "",
   session_token = "",
-  access_token = ""
+  access_token = "",
+  expiration = Inf
 )
 }
 \arguments{
@@ -43,6 +47,8 @@ creds(
 \item{\strong{access_token}:} {The token issued by the \code{CreateToken} API call. For more information, see
 \href{https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html}{CreateToken}
 in the \verb{IAM Identity Center OIDC API Reference Guide}.}
+\item{\strong{expiration}:} {The date and time when the temporary credentials expire.
+\code{expiration} must be a \code{POSIXct} date-time or able to be compared with them.}
 }}
 \item{\strong{profile}:} {The name of a profile to use. If not given, then the default profile is used.}
 \item{\strong{anonymous}:} {Set anonymous credentials.}
@@ -54,6 +60,8 @@ in the \verb{IAM Identity Center OIDC API Reference Guide}.}
 
 \item{close_connection}{Immediately close all HTTP connections.}
 
+\item{max_retries}{Max number of retries call AWS API (default set to 3).}
+
 \item{connect_timeout}{The time in seconds till a timeout exception is thrown
 when attempting to make a connection. The default is 60 seconds.}
 
@@ -63,6 +71,9 @@ addressing, i.e. \verb{http://s3.amazonaws.com/BUCKET/KEY}.}
 \item{sts_regional_endpoint}{Set sts regional endpoint resolver to regional or
 legacy \url{https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html}}
 
+\item{signature_version}{The signature version used when signing requests.
+Note that the default version is Signature Version 4.}
+
 \item{creds}{\code{creds()} or \code{list} in same format.
 \itemize{
 \item{\strong{access_key_id}:} {AWS access key ID}
@@ -70,8 +81,10 @@ legacy \url{https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regional
 \item{\strong{session_token}:} {AWS temporary session token}
 \item{\strong{access_token}:} {The token issued by the \code{CreateToken} API call. For more information, see
 \href{https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html}{CreateToken}
-in the \verb{IAM Identity Center OIDC API Reference Guide}.
-}}}
+in the \verb{IAM Identity Center OIDC API Reference Guide}.}
+\item{\strong{expiration}:} {The date and time when the temporary credentials expire.
+\code{expiration} must be a \code{POSIXct} date-time or able to be compared with them.}
+}}
 
 \item{profile}{The name of a profile to use. If not given, then the default profile is used.}
 
@@ -86,6 +99,9 @@ in the \verb{IAM Identity Center OIDC API Reference Guide}.
 \item{access_token}{The token issued by the \code{CreateToken} API call. For more information, see
 \href{https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html}{CreateToken}
 in the \verb{IAM Identity Center OIDC API Reference Guide}.}
+
+\item{expiration}{The date and time when the temporary credentials expire.
+\code{expiration} must be a \code{POSIXct} date-time or able to be compared with them.}
 }
 \value{
 list set of parameter variables for paws services.

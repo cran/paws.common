@@ -251,8 +251,10 @@ test_that("Other Scalar Case1", {
       Fourth = Scalar(type = "integer"),
       Second = Scalar(type = "boolean"),
       Third = Scalar(type = "float"),
-      .tags = list(locationName = "OperationRequest",
-                    xmlURI = "https://foo/")
+      .tags = list(
+        locationName = "OperationRequest",
+        xmlURI = "https://foo/"
+      )
     )
     return(populate(args, interface))
   }
@@ -330,8 +332,10 @@ test_that("NonFlattened List With LocationName Case1", {
     interface <- Structure(
       ListParam = List(
         Scalar(type = "string"),
-        .tags = list(locationName = "AlternateName",
-                      locationNameList = "NotMember")
+        .tags = list(
+          locationName = "AlternateName",
+          locationNameList = "NotMember"
+        )
       ),
       .tags = list(locationName = "OperationRequest", xmlURI = "https://foo/")
     )
@@ -410,26 +414,29 @@ test_that("List of Structures Case1", {
   op_input_test <- function(ListParam) {
     args <- list(ListParam = ListParam)
     interface <- Structure(
-        ListParam = List(
-          Structure(
-            Element = Scalar(type = "string",
-                             .tags = list(locationName = "value")
-                             )
-          ),
-          .tags = list(flattened = "true", locationName = "item")
+      ListParam = List(
+        Structure(
+          Element = Scalar(
+            type = "string",
+            .tags = list(locationName = "value")
+          )
         ),
-        .tags = list(locationName = "OperationRequest",
-                      xmlURI = "https://foo/")
+        .tags = list(flattened = "true", locationName = "item")
+      ),
+      .tags = list(
+        locationName = "OperationRequest",
+        xmlURI = "https://foo/"
+      )
     )
     return(populate(args, interface))
   }
 
   input <- op_input_test(
-      ListParam = list(
-          list(Element = "one"),
-          list(Element = "two"),
-          list(Element = "three")
-      )
+    ListParam = list(
+      list(Element = "one"),
+      list(Element = "two"),
+      list(Element = "three")
+    )
   )
 
   req <- new_request(svc, op_test, input, NULL)
@@ -443,17 +450,19 @@ test_that("Blob Case1", {
   op_input_test <- function(StructureParam) {
     args <- list(StructureParam = StructureParam)
     interface <- Structure(
-        StructureParam = Structure(
-          B = Scalar(type = "blob", .tags = list(locationName = "b"))
-        ),
-        .tags = list(locationName = "OperationRequest",
-                      xmlURI = "https://foo/")
+      StructureParam = Structure(
+        B = Scalar(type = "blob", .tags = list(locationName = "b"))
+      ),
+      .tags = list(
+        locationName = "OperationRequest",
+        xmlURI = "https://foo/"
+      )
     )
     return(populate(args, interface))
   }
 
   input <- op_input_test(
-      StructureParam = list(B = list(charToRaw("foo")))
+    StructureParam = list(B = list(charToRaw("foo")))
   )
   req <- new_request(svc, op_test, input, NULL)
   req <- build(req)
@@ -531,7 +540,7 @@ test_that("parameters with no provided arguments are dropped", {
   req <- new_request(svc, op_test, input, NULL)
   req <- build(req)
   r <- req$body
-  expect_equal(r, '<OperationRequest><Nested><Foo><Bar>abc123</Bar></Foo></Nested></OperationRequest>')
+  expect_equal(r, "<OperationRequest><Nested><Foo><Bar>abc123</Bar></Foo></Nested></OperationRequest>")
 })
 
 #-------------------------------------------------------------------------------
@@ -804,4 +813,91 @@ test_that("unmarshal error", {
   expect_equal(err$code, "Foo")
   expect_equal(err$status_code, 400)
   expect_equal(err$error_response$RequestID, "Baz")
+})
+
+op_output14 <- Structure(
+  Contents = List(
+    Structure(
+      Size = Scalar(type = "integer"),
+      Owner = list(
+        DisplayName = Scalar(type = "string"),
+        ID = Scalar(type = "string")
+      )
+    ),
+    .tags = list(flattened = TRUE)
+  )
+)
+
+test_that("unmarshal default flattened list", {
+  req <- new_request(svc, op, NULL, op_output14)
+  req$http_response <- HttpResponse(
+    status_code = 200,
+    body = charToRaw("<OperationNameResponse><Contents><Size>12345</Size></Contents></OperationNameResponse>")
+  )
+  req <- unmarshal(req)
+  out <- req$data
+  expect_equal(out$Contents[[1]]$Size, 12345)
+  expect_equal(out$Contents[[1]]$Owner$DisplayName, character())
+  expect_equal(out$Contents[[1]]$Owner$ID, character())
+})
+
+test_that("unmarshal default flattened list", {
+  req <- new_request(svc, op, NULL, op_output14)
+  req$http_response <- HttpResponse(
+    status_code = 200,
+    body = charToRaw("<OperationNameResponse><Contents><Size>12345</Size></Contents><Contents><Size>6789</Size></Contents></OperationNameResponse>")
+  )
+  req <- unmarshal(req)
+  out <- req$data
+  expect_equal(out$Contents[[1]]$Size, 12345)
+  expect_equal(out$Contents[[1]]$Owner$DisplayName, character())
+  expect_equal(out$Contents[[1]]$Owner$ID, character())
+  expect_equal(out$Contents[[2]]$Size, 6789)
+  expect_equal(out$Contents[[2]]$Owner$DisplayName, character())
+  expect_equal(out$Contents[[2]]$Owner$ID, character())
+})
+
+test_that("unmarshal OperationNameResult not in interface but in xml", {
+  req <- new_request(svc, op, NULL, op_output14)
+  req$http_response <- HttpResponse(
+    status_code = 200,
+    body = charToRaw("<OperationNameResult><Contents><Size>12345</Size></Contents><Contents><Size>6789</Size></Contents></OperationNameResult>")
+  )
+  req <- unmarshal(req)
+  out <- req$data
+  expect_equal(out$Contents[[1]]$Size, 12345)
+  expect_equal(out$Contents[[1]]$Owner$DisplayName, character())
+  expect_equal(out$Contents[[1]]$Owner$ID, character())
+  expect_equal(out$Contents[[2]]$Size, 6789)
+  expect_equal(out$Contents[[2]]$Owner$DisplayName, character())
+  expect_equal(out$Contents[[2]]$Owner$ID, character())
+})
+
+op_output15 <- Structure(
+  Version = List(
+    Structure(
+      Size = Scalar(type = "integer"),
+      Owner = list(
+        DisplayName = Scalar(type = "string"),
+        ID = Scalar(type = "string")
+      )
+    ),
+    .tags = list(flattened = TRUE)
+  )
+)
+
+test_that("unmarshal nested structure", {
+  req <- new_request(svc, op, NULL, op_output15)
+  req$http_response <- HttpResponse(
+    status_code = 200,
+    body = charToRaw("<OperationNameResponse><Version><Size>9</Size><Owner><ID>bar</ID><DisplayName>foo</DisplayName></Owner></Version><Version><Size>10</Size><Owner><ID>zoo</ID><DisplayName>cho</DisplayName></Owner></Version></OperationNameResponse>")
+  )
+  req <- unmarshal(req)
+  out <- req$data
+  expect_equal(out$Version[[1]]$Size, 9)
+  expect_equal(out$Version[[1]]$Owner$DisplayName, "foo")
+  expect_equal(out$Version[[1]]$Owner$ID, "bar")
+  expect_equal(out$Version[[2]]$Size, 10)
+  expect_equal(out$Version[[2]]$Owner$DisplayName, "cho")
+  expect_equal(out$Version[[2]]$Owner$ID, "zoo")
 })

@@ -12,7 +12,7 @@ Config <- struct(
   region = "",
   disable_ssl = FALSE,
   close_connection = FALSE,
-  max_retries = -1,
+  max_retries = 3,
   connect_timeout = 60,
   retryer = NULL,
   disable_param_validation = FALSE,
@@ -25,7 +25,8 @@ Config <- struct(
   use_dual_stack = FALSE,
   sleep_delay = NULL,
   disable_rest_protocol_uri_cleaning = FALSE,
-  sts_regional_endpoint = ""
+  sts_regional_endpoint = "",
+  signature_version = ""
 )
 
 # A Session object stores configuration and request handlers for a service.
@@ -110,8 +111,7 @@ resolver_endpoint <- function(service, region, endpoints, sts_regional_endpoint 
 }
 
 set_sts_regional_endpoint <- function(sts_regional_endpoint, endpoint) {
-  switch(
-    sts_regional_endpoint,
+  switch(sts_regional_endpoint,
     "legacy" = "sts.amazonaws.com",
     "regional" = "sts.{region}.amazonaws.com",
     endpoint
@@ -119,8 +119,7 @@ set_sts_regional_endpoint <- function(sts_regional_endpoint, endpoint) {
 }
 
 set_sts_signing_region <- function(sts_regional_endpoint, region) {
-  switch(
-    sts_regional_endpoint,
+  switch(sts_regional_endpoint,
     "legacy" = "us-east-1",
     "regional" = region
   )
