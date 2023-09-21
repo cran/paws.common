@@ -1,3 +1,7 @@
+# paws.common 0.6.1
+* support nested content within ini files (#667) [Configuration and credential file settings](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-s3)
+* fix how nested structure are parsed from xml (#675)
+
 # paws.common 0.6.0
 * use known interface when parsing xml (@619) improving performance by 3-6x. Thanks to @mgirlich for raising, implementing initial method and testing.
 * add expiration parameter to creds
