@@ -1,3 +1,8 @@
+# paws.common 0.6.2
+* fix how `read_ini` reads empty profiles from ini files
+* fix is.atomic behavior for R v4.4+
+* support service specific endpoints (#667). Thanks to @dpprdan for raising ticket and testing methods
+
 # paws.common 0.6.1
 * support nested content within ini files (#667) [Configuration and credential file settings](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-s3)
 * fix how nested structure are parsed from xml (#675)
