@@ -1,10 +1,10 @@
+#' @include cache.R
 #' @include util.R
 
 # Get a parameter and its value
-extract_ini_parameter <- function(item) {
-  item <- gsub("^[ \t\r\n]+|[ \t\r\n]+$", "", item, perl = T)
-  parameter <- list(item[2])
-  names(parameter) <- item[1]
+extract_ini_parameter <- function(items) {
+  parameter <- as.list.default(items[, 2])
+  names(parameter) <- items[, 1]
   return(parameter)
 }
 
@@ -12,17 +12,20 @@ read_ini <- function(file_name) {
   if (!file.exists(file_name)) {
     stopf("Unable to find file: %s", file_name)
   }
+
+  if (!is.null(profiles <- ini_cache[[file_name]])) {
+    return(profiles)
+  }
+
   content <- sub(
     "[ \t\r\n]+$", "",
-    scan(file_name, what = "", sep = "\n", quiet = T),
+    scan(file_name, what = "", sep = "\n", quiet = TRUE),
     perl = TRUE
   )
-  # An empty credentials file is valid when using SSO
-  # In that case, length(content) is 0.  Don't loop
-  # in such a case, since 'grepl(..., content[i])'
-  # will return logical(0), causing the 'if' to error out
+  # Return empty list for empty files
   if (length(content) == 0) {
-    return(list())
+    ini_cache[[file_name]] <- list()
+    return(ini_cache[[file_name]])
   }
 
   # Get the profile name from an ini file
@@ -30,8 +33,11 @@ read_ini <- function(file_name) {
   if (length(rm_els) > 0) content <- content[-rm_els]
 
   found <- grep("^\\[.*\\]", content, perl = TRUE)
-
-  profile_nms <- gsub("\\[|\\]", "", content[found])
+  profile_nms <- gsub(
+    "^[ \t\r\n]+|[ \t\r\n]+$", "",
+    gsub("\\[|\\]", "", content[found]),
+    perl = T
+  )
   profiles <- vector("list", length = length(profile_nms))
   names(profiles) <- profile_nms
 
@@ -40,39 +46,38 @@ read_ini <- function(file_name) {
   split_content <- strsplit(sub("=", "\n", content, fixed = T), "\n", fixed = T)
   nested_contents <- lengths(split_content) == 1
 
+  split_content <- sub("[ \t\r\n]+$", "", do.call(rbind, split_content), perl = TRUE)
+  sub_grps <- !grepl("^[ ]+", split_content[, 1])
+  split_content <- sub("^[ \t\r]+", "", split_content, perl = TRUE)
   for (i in which(start <= end)) {
     items <- seq.int(start[i], end[i])
     found_nested_content <- nested_contents[items]
     if (any(found_nested_content)) {
-      profiles[[i]] <- nested_ini_content(split_content[items], found_nested_content)
+      profiles[[i]] <- nested_ini_content(
+        split_content[items, , drop = FALSE], found_nested_content, which(sub_grps[items])
+      )
     } else {
-      profiles[[i]] <- unlist(lapply(
-        split_content[items], extract_ini_parameter
-      ), recursive = F)
+      profiles[[i]] <- extract_ini_parameter(split_content[items, , drop = FALSE])
     }
   }
+  ini_cache[[file_name]] <- profiles
   return(profiles)
 }
 
-nested_ini_content <- function(sub_content, found_nested_content) {
+nested_ini_content <- function(sub_content, found_nested_content, sub_grp) {
+  profile_nms <- sub_content[sub_grp]
+  profiles <- vector("list", length(profile_nms))
+  names(profiles) <- profile_nms
+
   position <- which(found_nested_content)
-  start <- (position + 1)
-  end <- c(position[-1] - 1, length(sub_content))
+  non_nest <- !(sub_grp %in% position)
+  profiles[non_nest] <- sub_content[sub_grp[non_nest], 2, drop = T]
 
-  profile_nms <- gsub("^[ \t\r\n]+|[ \t\r\n]+$", "", unlist(sub_content[position]), perl = T)
-
-  sub_grp <- which(!vapply(sub_content, function(x) grepl("^[ ]+", x[1]), logical(1)))
-  non_nest <- sub_grp[!sub_grp %in% position]
-
-  profiles <- unlist(lapply(
-    sub_content[non_nest], extract_ini_parameter
-  ), recursive = F)
-  for (i in seq_along(position)) {
-    els <- seq.int(start[i], end[i])
-    nest_content <- sub_content[els[!(els %in% sub_grp)]]
-    profiles[[profile_nms[i]]] <- unlist(lapply(
-      nest_content, extract_ini_parameter
-    ), recursive = F)
+  start <- (sub_grp + 1)
+  end <- c(sub_grp[-1] - 1, nrow(sub_content))
+  for (i in which(start <= end)) {
+    items <- seq.int(start[i], end[i])
+    profiles[[profile_nms[i]]] <- extract_ini_parameter(sub_content[items, , drop = F])
   }
   return(profiles)
 }

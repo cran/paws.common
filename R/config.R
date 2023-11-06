@@ -1,3 +1,5 @@
+#' @include cache.R
+#' @include util.R
 #' @include iniutil.R
 NULL
 
@@ -243,7 +245,7 @@ get_instance_metadata <- function(query_path = "") {
 # NOTE: Does not work on Windows.
 get_os_env <- function(var) {
   if (.Platform$OS.type == "unix") {
-    value <- system(sprintf("echo $%s", var), intern = T)
+    value <- os_env_cache[[var]] %||% ""
   } else {
     value <- "" # Not implemented on Windows.
   }
@@ -389,6 +391,11 @@ get_web_identity_token_file <- function(web_identity_token_file = "") {
   if (web_identity_token_file == "") stop("No WebIdentityToken file available")
 
   return(web_identity_token_file)
+}
+
+# Get the Web Identity Token from reading the token file
+get_web_identity_token <- function(web_identity_token_file = "") {
+  return(readLines(get_web_identity_token_file(web_identity_token_file), warn = FALSE))
 }
 
 # Check if sts_regional_endpoint is present in config file
