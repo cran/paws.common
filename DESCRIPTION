@@ -1,7 +1,7 @@
 Package: paws.common
 Type: Package
 Title: Paws Low-Level Amazon Web Services API
-Version: 0.6.3
+Version: 0.6.4
 Authors@R: c(
         person("David", "Kretch", email = "david.kretch@gmail.com", role = "aut"),
         person("Adam", "Banker", email = "adam.banker39@gmail.com", role = "aut"),
@@ -14,11 +14,13 @@ Description: Functions for making low-level API requests to Amazon Web Services
     higher-level interfaces to individual services, such as Simple Storage
     Service (S3).
 License: Apache License (>= 2.0)
+URL: https://github.com/paws-r/paws
+BugReports: https://github.com/paws-r/paws/issues
 Encoding: UTF-8
 LinkingTo: Rcpp
 Imports: base64enc, curl, digest, httr, jsonlite, methods, utils,
         stats, Rcpp, xml2
-Suggests: covr, crayon, mockery, withr, rstudioapi, testthat
+Suggests: covr, crayon, mockery, withr, rstudioapi, testthat (>= 3.0.0)
 SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
 RoxygenNote: 7.2.3
 Collate: 'RcppExports.R' 'cache.R' 'util.R' 'struct.R' 'handlers.R'
@@ -34,12 +36,13 @@ Collate: 'RcppExports.R' 'cache.R' 'util.R' 'struct.R' 'handlers.R'
         'retry.R' 'service_parameter_helper.R' 'signer_v4.R'
         'signer_s3.R' 'signer_s3v4.R' 'signer_v1.R' 'signer_v2.R'
         'time.R'
+Config/testthat/edition: 3
 NeedsCompilation: yes
-Packaged: 2023-11-06 18:04:46 UTC; dyfanjones
+Packaged: 2023-11-11 18:40:57 UTC; dyfanjones
 Author: David Kretch [aut],
   Adam Banker [aut],
   Dyfan Jones [cre],
   Amazon.com, Inc. [cph]
 Maintainer: Dyfan Jones <dyfan.r.jones@gmail.com>
 Repository: CRAN
-Date/Publication: 2023-11-06 20:00:02 UTC
+Date/Publication: 2023-11-11 23:23:29 UTC
