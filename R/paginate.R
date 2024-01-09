@@ -19,6 +19,9 @@
 #' @param MaxItems Limits the maximum number of total returned items returned while paginating.
 #' @param StartingToken Can be used to modify the starting marker or token of a paginator.
 #' This argument if useful for resuming pagination from a previous token or starting pagination at a known position.
+#' @param StopOnSameToken Exits paginator if previous token matches current token.
+#' For some APIs, such as CloudWatchLogs events, the next page token will always be present.
+#' When set to \code{TRUE}, the paginator will stop when the token doesn't change.
 #' @param FUN the function to be applied to each response element of \code{operation}.
 #' @param simplify See \link[base:sapply]{base::sapply()}.
 #' @param ... optional arguments to \code{FUN}.
@@ -39,7 +42,8 @@
 paginate <- function(Operation,
                      PageSize = NULL,
                      MaxItems = NULL,
-                     StartingToken = NULL) {
+                     StartingToken = NULL,
+                     StopOnSameToken = FALSE) {
   fn <- substitute(Operation)
   # rebuild fn for do.call
   if (identical(fn[[1]], .do_call)) {
@@ -59,14 +63,26 @@ paginate <- function(Operation,
   while (!identical(fn[[paginator$input_token[[1]]]], character(0))) {
     resp <- eval(fn, envir = parent.frame())
     new_tokens <- get_tokens(resp, paginator$output_token)
+
+    # Exit paginator if previous token matches current token
+    # https://github.com/smithy-lang/smithy-typescript/blob/main/packages/core/src/pagination/createPaginator.ts#L53
+    if (isTRUE(StopOnSameToken)) {
+      previous_token <- unlist(fn[[paginator$input_token]], use.names = F)
+      if (identical(previous_token, unlist(new_tokens, use.names = F))) {
+        break
+      }
+    }
+
+    # Update tokens
     for (i in seq_along(new_tokens)) {
       fn[[paginator$input_token[[i]]]] <- new_tokens[[i]]
     }
+
     result[[length(result) + 1]] <- resp
 
     # exit if no more results
-    if (!is.null(paginator$more_results)) {
-      if (isFALSE(resp[[paginator$more_results]])) {
+    if (!is.null(paginator[["more_results"]])) {
+      if (isFALSE(resp[[paginator[["more_results"]]]])) {
         break
       }
     }
@@ -87,7 +103,8 @@ paginate_lapply <- function(Operation,
                             ...,
                             PageSize = NULL,
                             MaxItems = NULL,
-                            StartingToken = NULL) {
+                            StartingToken = NULL,
+                            StopOnSameToken = FALSE) {
   FUN <- match.fun(FUN)
   fn <- substitute(Operation)
 
@@ -106,7 +123,8 @@ paginate_lapply <- function(Operation,
     paginator = fn_update$paginator,
     FUN = FUN,
     ...,
-    MaxItems = MaxItems
+    MaxItems = MaxItems,
+    StopOnSameToken = StopOnSameToken
   )
   return(result)
 }
@@ -119,7 +137,8 @@ paginate_sapply <- function(Operation,
                             simplify = TRUE,
                             PageSize = NULL,
                             MaxItems = NULL,
-                            StartingToken = NULL) {
+                            StartingToken = NULL,
+                            StopOnSameToken = FALSE) {
   FUN <- match.fun(FUN)
   fn <- substitute(Operation)
 
@@ -138,7 +157,8 @@ paginate_sapply <- function(Operation,
     paginator = fn_update$paginator,
     FUN = FUN,
     ...,
-    MaxItems = MaxItems
+    MaxItems = MaxItems,
+    StopOnSameToken = StopOnSameToken
   )
 
   if (!isFALSE(simplify)) {
@@ -234,21 +254,34 @@ paginate_xapply <- function(
     paginator,
     FUN,
     ...,
-    MaxItems = NULL) {
+    MaxItems = NULL,
+    StopOnSameToken = FALSE) {
   primary_result_key <- paginator$result_key[[1]]
   no_items <- 0
   result <- list()
   while (!identical(fn[[paginator$input_token[[1]]]], character(0))) {
     resp <- eval(fn, envir = parent.frame(n = 2))
     new_tokens <- get_tokens(resp, paginator$output_token)
+
+    # Exit paginator if previous token matches current token
+    # https://github.com/smithy-lang/smithy-typescript/blob/main/packages/core/src/pagination/createPaginator.ts#L53
+    if (isTRUE(StopOnSameToken)) {
+      previous_token <- unlist(fn[[paginator$input_token]], use.names = F)
+      if (identical(previous_token, unlist(new_tokens, use.names = F))) {
+        break
+      }
+    }
+
+    # Update tokens
     for (i in seq_along(new_tokens)) {
       fn[[paginator$input_token[[i]]]] <- new_tokens[[i]]
     }
+
     result[[length(result) + 1]] <- FUN(resp, ...)
 
     # exit if no more results
-    if (!is.null(paginator$more_results)) {
-      if (isFALSE(resp[[paginator$more_results]])) {
+    if (!is.null(paginator[["more_results"]])) {
+      if (isFALSE(resp[[paginator[["more_results"]]]])) {
         break
       }
     }
@@ -262,67 +295,65 @@ paginate_xapply <- function(
   return(result)
 }
 
+token_error_msg <- "attempt to select less than one element in integerOneIndex"
 # Get all output tokens
-get_tokens <- function(resp, output_tokens) {
+get_tokens <- function(resp, token) {
+  last <- function(x) x[[length(x)]]
   tokens <- list()
-  for (token in output_tokens) {
-    if (grepl("\\[-1\\]", token)) {
-      tokens[[token]] <- get_token_len(resp, token)
-    } else {
-      tokens[[token]] <- get_token_path(resp, token)
-    }
+  for (tkn in token) {
+    tokens[[tkn]] <- tryCatch(
+      eval(parse(text = jmespath_index(tkn)), envir = environment()),
+      error = function(err) {
+        # Return default character(0) for empty lists
+        if (grepl(token_error_msg, err[["message"]], perl = T)) {
+          character(0)
+        } else {
+          stop(err)
+        }
+      }
+    )
   }
   return(tokens)
 }
 
-# Get Token along a response path: i.e.
-# Path.To.Token
-get_token_path <- function(resp, token) {
-  token_prts <- strsplit(token, "\\.")[[1]]
-  build_key <- character(length(token_prts))
-  for (i in seq_along(token_prts)) {
-    build_key[i] <- token_prts[[i]]
-  }
-  location <- paste0('resp[["', paste(build_key, collapse = '"]][["'), '"]]')
-  return(eval(parse(text = location), envir = environment()))
+split_token <- function(token) {
+  token_prts <- unlist(strsplit(token, ".", fixed = T))
+  token_prts <- unlist(strsplit(token_prts, "[", fixed = T))
+  return(unlist(strsplit(token_prts, "]", fixed = T)))
 }
 
-# Get Token from the last element in a response path: i.e.
-# Path.To[-1].Token
-get_token_len <- function(resp, token) {
-  last_element <- function(x) {
-    x[[length(x)]]
-  }
-  build_part <- function(x) {
-    paste0('last_element(resp[["', paste0(x, collapse = '"]][["'), '"]])')
-  }
-  token_prts <- strsplit(token, "\\.")[[1]]
+# This is a simple implementation of jmespath for R list: i.e.
+# Path.To[-1].Token -> last(resp[["Path"]][["To"]])[["Token"]]
+# Path.To.Token -> resp[["Path"]][["To"]][["Token"]]
+jmespath_index <- function(token) {
+  token_prts <- split_token(token)
+  pattern <- "[[:alpha:]]+"
 
-  build_key <- character(0)
-  for (i in seq_along(token_prts)) {
-    if (grepl("\\[-1\\]", token_prts[[i]])) {
-      build_key[length(build_key) + 1] <- gsub("\\[-1\\]", "", token_prts[[i]])
-      build_key <- build_part(build_key)
-    } else {
-      build_key[length(build_key) + 1] <- token_prts[[i]]
+  # re-index
+  found_alpha <- grep(pattern, token_prts)
+  digits <- as.numeric(token_prts[-found_alpha])
+  digits[digits >= 0] <- digits[digits >= 0] + 1
+  token_prts[-found_alpha] <- digits
+
+  # Format character strings
+  token_prts[found_alpha] <- paste0('"', token_prts[found_alpha], '"')
+
+  found <- grep("-", token_prts, fixed = T)
+  if (length(found) > 0) {
+    # Path.To[-1].Token
+    position <- found - 1
+    last_index <- token_prts[seq_len(position)]
+    last_index <- paste(last_index, collapse = "]][[")
+    final_token <- sprintf("last(resp[[%s]])", last_index)
+    if (found < length(token_prts)) {
+      token_prts <- token_prts[(position + 2):length(token_prts)]
+      final_token <- sprintf(
+        "%s[[%s]]", final_token, paste0(token_prts, collapse = "]][[")
+      )
     }
+  } else {
+    # Path.To.Token
+    final_token <- sprintf("resp[[%s]]", paste0(token_prts, collapse = "]][["))
   }
-  location <- paste0(paste(build_key, collapse = '[["'), '"]]')
-  tryCatch(
-    {
-      return(eval(parse(text = location), envir = environment()))
-    },
-    error = function(err) {
-      # Return default character(0) for empty lists
-      if (grepl(
-        "attempt to select less than one element in integerOneIndex",
-        err$message,
-        perl = T
-      )) {
-        character(0)
-      } else {
-        stop(err)
-      }
-    }
-  )
+  return(final_token)
 }

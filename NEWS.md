@@ -1,3 +1,11 @@
+# paws.common 0.7.0
+* support sse md5 (#718). Thanks to @odysseu for raising issue.
+* add pagination StopOnSameToken option (#721) aligns with aws-sdk-js-v3 implementation (https://github.com/aws/aws-sdk-js-v3/releases/tag/v3.78.0). Thanks to @wlandau for raising error in `paginate`.
+* tidy up internal function `jmespath_index`
+* fix `aws-global` region when resolving endpoint (#730). Thanks to @atheriel for identifying the issue.
+* fix default region for service s3 (#730). Thanks to @atheriel for identifying the issue.
+* support `AWS_CONTAINER_CREDENTIALS_FULL_URI` environmental variable. This supports to services like sagemaker serverless endpoints (#737). Thanks to @ncullen93 for raising issue and testing.
+
 # paws.common 0.6.4
 * ensure xml build structure is correctly flattened (#597)
 * fix cache failing to initialize on certain environments. Restrict scope of cached environment variables to only those starting with `AWS_*` (#706, @fh-mthomson)
