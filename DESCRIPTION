@@ -1,7 +1,7 @@
 Package: paws.common
 Type: Package
 Title: Paws Low-Level Amazon Web Services API
-Version: 0.7.0
+Version: 0.7.1
 Authors@R: c(
         person("David", "Kretch", email = "david.kretch@gmail.com", role = "aut"),
         person("Adam", "Banker", email = "adam.banker39@gmail.com", role = "aut"),
@@ -22,27 +22,27 @@ Imports: base64enc, curl, digest, httr, jsonlite, methods, utils,
         stats, Rcpp, xml2
 Suggests: covr, crayon, mockery, withr, rstudioapi, testthat (>= 3.0.0)
 SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
-RoxygenNote: 7.2.3
-Collate: 'RcppExports.R' 'cache.R' 'util.R' 'struct.R' 'handlers.R'
-        'logging.R' 'iniutil.R' 'dateutil.R' 'credential_sso.R'
-        'credential_sts.R' 'url.R' 'net.R' 'credential_providers.R'
-        'credentials.R' 'config.R' 'client.R' 'convert.R' 'service.R'
-        'custom_dynamodb.R' 'custom_rds.R' 'tags.R' 'xmlutil.R'
-        'stream.R' 'custom_s3.R' 'error.R' 'handlers_core.R'
-        'handlers_ec2query.R' 'handlers_jsonrpc.R' 'handlers_query.R'
-        'handlers_rest.R' 'handlers_restjson.R' 'handlers_restxml.R'
-        'idempotency.R' 'jsonutil.R' 'onLoad.R' 'paginate.R'
-        'populate.R' 'populateutil.R' 'queryutil.R' 'request.R'
-        'retry.R' 'service_parameter_helper.R' 'signer_v4.R'
-        'signer_s3.R' 'signer_s3v4.R' 'signer_v1.R' 'signer_v2.R'
-        'time.R'
+RoxygenNote: 7.3.1
+Collate: 'RcppExports.R' 'util.R' 'cache.R' 'struct.R' 'handlers.R'
+        'iniutil.R' 'config.R' 'logging.R' 'dateutil.R'
+        'credential_sso.R' 'credential_sts.R' 'url.R' 'net.R'
+        'credential_providers.R' 'credentials.R' 'client.R' 'convert.R'
+        'service.R' 'custom_dynamodb.R' 'custom_rds.R' 'tags.R'
+        'xmlutil.R' 'stream.R' 'custom_s3.R' 'error.R'
+        'handlers_core.R' 'handlers_ec2query.R' 'handlers_jsonrpc.R'
+        'handlers_query.R' 'handlers_rest.R' 'handlers_restjson.R'
+        'handlers_restxml.R' 'idempotency.R' 'jsonutil.R' 'onLoad.R'
+        'paginate.R' 'populate.R' 'populateutil.R' 'queryutil.R'
+        'request.R' 'retry.R' 'service_parameter_helper.R'
+        'signer_v4.R' 'signer_s3.R' 'signer_s3v4.R' 'signer_v1.R'
+        'signer_v2.R' 'time.R'
 Config/testthat/edition: 3
 NeedsCompilation: yes
-Packaged: 2024-01-08 14:27:50 UTC; dyfanjones
+Packaged: 2024-03-05 16:48:31 UTC; dyfanjones
 Author: David Kretch [aut],
   Adam Banker [aut],
   Dyfan Jones [cre],
   Amazon.com, Inc. [cph]
 Maintainer: Dyfan Jones <dyfan.r.jones@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-01-09 06:40:02 UTC
+Date/Publication: 2024-03-05 17:50:02 UTC

@@ -1,6 +1,18 @@
+#' @include RcppExports.R
+
 # Decode raw bytes JSON into an R list object.
 decode_json <- function(raw) {
-  obj <- json_to_list(raw_to_utf8(raw))
+  if (length(raw) == 0) {
+    return(list())
+  }
+  con <- rawConnection(raw)
+  on.exit(close(con))
+  obj <- jsonlite::fromJSON(
+    con,
+    simplifyVector = FALSE,
+    simplifyDataFrame = FALSE,
+    simplifyMatrix = FALSE
+  )
   return(obj)
 }
 
@@ -100,14 +112,10 @@ json_build_list <- function(values) {
 }
 
 json_build_map <- function(values) {
-  v <- list()
-  for (key in sort(names(values))) {
-    value <- values[[key]]
-    buf <- sprintf('"%s":%s', key, json_build_any(value))
-    v[[length(v) + 1]] <- buf
-  }
-  v <- sprintf("{%s}", paste(v, collapse = ","))
-  return(v)
+  v <- lapply(char_sort(names(values)), function(key) {
+    sprintf('"%s":%s', key, json_build_any(values[[key]]))
+  })
+  return(sprintf("{%s}", paste(v, collapse = ",")))
 }
 
 json_build_scalar <- function(values) {
@@ -123,41 +131,6 @@ json_build_scalar <- function(values) {
     sprintf('"%s"', values)
   )
   return(s)
-}
-
-#-------------------------------------------------------------------------------
-
-# Escape control characters by replacing them with their Unicode representation.
-json_escape_unicode <- function(string) {
-  result <- string
-  for (i in 1:31) {
-    from <- intToUtf8(i)
-    to <- paste0("\\u00", format(as.hexmode(i), width = 2))
-    result <- gsub(from, to, result, fixed = TRUE)
-  }
-  return(result)
-}
-
-# Return a string for a JSON value, with special characters escaped.
-json_convert_string <- function(string) {
-  replace <- list(
-    c("\\", "\\\\"),
-    c('"', '\\"'),
-    c("\b", "\\b"),
-    c("\f", "\\f"),
-    c("\r", "\\r"),
-    c("\t", "\\t"),
-    c("\n", "\\n")
-  )
-  result <- string
-  for (elem in replace) {
-    from <- elem[1]
-    to <- elem[2]
-    result <- gsub(from, to, result, fixed = TRUE)
-  }
-  result <- json_escape_unicode(result)
-  result <- sprintf('"%s"', result)
-  return(result)
 }
 
 #-------------------------------------------------------------------------------
