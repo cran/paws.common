@@ -240,12 +240,15 @@ sso_credential_process <- function(sso_session,
                                    sso_account_id,
                                    sso_region,
                                    sso_role_name) {
+  if (!check_if_cred_needs_refresh(sso_role_name)) {
+    return(cred_refresh_cache[[sso_role_name]])
+  }
+
   input_str <- sso_session %||% sso_start_url
   cache_key <- digest::digest(enc2utf8(input_str), algo = "sha1", serialize = FALSE)
   json_file <- paste0(cache_key, ".json")
-  root <- ifelse(
-    Sys.info()[[1]] == "Windows",
-    file.path(Sys.getenv("HOMEDRIVE"), Sys.getenv("HOMEPATH")),
+  root <- switch(Sys.info()[[1]],
+    "Windows" = file.path(Sys.getenv("HOMEDRIVE"), Sys.getenv("HOMEPATH")),
     "~"
   )
   sso_cache <- file.path(root, ".aws", "sso", "cache", json_file)
@@ -279,14 +282,30 @@ sso_credential_process <- function(sso_session,
   if (is.null(resp)) {
     return(NULL)
   }
-  roleCredentials <- resp$roleCredentials
+
   creds <- Creds(
-    access_key_id = roleCredentials$accessKeyId,
-    secret_access_key = roleCredentials$secretAccessKey,
-    session_token = roleCredentials$sessionToken,
-    expiration = roleCredentials$expiration
+    access_key_id = resp$roleCredentials$accessKeyId,
+    secret_access_key = resp$roleCredentials$secretAccessKey,
+    session_token = resp$roleCredentials$sessionToken,
+    expiration = resp$roleCredentials$expiration
   )
-  return(creds)
+  cred_refresh_cache[[sso_role_name]] <- creds
+  return(cred_refresh_cache[[sso_role_name]])
+}
+
+check_if_cred_needs_refresh <- function(sso_role_name) {
+  if (!is.null(cred <- cred_refresh_cache[[sso_role_name]])) {
+    if (!length(expire <- cred$expiration)) {
+      return(TRUE)
+    }
+    if (is.infinite(expire)) {
+      return(TRUE)
+    }
+    expiration <- expire / 1000
+    now <- as.numeric(Sys.time())
+    return(now > expiration)
+  }
+  return(TRUE)
 }
 
 # Get STS temporary credentials for the role with ARN `role_arn` using
