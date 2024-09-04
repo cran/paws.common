@@ -1,6 +1,6 @@
-215f54e7970c075ee332e745c3b30b5b *DESCRIPTION
+15a795e72573518967b04d046ada318b *DESCRIPTION
 6aaedeb899fe90c4a9c26f56b12654bf *NAMESPACE
-21b3e1e5d430536b5511500684155ede *NEWS.md
+4b5e12d2844f5d675b5537faf96eca32 *NEWS.md
 256765f3027c003c0cbfe2b0406afd7e *R/RcppExports.R
 b26a20b82d13f7daa78ccca2849baf86 *R/cache.R
 5802507ac6584749c841b63fba9861bf *R/client.R
@@ -12,7 +12,7 @@ c1d9894bd1882a7a75b9f24d0d9a0695 *R/credential_sts.R
 ea79f1ea4ad38dadac2ffd3aa98bd6af *R/credentials.R
 652610c8b454ded6f3c4f47170eb78ce *R/custom_dynamodb.R
 cee5a29068ca352c4e42c228cde9716f *R/custom_rds.R
-20a311af2bd6a0926c7a63aab1e7119f *R/custom_s3.R
+2cdfe8f5ac0f12f69faca9d11f1f72bb *R/custom_s3.R
 cf01cb252d2f591bb50c489a15d6c41e *R/dateutil.R
 3c3c77445ebc704a38bfa052ebe2fc5a *R/error.R
 b2992e338e85216197da377d7db7585e *R/handlers.R
