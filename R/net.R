@@ -66,6 +66,7 @@ new_http_request <- function(method, url, body = NULL, close = FALSE, connect_ti
   if (!valid_method(method)) {
     stopf("invalid method: %s", method)
   }
+  header["User-Agent"] <- PAWS_USER_AGENT
   u <- parse_url(url)
   req <- HttpRequest(
     method = method,
@@ -175,7 +176,7 @@ is_compressed <- function(http_response) {
   }
 
   if (content_encoding == "gzip") {
-    bits_to_int <- function(x) sum(as.integer(x) * 2^(1:length(x) - 1))
+    bits_to_int <- function(x) sum(as.integer(x) * 2^(seq_along(x) - 1))
     cmf <- http_response$body[1]
     flg <- http_response$body[2]
     compression_method <- bits_to_int(rawToBits(cmf)[1:4])

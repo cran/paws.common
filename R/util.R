@@ -183,7 +183,7 @@ check_dns_name <- function(bucket_name) {
   if (n < 3 || n > 63) {
     return(FALSE)
   }
-  m <- regexpr(LABEL_RE, bucket_name, perl = T)
+  m <- regexpr(LABEL_RE, bucket_name, perl = TRUE)
   match <- regmatches(bucket_name, m)
   if (identical(match, character(0)) || nchar(match) != n) {
     return(FALSE)
@@ -241,4 +241,13 @@ parse_in_half <- function(x, char = "=") {
     substr(x, 1, left_end),
     substr(x, right_start, right_end)
   )
+}
+
+set_user_agent <- function(pkgname) {
+  paws_version <- .__NAMESPACE__.[["spec"]]["version"] %||% packageVersion(pkgname)
+  user_agent <- sprintf(
+    "paws/%s (R%s; %s; %s)",
+    paws_version, getRversion(), R.version$os, R.version$arch
+  )
+  assign("PAWS_USER_AGENT", user_agent, envir = getNamespace(pkgname))
 }
