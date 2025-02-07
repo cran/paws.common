@@ -4,12 +4,14 @@ ini_cache <- new.env(parent = emptyenv())
 
 os_env_cache <- new.env(parent = emptyenv())
 
+vendor_cache <- list2env(list(vendor = "boto"), parent = emptyenv())
+
 set_os_env_cache <- function() {
   env_vars <- system("printenv", intern = TRUE)
 
   # only cache AWS_* environment variables to avoid caching sensitive information
   # that may stored as environment variables
-  aws_env_vars <- env_vars[grepl("^AWS_", env_vars)]
+  aws_env_vars <- env_vars[startsWith(env_vars, "AWS_")]
 
   # exit if no environment variables can be found
   if (length(aws_env_vars) == 0) {

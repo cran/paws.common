@@ -67,7 +67,7 @@ Signer <- struct(
   disable_header_hoisting = FALSE,
   disable_uri_path_escaping = FALSE,
   disable_request_body_overwrite = FALSE,
-  curr_time_fn = Sys.time,
+  curr_time_fn = now,
   unsigned_payload = FALSE
 )
 
@@ -104,7 +104,7 @@ v4_sign_request_handler <- function(request) {
 }
 
 sign_sdk_request_with_curr_time <- function(request,
-                                            curr_time_fn = Sys.time,
+                                            curr_time_fn = now,
                                             opts = NULL) {
   region <- request$client_info$signing_region
   if (region == "") {
@@ -153,7 +153,7 @@ sign_with_body <- function(signer, request, body, service, region,
                            expire_time, is_presigned, signing_time) {
   curr_time_fn <- signer$curr_time_fn
   if (is.null(curr_time_fn)) {
-    curr_time_fn <- Sys.time
+    curr_time_fn <- now
   }
 
   if (is.null(body)) body <- ""
@@ -267,7 +267,7 @@ build_context <- function(ctx, disable_header_hoisting) {
   if (ctx$is_presigned) {
     if (!disable_header_hoisting) {
       for (header in names(unsigned_headers)) {
-        if (grepl("X-Amz-", header) & !grepl("X-Amz-Meta-", header) &
+        if (startsWith(header, "X-Amz-") & !startsWith(header, "X-Amz-Meta-") &
           !(header %in% REQUIRED_SIGNED_HEADERS)) {
           ctx$query[[header]] <- unsigned_headers[[header]]
           unsigned_headers[[header]] <- NULL
@@ -275,15 +275,19 @@ build_context <- function(ctx, disable_header_hoisting) {
       }
     }
   }
-
   ctx <- build_canonical_headers(ctx, unsigned_headers, IGNORED_HEADERS)
   ctx <- build_canonical_string(ctx)
+  # log_debug("Calculating signature using v4 auth.")
+  # log_debug("CanonicalRequest:\n%s", ctx$canonical_string)
   ctx <- build_string_to_sign(ctx)
+  # log_debug("StringToSign:\n%s", ctx$string_to_sign)
   ctx <- build_signature(ctx)
-
+  # log_debug("Signature:\n%s", ctx$signature)
   if (ctx$is_presigned) {
     query <- ctx$request$url$raw_query
-    ctx$request$url$raw_query <- update_query_string(query, list("X-Amz-Signature" = ctx$signature))
+    ctx$request$url$raw_query <- sprintf(
+      "%s&X-Amz-Signature=%s", query, ctx$signature
+    )
   } else {
     authorization <- paste(
       paste0(AUTH_HEADER_PREFIX, " Credential=", ctx$cred_values$access_key_id, "/", ctx$credential_string),
@@ -378,10 +382,10 @@ build_canonical_headers <- function(ctx, header, ignored_headers) {
   header_values <- c()
   for (key in headers) {
     if (key == "host") {
-      if (ctx$request$host != "") {
-        header_value <- paste0("host:", ctx$request$host)
+      if (ctx$request[["host"]] != "") {
+        header_value <- paste0("host:", tolower(ctx$request[["host"]]))
       } else {
-        header_value <- paste0("host:", ctx$request$url$host)
+        header_value <- paste0("host:", tolower(ctx$request$url[["host"]]))
       }
     } else {
       value <- ctx$signed_header_vals[[key]]
@@ -395,7 +399,7 @@ build_canonical_headers <- function(ctx, header, ignored_headers) {
 
 build_canonical_string <- function(ctx) {
   if (!is.null(ctx$query)) {
-    ctx$request$url$raw_query <- gsub("\\+", "%20", build_query_string(ctx$query))
+    ctx$request$url$raw_query <- gsub("+", "%20", build_query_string(ctx$query), fixed = T)
   }
 
   uri <- get_uri_path(ctx$request$url)
@@ -405,7 +409,6 @@ build_canonical_string <- function(ctx) {
   }
 
   # TODO: Delete extra whitespace.
-
   ctx$canonical_string <- paste(
     ctx$request$method,
     uri,

@@ -166,7 +166,7 @@ render_template <- function(request) {
   template_params <- gsub("\\+", "", template_params, perl = TRUE)
   encoded_params <- as.character(request[["params"]][template_params])
   encoded_params[found] <- paws_url_encoder(encoded_params[found], safe = "/~")
-  encoded_params[!found] <- curl::curl_escape(encoded_params[!found])
+  encoded_params[!found] <- paws_url_encoder(encoded_params[!found])
   mod_temp <- sprintf_template(template)
   return(do.call(sprintf, c(fmt = mod_temp, as.list(encoded_params))))
 }
@@ -250,4 +250,20 @@ set_user_agent <- function(pkgname) {
     paws_version, getRversion(), R.version$os, R.version$arch
   )
   assign("PAWS_USER_AGENT", user_agent, envir = getNamespace(pkgname))
+}
+
+set_paws_options <- function() {
+  paws_options <- list(
+    paws.aws_sso_creds = FALSE
+  )
+  paws_options_names <- names(paws_options)
+
+  # check R options for log settings
+  r_options <- lapply(paws_options_names, getOption)
+  names(r_options) <- paws_options_names
+  paws_options <- modifyList(
+    paws_options, Filter(Negate(is.null), r_options)
+  )
+
+  do.call(options, paws_options)
 }

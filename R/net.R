@@ -1,6 +1,9 @@
+#' @importFrom httr2 request req_options req_perform req_perform_connection
+
 #' @include struct.R
 #' @include url.R
 #' @include util.R
+#' @include logging.R
 NULL
 
 # Construct an HTTP request object.
@@ -28,7 +31,8 @@ HttpRequest <- struct(
   timeout = NULL,
   response = NULL,
   ctx = list(),
-  dest = NULL
+  dest = NULL,
+  stream_api = FALSE
 )
 
 # Construct an HTTP response object.
@@ -59,7 +63,7 @@ HttpResponse <- struct(
 # @param timeout Timeout for the entire request.
 # @param dest Control where the response body is written
 # @param header list of HTTP headers to add to the request
-new_http_request <- function(method, url, body = NULL, close = FALSE, connect_timeout = NULL, timeout = NULL, dest = NULL, header = list()) {
+new_http_request <- function(method, url, body = NULL, close = FALSE, connect_timeout = NULL, timeout = NULL, dest = NULL, stream_api = FALSE, header = list()) {
   if (method == "") {
     method <- "GET"
   }
@@ -76,11 +80,12 @@ new_http_request <- function(method, url, body = NULL, close = FALSE, connect_ti
     proto_minor = 1,
     header = header,
     body = body,
-    host = u$host,
+    host = u[["host"]],
     close = close,
     connect_timeout = connect_timeout,
     timeout = timeout,
-    dest = dest
+    dest = dest,
+    stream_api = stream_api
   )
   return(req)
 }
@@ -102,45 +107,21 @@ valid_method <- function(method) {
 
 # Issue an HTTP request.
 issue <- function(http_request) {
-  method <- http_request$method
   url <- build_url(http_request$url)
-  headers <- unlist(http_request$header)
   if (http_request$close) {
-    headers["Connection"] <- "close"
+    http_request$header$Connection <- "close"
   }
-  body <- http_request$body
-
-  timeout_config <- Filter(
-    Negate(is.null),
-    list(connecttimeout = http_request$connect_timeout, timeout = http_request$timeout)
-  )
-  timeout <- do.call(httr::config, timeout_config)
 
   if (url == "") {
     stop("no url provided")
   }
-
-  # utilize httr to write to disk
-  dest <- NULL
-  if (!is.null(http_request$dest)) {
-    dest <- httr::write_disk(http_request$dest, TRUE)
-  }
-  r <- with_paws_verbose(
-    httr::VERB(
-      method,
-      url = url,
-      config = c(httr::add_headers(.headers = headers), dest),
-      body = body,
-      timeout
-    )
-  )
-
+  resp <- request_aws(url, http_request)
   response <- HttpResponse(
-    status_code = r$status_code,
-    header = r$headers,
-    content_length = as.integer(r$headers$`content-length`),
+    status_code = resp$status_code,
+    header = resp$headers,
+    content_length = as.integer(resp$headers$`content-length`),
     # Prevent reading in data when output is set
-    body = resp_body(r, http_request$dest)
+    body = resp_body(resp, http_request$dest, http_request$stream_api)
   )
 
   # Decode gzipped response bodies that are not automatically decompressed
@@ -152,9 +133,33 @@ issue <- function(http_request) {
   return(response)
 }
 
-resp_body <- function(resp, path) {
-  if (is.null(path)) {
-    body <- resp$content
+request_aws <- function(url, http_request) {
+  req <- request(url)
+  req$method <- http_request$method
+  req$headers <- http_request$header
+  req$policies$error_is_error <- function(resp) FALSE
+  if (http_request$method != "HEAD") {
+    req$body <- list(data = http_request$body, type = "raw", content_type = "", params = list())
+  }
+  req <- req_options(
+    .req = req,
+    timeout_ms = http_request$timeout * 1000,
+    connecttimeout = http_request$connect_timeout,
+    debugfunction = paws_debug,
+    verbose = isTRUE(getOption("paws.log_level") >= 3L)
+  )
+  if (http_request$stream_api) {
+    return(req_perform_connection(req))
+  } else {
+    return(req_perform(req, path = http_request$dest))
+  }
+}
+
+resp_body <- function(resp, path, stream_api) {
+  if (stream_api) {
+    body <- resp
+  } else if (is.null(path)) {
+    body <- resp$body
     # return error message if call has failed or needs redirecting
   } else if (resp$status_code %in% c(301, 400)) {
     body <- readBin(path, "raw", file.info(path)$size)

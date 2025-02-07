@@ -22,6 +22,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// paws_url_unencoder
+CharacterVector paws_url_unencoder(CharacterVector urls);
+RcppExport SEXP _paws_common_paws_url_unencoder(SEXP urlsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type urls(urlsSEXP);
+    rcpp_result_gen = Rcpp::wrap(paws_url_unencoder(urls));
+    return rcpp_result_gen;
+END_RCPP
+}
+// scan_ini_file
+std::vector<std::string> scan_ini_file(const std::string& filename);
+RcppExport SEXP _paws_common_scan_ini_file(SEXP filenameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type filename(filenameSEXP);
+    rcpp_result_gen = Rcpp::wrap(scan_ini_file(filename));
+    return rcpp_result_gen;
+END_RCPP
+}
+// process_profile_name
+std::vector<std::string> process_profile_name(const std::vector<std::string>& vec);
+RcppExport SEXP _paws_common_process_profile_name(SEXP vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<std::string>& >::type vec(vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(process_profile_name(vec));
+    return rcpp_result_gen;
+END_RCPP
+}
 // json_convert_string
 CharacterVector json_convert_string(CharacterVector x);
 RcppExport SEXP _paws_common_json_convert_string(SEXP xSEXP) {
@@ -45,20 +78,32 @@ BEGIN_RCPP
 END_RCPP
 }
 // endpoint_unescape
-std::string endpoint_unescape(std::string endpoint, const std::string& service, const std::string& region);
-RcppExport SEXP _paws_common_endpoint_unescape(SEXP endpointSEXP, SEXP serviceSEXP, SEXP regionSEXP) {
+std::string endpoint_unescape(std::string endpoint, const std::string& region);
+RcppExport SEXP _paws_common_endpoint_unescape(SEXP endpointSEXP, SEXP regionSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type endpoint(endpointSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type region(regionSEXP);
+    rcpp_result_gen = Rcpp::wrap(endpoint_unescape(endpoint, region));
+    return rcpp_result_gen;
+END_RCPP
+}
+// endpoint_unescape_js
+std::string endpoint_unescape_js(std::string endpoint, const std::string& service, const std::string& region);
+RcppExport SEXP _paws_common_endpoint_unescape_js(SEXP endpointSEXP, SEXP serviceSEXP, SEXP regionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type endpoint(endpointSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type service(serviceSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type region(regionSEXP);
-    rcpp_result_gen = Rcpp::wrap(endpoint_unescape(endpoint, service, region));
+    rcpp_result_gen = Rcpp::wrap(endpoint_unescape_js(endpoint, service, region));
     return rcpp_result_gen;
 END_RCPP
 }
 // get_region_pattern
-CharacterVector get_region_pattern(CharacterVector region_pattern, const std::string& region);
+std::string get_region_pattern(CharacterVector region_pattern, const std::string& region);
 RcppExport SEXP _paws_common_get_region_pattern(SEXP region_patternSEXP, SEXP regionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -66,6 +111,51 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< CharacterVector >::type region_pattern(region_patternSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type region(regionSEXP);
     rcpp_result_gen = Rcpp::wrap(get_region_pattern(region_pattern, region));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_region_pattern_js
+CharacterVector get_region_pattern_js(CharacterVector region_pattern, const std::string& region);
+RcppExport SEXP _paws_common_get_region_pattern_js(SEXP region_patternSEXP, SEXP regionSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type region_pattern(region_patternSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type region(regionSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_region_pattern_js(region_pattern, region));
+    return rcpp_result_gen;
+END_RCPP
+}
+// parse_query_string
+List parse_query_string(std::string query);
+RcppExport SEXP _paws_common_parse_query_string(SEXP querySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type query(querySEXP);
+    rcpp_result_gen = Rcpp::wrap(parse_query_string(query));
+    return rcpp_result_gen;
+END_RCPP
+}
+// parse_url
+Rcpp::List parse_url(const std::string& url);
+RcppExport SEXP _paws_common_parse_url(SEXP urlSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type url(urlSEXP);
+    rcpp_result_gen = Rcpp::wrap(parse_url(url));
+    return rcpp_result_gen;
+END_RCPP
+}
+// build_url
+std::string build_url(const Rcpp::List& url_components);
+RcppExport SEXP _paws_common_build_url(SEXP url_componentsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::List& >::type url_components(url_componentsSEXP);
+    rcpp_result_gen = Rcpp::wrap(build_url(url_components));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -94,10 +184,18 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_paws_common_paws_url_encoder", (DL_FUNC) &_paws_common_paws_url_encoder, 2},
+    {"_paws_common_paws_url_unencoder", (DL_FUNC) &_paws_common_paws_url_unencoder, 1},
+    {"_paws_common_scan_ini_file", (DL_FUNC) &_paws_common_scan_ini_file, 1},
+    {"_paws_common_process_profile_name", (DL_FUNC) &_paws_common_process_profile_name, 1},
     {"_paws_common_json_convert_string", (DL_FUNC) &_paws_common_json_convert_string, 1},
     {"_paws_common_check_global", (DL_FUNC) &_paws_common_check_global, 1},
-    {"_paws_common_endpoint_unescape", (DL_FUNC) &_paws_common_endpoint_unescape, 3},
+    {"_paws_common_endpoint_unescape", (DL_FUNC) &_paws_common_endpoint_unescape, 2},
+    {"_paws_common_endpoint_unescape_js", (DL_FUNC) &_paws_common_endpoint_unescape_js, 3},
     {"_paws_common_get_region_pattern", (DL_FUNC) &_paws_common_get_region_pattern, 2},
+    {"_paws_common_get_region_pattern_js", (DL_FUNC) &_paws_common_get_region_pattern_js, 2},
+    {"_paws_common_parse_query_string", (DL_FUNC) &_paws_common_parse_query_string, 1},
+    {"_paws_common_parse_url", (DL_FUNC) &_paws_common_parse_url, 1},
+    {"_paws_common_build_url", (DL_FUNC) &_paws_common_build_url, 1},
     {"_paws_common_char_sort", (DL_FUNC) &_paws_common_char_sort, 1},
     {"_paws_common_uuid_v4", (DL_FUNC) &_paws_common_uuid_v4, 1},
     {NULL, NULL, 0}
