@@ -1,6 +1,6 @@
-7b2dec7ded8b14faafa6d46df17947df *DESCRIPTION
+4b4b021359477bfb2999981c941a1a94 *DESCRIPTION
 3d24a4286a2ceb9202e3ceab18e495d1 *NAMESPACE
-2bb79669155b69c7eb9b07ac1e5a6c9d *NEWS.md
+e27fedf7fb015c8829a29661da2c5451 *NEWS.md
 37c3452fe23e48b4b1f93c88e8b74a14 *R/RcppExports.R
 ea1a227f197cbd2ae316315f8472f070 *R/cache.R
 23ef68fcfee31aeb92dae0acb680c7eb *R/client.R
@@ -91,7 +91,7 @@ fdeeed235bd5938c7811ab257c21e68f *tests/testthat/helper.R
 7289b5b72ba50439845ffd8d76833155 *tests/testthat/test_aws_error.R
 11298d15c96719d132804619b4bc418e *tests/testthat/test_cache.R
 073356cfae24f163f34951b3d9071e08 *tests/testthat/test_client.R
-4177cd9115c589d89cfaa85ed92277d3 *tests/testthat/test_config.R
+a0d56cea99efa8bf9997f4696fa93ddd *tests/testthat/test_config.R
 1994d9d69a0df434eef73bb66d376eef *tests/testthat/test_config_ini
 f82a8e5844a8275fb2eed6e768a8b594 *tests/testthat/test_config_webtoken
 7097fb7d5f379bc6e4c391b98fa87d3a *tests/testthat/test_convert.R
@@ -115,7 +115,7 @@ cf46a3c925c033bbfb268fd7d0c845ce *tests/testthat/test_handlers_stream.R
 76a448f340444dda25a090e212752c31 *tests/testthat/test_iniutil.R
 a3422df8b3a47201366f62366e577249 *tests/testthat/test_jsonutil.R
 1725500929c3092437378b94240de1f3 *tests/testthat/test_logging.R
-99bcee52ad29b5373896341a741903d7 *tests/testthat/test_net.R
+f87d61c4c57a717a9967093ed7cfeffa *tests/testthat/test_net.R
 60e3d68a4ba9260ccc216eb17aaa1b6a *tests/testthat/test_paginate.R
 c93685f4862ccf6dfd3537c558af6072 *tests/testthat/test_populateutil.R
 aca48b505f482538a9105f783b3ed4c1 *tests/testthat/test_queryutil.R
