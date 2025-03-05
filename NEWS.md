@@ -1,3 +1,10 @@
+# paws.common 0.8.2
+* fix issue regex timeout or rstudio crashes in windows (#901, #905). Thanks to @anpatton for debugging issue.
+* revert auto sso retry, this was causing tokens being built incorrectly (#896) thanks to @sckott for testing
+* fix signing region for global services (#900) thanks to @jwijffels for testing
+* fix `tranpose` raising warning when list to be tranposed has different lengths
+* fix issue of failing to correctly read in wide ini files (#896) thanks to @jwijffels for identifying and issue with session tokens being incorrect length.
+
 # paws.common 0.8.1
 * skip network connection unit tests on cran
 

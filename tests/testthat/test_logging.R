@@ -26,18 +26,9 @@ test_that("check updating paws log config", {
 })
 
 test_that("check updating paws log config with wrong parameter types", {
-  expect_error(
-    paws_config_log(level = "3"),
-    ".*level.*"
-  )
-  expect_error(
-    paws_config_log(file = 1),
-    ".*file.*"
-  )
-  expect_error(
-    paws_config_log(timestamp_fmt = 1),
-    ".*timestamp_fmt.*"
-  )
+  expect_error(paws_config_log(level = "3"), ".*level.*")
+  expect_error(paws_config_log(file = 1), ".*file.*")
+  expect_error(paws_config_log(timestamp_fmt = 1), ".*timestamp_fmt.*")
 })
 
 test_that("check if file created in none existing directory", {
@@ -48,14 +39,13 @@ test_that("check if file created in none existing directory", {
   unlink(temp_file)
 })
 
+# can this be mocked?
 test_request <- function(url) {
-  httr2::req_perform(
-    httr2::req_options(
-      httr2::request(url),
-      debugfunction = paws_debug,
-      verbose = isTRUE(getOption("paws.log_level") >= 3L)
-    )
-  )
+  httr2::req_perform(httr2::req_options(
+    httr2::request(url),
+    debugfunction = paws_debug,
+    verbose = isTRUE(getOption("paws.log_level") >= 3L)
+  ))
 }
 
 test_that("check if http paws log are being tracked", {
@@ -80,11 +70,7 @@ test_that("check if http logs aren't being tracked", {
 })
 
 test_that("check reset log config", {
-  paws_config_log(
-    level = 3L,
-    file = "made-up",
-    timestamp_fmt = "%Y-%m-%d %H:%M"
-  )
+  paws_config_log(level = 3L, file = "made-up", timestamp_fmt = "%Y-%m-%d %H:%M")
   log_level <- getOption("paws.log_level")
   log_file <- getOption("paws.log_file")
   log_timestamp_fmt <- getOption("paws.log_timestamp_fmt")
@@ -104,11 +90,7 @@ test_that("check reset log config", {
 })
 
 test_that("ensure init_log_config doesn't modified already set log config", {
-  paws_config_log(
-    level = 3L,
-    file = "made-up",
-    timestamp_fmt = "%Y-%m-%d %H:%M"
-  )
+  paws_config_log(level = 3L, file = "made-up", timestamp_fmt = "%Y-%m-%d %H:%M")
 
   init_log_config()
 
@@ -135,9 +117,7 @@ test_that("update log config from environmental variables", {
   expect_equal(log_level, 4L)
   expect_equal(log_file, "dummy-file")
   expect_equal(log_timestamp_fmt, "made-up")
-  lapply(
-    c("PAWS_LOG_LEVEL", "PAWS_LOG_TIMESTAMP_FMT", "PAWS_LOG_FILE"), Sys.unsetenv
-  )
+  lapply(c("PAWS_LOG_LEVEL", "PAWS_LOG_TIMESTAMP_FMT", "PAWS_LOG_FILE"), Sys.unsetenv)
 })
 
 test_that("check log messages", {

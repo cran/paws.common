@@ -35,7 +35,11 @@ sts <- function(config = list()) {
   switch(
     vendor_cache[["vendor"]],
     "boto" = list(
-      "aws-global" = list(endpoint = "sts.amazonaws.com", global = TRUE),
+      "aws-global" = list(
+        endpoint = "sts.amazonaws.com",
+        global = TRUE,
+        signing_region = "us-east-1"
+      ),
       "us-east-1" = list(endpoint = "sts.amazonaws.com", global = TRUE),
       "^(us|eu|ap|sa|ca|me|af|il|mx)\\-\\w+\\-\\d+$" = list(
         endpoint = "sts.{region}.amazonaws.com",
@@ -68,24 +72,12 @@ sts <- function(config = list()) {
     ),
     "js" = list(
       "*" = list(endpoint = "https://sts.amazonaws.com", global = TRUE),
-      "us-gov-*" = list(
-        endpoint = "sts.{region}.amazonaws.com",
-        global = FALSE
-      ),
+      "us-gov-*" = list(endpoint = "sts.{region}.amazonaws.com", global = FALSE),
       "cn-*" = list(endpoint = "sts.{region}.amazonaws.com.cn", global = FALSE),
-      "eu-isoe-*" = list(
-        endpoint = "sts.{region}.cloud.adc-e.uk",
-        global = FALSE
-      ),
+      "eu-isoe-*" = list(endpoint = "sts.{region}.cloud.adc-e.uk", global = FALSE),
       "us-iso-*" = list(endpoint = "sts.{region}.c2s.ic.gov", global = FALSE),
-      "us-isob-*" = list(
-        endpoint = "sts.{region}.sc2s.sgov.gov",
-        global = FALSE
-      ),
-      "us-isof-*" = list(
-        endpoint = "sts.{region}.csp.hci.ic.gov",
-        global = FALSE
-      )
+      "us-isob-*" = list(endpoint = "sts.{region}.sc2s.sgov.gov", global = FALSE),
+      "us-isof-*" = list(endpoint = "sts.{region}.csp.hci.ic.gov", global = FALSE)
     )
   )
 }
@@ -105,26 +97,22 @@ sts <- function(config = list()) {
       RoleArn = structure(logical(0), tags = list(type = "string")),
       RoleSessionName = structure(logical(0), tags = list(type = "string")),
       PolicyArns = structure(
-        list(
-          structure(
-            list(arn = structure(logical(0), tags = list(type = "string"))),
-            tags = list(type = "structure")
-          )
-        ),
+        list(structure(
+          list(arn = structure(logical(0), tags = list(type = "string"))),
+          tags = list(type = "structure")
+        )),
         tags = list(type = "list")
       ),
       Policy = structure(logical(0), tags = list(type = "string")),
       DurationSeconds = structure(logical(0), tags = list(type = "integer")),
       Tags = structure(
-        list(
-          structure(
-            list(
-              Key = structure(logical(0), tags = list(type = "string")),
-              Value = structure(logical(0), tags = list(type = "string"))
-            ),
-            tags = list(type = "structure")
-          )
-        ),
+        list(structure(
+          list(
+            Key = structure(logical(0), tags = list(type = "string")),
+            Value = structure(logical(0), tags = list(type = "string"))
+          ),
+          tags = list(type = "structure")
+        )),
         tags = list(type = "list")
       ),
       TransitiveTagKeys = structure(
@@ -223,12 +211,10 @@ sts_assume_role <- function(
       WebIdentityToken = structure(logical(0), tags = list(type = "string")),
       ProviderId = structure(logical(0), tags = list(type = "string")),
       PolicyArns = structure(
-        list(
-          structure(
-            list(arn = structure(logical(0), tags = list(type = "string"))),
-            tags = list(type = "structure")
-          )
-        ),
+        list(structure(
+          list(arn = structure(logical(0), tags = list(type = "string"))),
+          tags = list(type = "structure")
+        )),
         tags = list(type = "list")
       ),
       Policy = structure(logical(0), tags = list(type = "string")),
@@ -252,10 +238,7 @@ sts_assume_role <- function(
         ),
         tags = list(type = "structure")
       ),
-      SubjectFromWebIdentityToken = structure(
-        logical(0),
-        tags = list(type = "string")
-      ),
+      SubjectFromWebIdentityToken = structure(logical(0), tags = list(type = "string")),
       AssumedRoleUser = structure(
         list(
           AssumedRoleId = structure(logical(0), tags = list(type = "string")),
@@ -268,10 +251,7 @@ sts_assume_role <- function(
       Audience = structure(logical(0), tags = list(type = "string")),
       SourceIdentity = structure(logical(0), tags = list(type = "string"))
     ),
-    tags = list(
-      type = "structure",
-      resultWrapper = "AssumeRoleWithWebIdentityResult"
-    )
+    tags = list(type = "structure", resultWrapper = "AssumeRoleWithWebIdentityResult")
   )
   return(populate(args, shape))
 }

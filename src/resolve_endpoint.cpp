@@ -1,5 +1,7 @@
 #include <Rcpp.h>
 #include <regex>
+#include <string>
+#include <vector>
 using namespace Rcpp;
 
 /**
@@ -80,33 +82,6 @@ std::string endpoint_unescape_js(std::string endpoint, const std::string& servic
 }
 
 /**
- * @brief Get region pattern based on region using aws botocore vendor
- *
- * @param region_pattern AWS escaped endpoint
- * @param region AWS region
- */
-//' @useDynLib paws.common _paws_common_get_region_pattern
-//' @importFrom Rcpp evalCpp
-// [[Rcpp::export]]
-std::string get_region_pattern(CharacterVector region_pattern, const std::string &region)
-{
-  int n = region_pattern.size();
-  std::string safe_pattern;
-  for (int i = 0; i < n; ++i)
-  {
-    String cur = region_pattern[i];
-    safe_pattern = cur;
-
-    const std::regex re(safe_pattern);
-    if (std::regex_search(region, re))
-    {
-      break;
-    };
-  };
-  return safe_pattern;
-}
-
-/**
  * @brief Get region pattern based on region using aws js sdk vendor
  *
  * @param region_pattern AWS escaped endpoint
@@ -148,4 +123,3 @@ CharacterVector get_region_pattern_js(CharacterVector region_pattern, const std:
  };
  return output;
 }
-

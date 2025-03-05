@@ -1,8 +1,5 @@
 test_that("credentials are provided", {
-  creds <- list(
-    access_key_id = "foo",
-    secret_access_key = "bar"
-  )
+  creds <- list(access_key_id = "foo", secret_access_key = "bar")
 
   expect_true(is_credentials_provided(creds))
 })
@@ -12,34 +9,21 @@ test_that("credentials not provided", {
 
   expect_false(is_credentials_provided(creds))
 
-  creds <- Creds(
-    access_key_id = "",
-    secret_access_key = "bar"
-  )
+  creds <- Creds(access_key_id = "", secret_access_key = "bar")
 
   expect_false(is_credentials_provided(creds))
 
-  creds <- Creds(
-    access_key_id = "foo",
-    secret_access_key = ""
-  )
+  creds <- Creds(access_key_id = "foo", secret_access_key = "")
 
   expect_false(is_credentials_provided(creds))
 
-  creds <- Creds(
-    access_key_id = "",
-    secret_access_key = ""
-  )
+  creds <- Creds(access_key_id = "", secret_access_key = "")
 
   expect_false(is_credentials_provided(creds))
 })
 
 test_that("credentials expired", {
-  creds <- Creds(
-    access_key_id = "foo",
-    secret_access_key = "bar",
-    expiration = 1000
-  )
+  creds <- Creds(access_key_id = "foo", secret_access_key = "bar", expiration = 1000)
 
   expect_false(is_credentials_provided(creds))
 
@@ -59,19 +43,11 @@ test_that("credentials expired", {
 
   expect_true(is_credentials_provided(creds))
 
-  creds <- Creds(
-    access_key_id = "foo",
-    secret_access_key = "bar",
-    expiration = Inf
-  )
+  creds <- Creds(access_key_id = "foo", secret_access_key = "bar", expiration = Inf)
 
   expect_true(is_credentials_provided(creds))
 
-  creds <- Creds(
-    access_key_id = "foo",
-    secret_access_key = "bar",
-    expiration = NA
-  )
+  creds <- Creds(access_key_id = "foo", secret_access_key = "bar", expiration = NA)
 
   expect_true(is_credentials_provided(creds))
 })
@@ -122,8 +98,16 @@ test_that("credentials are cached", {
   svc <- service(config = list(credentials = list(creds = creds)))
   actual <- svc$get_credentials()
 
-  expect_equal(actual$credentials$creds$access_key_id, creds$access_key_id, ignore_attr = TRUE)
-  expect_equal(actual$credentials$creds$secret_access_key, creds$secret_access_key, ignore_attr = TRUE)
+  expect_equal(
+    actual$credentials$creds$access_key_id,
+    creds$access_key_id,
+    ignore_attr = TRUE
+  )
+  expect_equal(
+    actual$credentials$creds$secret_access_key,
+    creds$secret_access_key,
+    ignore_attr = TRUE
+  )
 
   # Use cached credentials.
   svc <- service()
@@ -163,14 +147,17 @@ test_that("check locate_credentials", {
   do.call(Sys.setenv, env)
 
   actual <- locate_credentials()
-  expect_equal(actual, list(
-    access_key_id = "foo",
-    secret_access_key = "bar",
-    session_token = "",
-    access_token = "",
-    expiration = Inf,
-    region = "zoo"
-  ))
+  expect_equal(
+    actual,
+    list(
+      access_key_id = "foo",
+      secret_access_key = "bar",
+      session_token = "",
+      access_token = "",
+      expiration = Inf,
+      region = "zoo"
+    )
+  )
 
   Sys.unsetenv(names(env))
 })

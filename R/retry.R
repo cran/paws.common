@@ -1,3 +1,5 @@
+#' @importFrom stats runif
+
 #' @include util.R
 
 # Retry attempts for an expanded list of errors/exceptions:
@@ -76,7 +78,8 @@ standard_retry_handler <- function(request) {
 }
 
 check_if_retryable <- function(error) {
-  error_code <- error[["error_response"]][["Code"]] %||% error[["error_response"]][["__type"]]
+  error_code <- error[["error_response"]][["Code"]] %||%
+    error[["error_response"]][["__type"]]
   status_code <- error[["status_code"]]
   retryable <- FALSE
 

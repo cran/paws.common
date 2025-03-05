@@ -24,29 +24,25 @@ test_that("build empty SSECustomer md5", {
 })
 
 test_that("build SSECustomer md5", {
-  input <- op_input1(
-    SSECustomerKey = charToRaw("foobar")
-  )
+  input <- op_input1(SSECustomerKey = charToRaw("foobar"))
   req <- new_request(svc, op, input, NULL)
   req <- build(req)
-  expect_equal(req$params$SSECustomerKeyMD5, "OFj2IjCsPJFfMAxmQxLGPw==", ignore_attr = TRUE)
+  expect_equal(
+    req$params$SSECustomerKeyMD5,
+    "OFj2IjCsPJFfMAxmQxLGPw==",
+    ignore_attr = TRUE
+  )
 })
 
-
 test_that("build skip SSECustomer md5", {
-  input <- op_input1(
-    SSECustomerKey = charToRaw("foobar"),
-    SSECustomerKeyMD5 = "made-up"
-  )
+  input <- op_input1(SSECustomerKey = charToRaw("foobar"), SSECustomerKeyMD5 = "made-up")
   req <- new_request(svc, op, input, NULL)
   req <- build(req)
   expect_equal(req$params$SSECustomerKeyMD5, "made-up", ignore_attr = TRUE)
 })
 
 test_that("build skip SSECustomer md5", {
-  input <- op_input1(
-    SSECustomerKeyMD5 = "made-up"
-  )
+  input <- op_input1(SSECustomerKeyMD5 = "made-up")
   req <- new_request(svc, op, input, NULL)
   req <- build(req)
   expect_equal(req$params$SSECustomerKey, list(), ignore_attr = TRUE)
@@ -54,8 +50,14 @@ test_that("build skip SSECustomer md5", {
 })
 
 #-------------------------------------------------------------------------------
-op_input2 <- function(CopySourceSSECustomerKey = NULL, CopySourceSSECustomerKeyMD5 = NULL) {
-  args <- list(CopySourceSSECustomerKey = CopySourceSSECustomerKey, CopySourceSSECustomerKeyMD5 = CopySourceSSECustomerKeyMD5)
+op_input2 <- function(
+  CopySourceSSECustomerKey = NULL,
+  CopySourceSSECustomerKeyMD5 = NULL
+) {
+  args <- list(
+    CopySourceSSECustomerKey = CopySourceSSECustomerKey,
+    CopySourceSSECustomerKeyMD5 = CopySourceSSECustomerKeyMD5
+  )
   interface <- Structure(
     CopySourceSSECustomerKey = Scalar(type = "blob"),
     CopySourceSSECustomerKeyMD5 = Scalar(type = "string")
@@ -71,14 +73,15 @@ test_that("build empty CopySourceSSECustomer md5", {
 })
 
 test_that("build CopySourceSSECustomer md5", {
-  input <- op_input2(
-    CopySourceSSECustomerKey = charToRaw("foobar")
-  )
+  input <- op_input2(CopySourceSSECustomerKey = charToRaw("foobar"))
   req <- new_request(svc, op, input, NULL)
   req <- build(req)
-  expect_equal(req$params$CopySourceSSECustomerKeyMD5, "OFj2IjCsPJFfMAxmQxLGPw==", ignore_attr = TRUE)
+  expect_equal(
+    req$params$CopySourceSSECustomerKeyMD5,
+    "OFj2IjCsPJFfMAxmQxLGPw==",
+    ignore_attr = TRUE
+  )
 })
-
 
 test_that("build skip CopySourceSSECustomer md5", {
   input <- op_input2(
@@ -91,9 +94,7 @@ test_that("build skip CopySourceSSECustomer md5", {
 })
 
 test_that("build skip CopySourceSSECustomer md5", {
-  input <- op_input2(
-    CopySourceSSECustomerKeyMD5 = "made-up"
-  )
+  input <- op_input2(CopySourceSSECustomerKeyMD5 = "made-up")
   req <- new_request(svc, op, input, NULL)
   req <- build(req)
   expect_equal(req$params$CopySourceSSECustomerKey, list(), ignore_attr = TRUE)

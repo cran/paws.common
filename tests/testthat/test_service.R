@@ -33,7 +33,7 @@ test_that("new_service", {
   handlers <- new_handlers("restxml", "v4")
   cfgs <- Config()
   # new_service needs a region.
-  Sys.setenv("AWS_REGION" = "region")
+  cfgs$region <- "region"
   service <- new_service(metadata, handlers, cfgs)
 
   expect_named(service$client_info, names(ClientInfo()))
@@ -56,9 +56,8 @@ test_that("new_service null cfgs", {
     target_prefix = "baz"
   )
   handlers <- new_handlers("restxml", "v4")
-  # new_service needs a region.
-  Sys.setenv("AWS_REGION" = "region")
-  service <- new_service(metadata, handlers)
+
+  service <- new_service(metadata, handlers, Config(region = "region"))
 
   expect_named(service$config, names(Config()))
   expect_equal(service$config$region, "region")
@@ -68,7 +67,10 @@ test_that("new_service adds customizations", {
   metadata <- list(
     service_name = "dynamodb",
     endpoints = list(
-      "^(us|eu|ap|sa|ca|me|af|il|mx)\\-\\w+\\-\\d+$" = list(endpoint = "dynamodb.{region}.amazonaws.com", global = FALSE)
+      "^(us|eu|ap|sa|ca|me|af|il|mx)\\-\\w+\\-\\d+$" = list(
+        endpoint = "dynamodb.{region}.amazonaws.com",
+        global = FALSE
+      )
     ),
     service_id = "DynamoDB",
     api_version = "2012-08-10",
@@ -86,7 +88,12 @@ test_that("new_service adds customizations", {
 test_that("test custom config credentials take priority", {
   metadata <- list(
     service_name = "foo",
-    endpoints = list("region" = list(endpoint = "endpoint", global = FALSE)),
+    endpoints = list(
+      "^(us|eu|ap|sa|ca|me|af|il|mx)\\-\\w+\\-\\d+$" = list(
+        endpoint = "endpoint",
+        global = FALSE
+      )
+    ),
     service_id = "bar",
     api_version = "1",
     signing_name = "foobar",
@@ -94,11 +101,6 @@ test_that("test custom config credentials take priority", {
     target_prefix = "baz"
   )
   handlers <- new_handlers("restxml", "v4")
-  # Set env variables
-  Sys.setenv("AWS_REGION" = "env_region")
-  Sys.setenv("AWS_ACCESS_KEY_ID" = "env_key")
-  Sys.setenv("AWS_SECRET_ACCESS_KEY" = "env_secret")
-  Sys.setenv("AWS_PROFILE" = "env_profile")
 
   # Set custom config
   cfgs <- Config()
@@ -110,16 +112,17 @@ test_that("test custom config credentials take priority", {
 
   expect_equal(service$config$region, "cfgs_region")
   expect_equal(service$config$credentials$creds$access_key_id, "cfgs_key")
-  expect_equal(
-    service$config$credentials$creds$secret_access_key,
-    "cfgs_secret"
-  )
+  expect_equal(service$config$credentials$creds$secret_access_key, "cfgs_secret")
   expect_equal(service$config$credentials$profile, "cfgs_profile")
 })
 
 test_that("test service endpoint config file with service present", {
   mock_get_config_file_path <- mock2("data_ini", cycle = TRUE)
-  mockery::stub(check_config_file_endpoint, "get_config_file_path", mock_get_config_file_path)
+  mockery::stub(
+    check_config_file_endpoint,
+    "get_config_file_path",
+    mock_get_config_file_path
+  )
 
   s3_endpoint <- check_config_file_endpoint("localstack", "s3")
   ec2_endpoint <- check_config_file_endpoint("localstack", "ec2")
@@ -131,7 +134,11 @@ test_that("test service endpoint config file with service present", {
 
 test_that("test service endpoint config file with service not present", {
   mock_get_config_file_path <- mock2("data_ini")
-  mockery::stub(check_config_file_endpoint, "get_config_file_path", mock_get_config_file_path)
+  mockery::stub(
+    check_config_file_endpoint,
+    "get_config_file_path",
+    mock_get_config_file_path
+  )
 
   endpoint <- check_config_file_endpoint("minio", "ec2")
   expect_null(endpoint)

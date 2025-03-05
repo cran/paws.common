@@ -123,14 +123,12 @@ paws_stream_parser <- function(con) {
     close(con)
     return(NULL)
   }
-  return(
-    eventstream_parser(
-      buffer,
-      unmarshal = con$paws_metadata$unmarshal,
-      interface = con$paws_metadata$interface,
-      boundary = boundary
-    )
-  )
+  return(eventstream_parser(
+    buffer,
+    unmarshal = con$paws_metadata$unmarshal,
+    interface = con$paws_metadata$interface,
+    boundary = boundary
+  ))
 }
 
 ################ stream unmarshal ################
@@ -173,10 +171,7 @@ eventstream_parser <- function(buffer, unmarshal, interface, boundary) {
     result <- split_buffer(buffer, boundary)
     data <- parse_aws_event(result$matched)
     (nms <- data$headers[[":event-type"]])
-    interface[[nms]] <- unmarshal(
-      data$payload,
-      interface[[nms]]
-    )
+    interface[[nms]] <- unmarshal(data$payload, interface[[nms]])
     buffer <- result$remaining
     boundary <- aws_boundary(buffer)
   }
@@ -270,10 +265,7 @@ parse_aws_event <- function(bytes) {
   payload_raw <- read_bytes(total_length - i - 4 + 1)
 
   # validate the message checksum
-  validate_checksum(
-    bytes[1:(total_length - 4)],
-    paste(read_bytes(4), collapse = "")
-  )
+  validate_checksum(bytes[1:(total_length - 4)], paste(read_bytes(4), collapse = ""))
 
   list(
     total_length = total_length,
@@ -349,10 +341,6 @@ crc32 <- function(raw) {
 validate_checksum <- function(data, crc) {
   computed_checksum <- crc32(data)
   if (computed_checksum != crc) {
-    stopf(
-      "Checksum mismatch: expected %s, calculated %s",
-      crc,
-      computed_checksum
-    )
+    stopf("Checksum mismatch: expected %s, calculated %s", crc, computed_checksum)
   }
 }

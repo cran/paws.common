@@ -18,7 +18,10 @@ jsonrpc_build <- function(request) {
 
   if (!is_empty(request$client_info$json_version)) {
     json_version <- request$client_info$json_version
-    request$http_request$header["Content-Type"] <- paste0("application/x-amz-json-", json_version)
+    request$http_request$header["Content-Type"] <- paste0(
+      "application/x-amz-json-",
+      json_version
+    )
   }
 
   return(request)
@@ -52,7 +55,8 @@ json_parse_stream <- function(bytes, format) {
 # Unmarshal errors from a JSON RPC response.
 jsonrpc_unmarshal_error <- function(request) {
   request$http_response$body <- get_connection_error(
-    request$http_response$body, request$operation$stream_api
+    request$http_response$body,
+    request$operation$stream_api
   )
   error <- decode_json(request$http_response$body)
   if (length(error) == 0) {

@@ -11,9 +11,7 @@ Error <- struct(
 ERROR_MSG_TEMPLATE <- "An error occurred when calling the %s operation%s: %s"
 
 serialization_error <- function(request) {
-  error_message <- http_statuses[[
-    as.character(request$http_response$status_code)
-  ]]
+  error_message <- http_statuses[[as.character(request$http_response$status_code)]]
   Error(
     "SerializationError",
     sprintf(

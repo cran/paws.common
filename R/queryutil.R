@@ -13,7 +13,8 @@ query_parse_value <- function(values, value, prefix, tag, is_ec2 = FALSE) {
   if (!is_valid(value)) {
     return(values)
   }
-  parse_fn <- switch(type(value),
+  parse_fn <- switch(
+    type(value),
     structure = query_parse_structure,
     list = query_parse_list,
     map = query_parse_map,

@@ -5,11 +5,7 @@
 aws_dummy_error <- function(msg, status_code, error_response) {
   http_class <- sprintf("http_%s", status_code)
   structure(
-    list(
-      message = msg,
-      status_code = status_code,
-      error_response = error_response
-    ),
+    list(message = msg, status_code = status_code, error_response = error_response),
     class = c("paws_error", http_class, "error", "condition"),
     status_code = status_code,
     error_response = error_response
@@ -61,9 +57,7 @@ test_that("check exponential back off iteration greater 20", {
 
 test_that("check exponential back off raise error", {
   error <- aws_dummy_error("foo bar", 400, list("Code" = "zoo"))
-  expect_error(
-    exp_back_off(error, 1, 1)
-  )
+  expect_error(exp_back_off(error, 1, 1))
 })
 
 ########################################################################
@@ -83,9 +77,7 @@ dummy_req_error <- function(req, code, msg, status) {
 op <- Operation(name = "OperationName")
 svc1 <- Client(config = Config())
 
-op_output <- Structure(
-  Timestamp = Scalar(type = "timestamp")
-)
+op_output <- Structure(Timestamp = Scalar(type = "timestamp"))
 
 req1 <- new_request(svc1, op, NULL, op_output)
 
@@ -115,10 +107,7 @@ test_that("default number of retries", {
   mockery::stub(standard_retry_handler, "validate_response", mock_validate_response)
   mockery::stub(standard_retry_handler, "exp_back_off", mock_exp_back_off)
 
-
-  standard_retry_handler(
-    dummy_req_error(req1, "ThrottledException", "foo", 400)
-  )
+  standard_retry_handler(dummy_req_error(req1, "ThrottledException", "foo", 400))
 
   last_args <- mock_arg(mock_exp_back_off)
   expect_equal(mock_call_no(mock_exp_back_off), 4)
@@ -145,10 +134,7 @@ test_that("default number of retries", {
   mockery::stub(standard_retry_handler, "validate_response", mock_validate_response)
   mockery::stub(standard_retry_handler, "exp_back_off", mock_exp_back_off)
 
-
-  standard_retry_handler(
-    dummy_req_error(req1, "ThrottledException", "foo", 400)
-  )
+  standard_retry_handler(dummy_req_error(req1, "ThrottledException", "foo", 400))
 
   last_args <- mock_arg(mock_exp_back_off)
   expect_equal(mock_call_no(mock_exp_back_off), 4)
@@ -176,9 +162,7 @@ test_that("non retryable error", {
   mockery::stub(standard_retry_handler, "exp_back_off", mock_exp_back_off)
 
   expect_error(
-    standard_retry_handler(
-      dummy_req_error(req1, "ThrottledException", "foo", 400)
-    ),
+    standard_retry_handler(dummy_req_error(req1, "ThrottledException", "foo", 400)),
     "non retryable error"
   )
   last_args <- mock_arg(mock_exp_back_off)
@@ -206,9 +190,7 @@ test_that("succesful retry", {
   mockery::stub(standard_retry_handler, "validate_response", mock_validate_response)
   mockery::stub(standard_retry_handler, "exp_back_off", mock_exp_back_off)
 
-  resp <- standard_retry_handler(
-    dummy_req_error(req1, "ThrottledException", "foo", 400)
-  )
+  resp <- standard_retry_handler(dummy_req_error(req1, "ThrottledException", "foo", 400))
   last_args <- mock_arg(mock_exp_back_off)
   expect_equal(mock_call_no(mock_exp_back_off), 3)
   expect_true(last_args[[2]] != last_args[[3]])
@@ -226,15 +208,12 @@ test_that("no retries", {
   mockery::stub(standard_retry_handler, "exp_back_off", mock_exp_back_off)
 
   expect_error(
-    standard_retry_handler(
-      dummy_req_error(req2, "ThrottledException", "foo", 400)
-    ),
+    standard_retry_handler(dummy_req_error(req2, "ThrottledException", "foo", 400)),
     "foo"
   )
 
   expect_equal(mock_call_no(mock_exp_back_off), 0)
 })
-
 
 svc2 <- Client(config = Config(max_retries = 0))
 req2 <- new_request(svc2, op, NULL, op_output)
@@ -247,15 +226,12 @@ test_that("no retries", {
   mockery::stub(standard_retry_handler, "exp_back_off", mock_exp_back_off)
 
   expect_error(
-    standard_retry_handler(
-      dummy_req_error(req2, "ThrottledException", "foo", 400)
-    ),
+    standard_retry_handler(dummy_req_error(req2, "ThrottledException", "foo", 400)),
     "foo"
   )
 
   expect_equal(mock_call_no(mock_exp_back_off), 0)
 })
-
 
 svc3 <- Client(config = Config(max_retries = 1))
 req3 <- new_request(svc3, op, NULL, op_output)
@@ -263,9 +239,7 @@ req3 <- new_request(svc3, op, NULL, op_output)
 test_that("1 retries", {
   mock_unmarshal_error <- mock2(side_effect = function(x) x)
   mock_sign <- mock2(req3, req3, req3)
-  mock_send <- mock2(
-    dummy_req_error(req3, "ThrottledException", "foo", 400)
-  )
+  mock_send <- mock2(dummy_req_error(req3, "ThrottledException", "foo", 400))
   mock_unmarshal_meta <- mock2(side_effect = function(x) x)
   mock_validate_response <- mock2(side_effect = function(x) x)
 
@@ -278,10 +252,7 @@ test_that("1 retries", {
   mockery::stub(standard_retry_handler, "validate_response", mock_validate_response)
   mockery::stub(standard_retry_handler, "exp_back_off", mock_exp_back_off)
 
-
-  standard_retry_handler(
-    dummy_req_error(req3, "ThrottledException", "foo", 400)
-  )
+  standard_retry_handler(dummy_req_error(req3, "ThrottledException", "foo", 400))
 
   last_args <- mock_arg(mock_exp_back_off)
   expect_equal(mock_call_no(mock_exp_back_off), 2)

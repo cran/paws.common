@@ -10,7 +10,8 @@ Operation <- struct(
   host_prefix = "",
   paginator = list(),
   stream_api = FALSE,
-  before_presign_fn = function() {}
+  before_presign_fn = function() {
+  }
 )
 
 #' Return an API operation object
@@ -39,7 +40,15 @@ Operation <- struct(
 #' )
 #'
 #' @export
-new_operation <- function(name, http_method, http_path, host_prefix, paginator, stream_api = FALSE, before_presign_fn = NULL) {
+new_operation <- function(
+  name,
+  http_method,
+  http_path,
+  host_prefix,
+  paginator,
+  stream_api = FALSE,
+  before_presign_fn = NULL
+) {
   args <- as.list(environment())
   args[lengths(args) == 0] <- NULL
   return(do.call(Operation, args))
@@ -117,9 +126,7 @@ new_request <- function(client, operation, params, data, dest = NULL) {
     stream_api = operation$stream_api
   )
 
-  http_req$url <- parse_url(
-    paste0(client$client_info$endpoint, operation$http_path)
-  )
+  http_req$url <- parse_url(paste0(client$client_info$endpoint, operation$http_path))
 
   http_req <- sanitize_host_for_header(http_req)
 
@@ -231,10 +238,7 @@ strip_port <- function(host) {
 
 # Return whether the given port is the default port for the given scheme.
 is_default_port <- function(scheme, port) {
-  defaults <- c(
-    "http" = 80,
-    "https" = 443
-  )
+  defaults <- c("http" = 80, "https" = 443)
   ok <- defaults[[scheme]] == port
   return(ok)
 }

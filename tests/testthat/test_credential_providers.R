@@ -1,8 +1,5 @@
 test_that("env_provider", {
-  Sys.setenv(
-    "AWS_ACCESS_KEY_ID" = "foo",
-    "AWS_SECRET_ACCESS_KEY" = "bar"
-  )
+  Sys.setenv("AWS_ACCESS_KEY_ID" = "foo", "AWS_SECRET_ACCESS_KEY" = "bar")
   creds <- env_provider()
   expect_equal(creds$access_key_id, "foo")
   expect_equal(creds$secret_access_key, "bar")
@@ -81,13 +78,12 @@ test_that("config_file_provider", {
 
     # Test profile using environment credential_source
     mock_get_assumed_role_creds <- mock2(creds$p1)
-    local_mocked_bindings(
-      get_assumed_role_creds = mock_get_assumed_role_creds,
-    )
+    local_mocked_bindings(get_assumed_role_creds = mock_get_assumed_role_creds, )
     expect_equal(config_file_provider("p1"), creds$p1)
-    expect_equal(mock_arg(mock_get_assumed_role_creds)[1:3], list(
-      "arn:aws:iam::p1_role", "p1_role_session", NULL
-    ))
+    expect_equal(
+      mock_arg(mock_get_assumed_role_creds)[1:3],
+      list("arn:aws:iam::p1_role", "p1_role_session", NULL)
+    )
     expect_equal(
       mock_arg(mock_get_assumed_role_creds)[[4]]$access_key_id,
       creds$env$access_key_id
@@ -104,9 +100,10 @@ test_that("config_file_provider", {
     )
     # mockery::stub(config_file_provider, "get_assume_role_with_web_identity_creds", mock_web_identity_creds)
     expect_equal(config_file_provider("p2"), creds$p2)
-    expect_equal(mock_arg(mock_web_identity_creds), list(
-      "arn:aws:iam::p2_role", "p2_role_session", "webtoken_for_p2"
-    ))
+    expect_equal(
+      mock_arg(mock_web_identity_creds),
+      list("arn:aws:iam::p2_role", "p2_role_session", "webtoken_for_p2")
+    )
 
     # Test profile using source_profile
     mock_get_web_identity_creds <- mock2(creds$p2)
@@ -116,11 +113,13 @@ test_that("config_file_provider", {
       get_assumed_role_creds = mock_get_assumed_role_creds
     )
     expect_equal(config_file_provider("p3"), creds$p3)
-    expect_equal(mock_arg(mock_get_web_identity_creds), list(
-      "arn:aws:iam::p2_role", "p2_role_session", "webtoken_for_p2"
-    ))
-    expect_equal(mock_arg(mock_get_assumed_role_creds), list(
-      "arn:aws:iam::p3_role", "p3_role_session", NULL, creds$p2
-    ))
+    expect_equal(
+      mock_arg(mock_get_web_identity_creds),
+      list("arn:aws:iam::p2_role", "p2_role_session", "webtoken_for_p2")
+    )
+    expect_equal(
+      mock_arg(mock_get_assumed_role_creds),
+      list("arn:aws:iam::p3_role", "p3_role_session", NULL, creds$p2)
+    )
   })
 })

@@ -1,31 +1,23 @@
 test_that("get_config", {
   svc <- set_config(
-    svc = list(
-      operation = function() get_config()
-    ),
-    cfgs = list(region = 123)
+    svc = list(operation = function() get_config()),
+    cfgs = list(region = "123")
   )
 
   actual <- svc$operation()
-  expect_equal(actual$region, 123, ignore_attr = TRUE)
+  expect_equal(actual$region, "123", ignore_attr = TRUE)
 
   # Check if config is returned when executed in a `do.call`.
-  expect_equal(
-    do.call(svc$operation, list()),
-    svc$operation(),
-    ignore_attr = TRUE
-  )
+  expect_equal(do.call(svc$operation, list()), svc$operation(), ignore_attr = TRUE)
 
   f <- function() {
     svc$operation()
   }
-  expect_equal(f()$region, 123, ignore_attr = TRUE)
+  expect_equal(f()$region, "123", ignore_attr = TRUE)
 
   g <- function() {
     svc <- set_config(
-      svc = list(
-        operation = function() get_config()
-      ),
+      svc = list(operation = function() get_config()),
       cfgs = list(endpoint = 456)
     )
     svc$operation()
@@ -38,9 +30,7 @@ test_that("get_config", {
 
 test_that("get_config optional parameter update", {
   svc <- set_config(
-    svc = list(
-      operation = function() get_config()
-    ),
+    svc = list(operation = function() get_config()),
     cfgs = list(sts_regional_endpoint = "legacy")
   )
   actual <- svc$operation()
@@ -48,18 +38,8 @@ test_that("get_config optional parameter update", {
 })
 
 test_that("set_config", {
-  svc <- list(
-    f = function() "foo",
-    g = function() 123,
-    h = function() get_config()
-  )
-  a <- set_config(
-    svc,
-    list(
-      region = "foo",
-      endpoint = "bar"
-    )
-  )
+  svc <- list(f = function() "foo", g = function() 123, h = function() get_config())
+  a <- set_config(svc, list(region = "foo", endpoint = "bar"))
   expect_equal(a$f(), "foo")
   expect_equal(a$g(), 123)
 
@@ -102,10 +82,7 @@ test_that("get_role_session_name", {
 })
 
 test_that("get_web_identity_token_file", {
-  expect_error(
-    get_web_identity_token_file(),
-    "No WebIdentityToken file available"
-  )
+  expect_error(get_web_identity_token_file(), "No WebIdentityToken file available")
 
   withr::with_envvar(list(AWS_WEB_IDENTITY_TOKEN_FILE = "bar"), {
     expect_equal(get_web_identity_token_file(), "bar")
@@ -208,10 +185,7 @@ services/"
   actual <- get_instance_metadata()
 
   expect_equal(mock_call_no(mock_imdsv1_behaviour), 2)
-  expect_equal(
-    charToRaw(valid_metadata_response),
-    actual$body
-  )
+  expect_equal(charToRaw(valid_metadata_response), actual$body)
 })
 
 test_that("get_instance_metadata_imdsv2", {
@@ -248,11 +222,7 @@ services/"
         http_request$method == "PUT" &&
         http_request$url$path == "/latest/api/token" &&
         !is.na(http_request$header[["X-aws-ec2-metadata-token-ttl-seconds"]]) &&
-        !is.na(
-          as.numeric(
-            http_request$header[["X-aws-ec2-metadata-token-ttl-seconds"]]
-          )
-        )
+        !is.na(as.numeric(http_request$header[["X-aws-ec2-metadata-token-ttl-seconds"]]))
     ) {
       # provide a valid IMDSv2 metadata service token
       mock_imdsv2_token_response <- HttpResponse(
@@ -310,20 +280,13 @@ services/"
   actual <- get_instance_metadata()
 
   expect_equal(mock_call_no(mock_imdsv2_behaviour), 2)
-  expect_equal(
-    charToRaw(valid_metadata_response),
-    actual$body
-  )
+  expect_equal(charToRaw(valid_metadata_response), actual$body)
 })
 
 test_that("get sso legacy credentials", {
   mock_get_config_file_path <- mock2("data_sso_ini")
   mock_sso_credential_process <- mock2(invisible(TRUE))
-  mockery::stub(
-    config_file_provider,
-    "get_config_file_path",
-    mock_get_config_file_path
-  )
+  mockery::stub(config_file_provider, "get_config_file_path", mock_get_config_file_path)
   mockery::stub(
     config_file_provider,
     "sso_credential_process",
@@ -347,11 +310,7 @@ test_that("get sso legacy credentials", {
 test_that("get sso credentials", {
   mock_get_config_file_path <- mock2("data_sso_ini")
   mock_sso_credential_process <- mock2(invisible(TRUE))
-  mockery::stub(
-    config_file_provider,
-    "get_config_file_path",
-    mock_get_config_file_path
-  )
+  mockery::stub(config_file_provider, "get_config_file_path", mock_get_config_file_path)
   mockery::stub(
     config_file_provider,
     "sso_credential_process",
@@ -374,27 +333,23 @@ test_that("get sso credentials", {
 
 test_that("sso_credential_process legacy", {
   mock_file_exists <- mock2(TRUE)
-  mock_fromJSON <- mock2(
-    list(
-      startUrl = "https://my-sso-portal.awsapps.com/start",
-      region = "us-east-1",
-      accessToken = "foo",
-      expiresAt = "bar",
-      clientId = "cho",
-      clientSecret = "zap",
-      registrationExpiresAt = "2023-01-01T12:00:00Z"
+  mock_fromJSON <- mock2(list(
+    startUrl = "https://my-sso-portal.awsapps.com/start",
+    region = "us-east-1",
+    accessToken = "foo",
+    expiresAt = "bar",
+    clientId = "cho",
+    clientSecret = "zap",
+    registrationExpiresAt = "2023-01-01T12:00:00Z"
+  ))
+  mock_get_role_credentials <- mock2(list(
+    roleCredentials = list(
+      accessKeyId = "hello",
+      secretAccessKey = "world",
+      sessionToken = "foo_hello",
+      expiration = "foo_world"
     )
-  )
-  mock_get_role_credentials <- mock2(
-    list(
-      roleCredentials = list(
-        accessKeyId = "hello",
-        secretAccessKey = "world",
-        sessionToken = "foo_hello",
-        expiration = "foo_world"
-      )
-    )
-  )
+  ))
   mock_Creds <- mock2(Creds())
   mock_sso <- mock2(list(get_role_credentials = mock_get_role_credentials))
   mockery::stub(sso_credential_process, "file.exists", mock_file_exists)
@@ -411,12 +366,10 @@ test_that("sso_credential_process legacy", {
   )
 
   # check for correct sso_cache
-  expect_true(
-    grepl(
-      "c7aaaf71fcc8777ae2475525ed049d39fe16c484",
-      mock_arg(mock_fromJSON)[[1]]
-    )
-  )
+  expect_true(grepl(
+    "c7aaaf71fcc8777ae2475525ed049d39fe16c484",
+    mock_arg(mock_fromJSON)[[1]]
+  ))
   expect_equal(
     mock_arg(mock_Creds),
     list(
@@ -430,27 +383,23 @@ test_that("sso_credential_process legacy", {
 
 test_that("sso_credential_process", {
   mock_file_exists <- mock2(TRUE)
-  mock_fromJSON <- mock2(
-    list(
-      startUrl = "https://my-sso-portal.awsapps.com/start",
-      region = "us-east-1",
-      accessToken = "foo",
-      expiresAt = "bar",
-      clientId = "cho",
-      clientSecret = "zap",
-      registrationExpiresAt = "2023-01-01T12:00:00Z"
+  mock_fromJSON <- mock2(list(
+    startUrl = "https://my-sso-portal.awsapps.com/start",
+    region = "us-east-1",
+    accessToken = "foo",
+    expiresAt = "bar",
+    clientId = "cho",
+    clientSecret = "zap",
+    registrationExpiresAt = "2023-01-01T12:00:00Z"
+  ))
+  mock_get_role_credentials <- mock2(list(
+    roleCredentials = list(
+      accessKeyId = "hello",
+      secretAccessKey = "world",
+      sessionToken = "foo_hello",
+      expiration = "foo_world"
     )
-  )
-  mock_get_role_credentials <- mock2(
-    list(
-      roleCredentials = list(
-        accessKeyId = "hello",
-        secretAccessKey = "world",
-        sessionToken = "foo_hello",
-        expiration = "foo_world"
-      )
-    )
-  )
+  ))
   mock_Creds <- mock2(Creds())
   mock_sso <- mock2(list(get_role_credentials = mock_get_role_credentials))
   mockery::stub(sso_credential_process, "file.exists", mock_file_exists)
@@ -467,12 +416,10 @@ test_that("sso_credential_process", {
   )
 
   # check for correct sso_cache
-  expect_true(
-    grepl(
-      "0ad374308c5a4e22f723adf10145eafad7c4031c",
-      mock_arg(mock_fromJSON)[[1]]
-    )
-  )
+  expect_true(grepl(
+    "0ad374308c5a4e22f723adf10145eafad7c4031c",
+    mock_arg(mock_fromJSON)[[1]]
+  ))
   expect_equal(
     mock_arg(mock_Creds),
     list(
@@ -494,9 +441,14 @@ test_that("check sso_cache doesn't exist legacy", {
       "https://my-sso-portal.awsapps.com/start",
       "123456789011",
       "us-east-1",
-      "readOnly"
+      "readOnly",
+      "profile demo"
     ),
-    "Error loading SSO Token: Token for https://my-sso-portal.awsapps.com/start does not exist"
+    paste(
+      "Error loading SSO Token: Token for https://my-sso-portal.awsapps.com/start does not exist",
+      "Try refreshing sso credentials: `aws sso login --profile demo`",
+      sep = "\n"
+    )
   )
 })
 
@@ -510,24 +462,27 @@ test_that("check sso_cache doesn't exist", {
       "https://my-sso-portal.awsapps.com/start",
       "123456789011",
       "us-east-1",
-      "readOnly"
+      "readOnly",
+      "profile demo"
     ),
-    "Error loading SSO Token: Token for my-sso does not exist"
+    paste(
+      "Error loading SSO Token: Token for my-sso does not exist",
+      "Try refreshing sso credentials: `aws sso login --profile demo`",
+      sep = "\n"
+    )
   )
 })
 
 test_that("check for invalid token, missing accessToken", {
   mock_file_exists <- mock2(TRUE)
-  mock_fromJSON <- mock2(
-    list(
-      startUrl = "https://my-sso-portal.awsapps.com/start",
-      region = "us-east-1",
-      expiresAt = "bar",
-      clientId = "cho",
-      clientSecret = "zap",
-      registrationExpiresAt = "2023-01-01T12:00:00Z"
-    )
-  )
+  mock_fromJSON <- mock2(list(
+    startUrl = "https://my-sso-portal.awsapps.com/start",
+    region = "us-east-1",
+    expiresAt = "bar",
+    clientId = "cho",
+    clientSecret = "zap",
+    registrationExpiresAt = "2023-01-01T12:00:00Z"
+  ))
   mockery::stub(sso_credential_process, "file.exists", mock_file_exists)
   mockery::stub(sso_credential_process, "jsonlite::fromJSON", mock_fromJSON)
 
@@ -537,24 +492,27 @@ test_that("check for invalid token, missing accessToken", {
       "https://my-sso-portal.awsapps.com/start",
       "123456789011",
       "us-east-1",
-      "readOnly"
+      "readOnly",
+      "profile demo"
     ),
-    "Error loading SSO Token: Token for https://my-sso-portal.awsapps.com/start is invalid."
+    paste(
+      "Error loading SSO Token: Token for https://my-sso-portal.awsapps.com/start is invalid.",
+      "Try refreshing sso credentials: `aws sso login --profile demo`",
+      sep = "\n"
+    )
   )
 })
 
 test_that("check for invalid token, missing expiresAt", {
   mock_file_exists <- mock2(TRUE)
-  mock_fromJSON <- mock2(
-    list(
-      startUrl = "https://my-sso-portal.awsapps.com/start",
-      region = "us-east-1",
-      accessToken = "foo",
-      clientId = "cho",
-      clientSecret = "zap",
-      registrationExpiresAt = "2023-01-01T12:00:00Z"
-    )
-  )
+  mock_fromJSON <- mock2(list(
+    startUrl = "https://my-sso-portal.awsapps.com/start",
+    region = "us-east-1",
+    accessToken = "foo",
+    clientId = "cho",
+    clientSecret = "zap",
+    registrationExpiresAt = "2023-01-01T12:00:00Z"
+  ))
   mockery::stub(sso_credential_process, "file.exists", mock_file_exists)
   mockery::stub(sso_credential_process, "jsonlite::fromJSON", mock_fromJSON)
 
@@ -564,7 +522,8 @@ test_that("check for invalid token, missing expiresAt", {
       "https://my-sso-portal.awsapps.com/start",
       "123456789011",
       "us-east-1",
-      "readOnly"
+      "readOnly",
+      "profile demo"
     ),
     "Error loading SSO Token: Token for https://my-sso-portal.awsapps.com/start is invalid."
   )
@@ -615,10 +574,7 @@ test_that("merge_config default param config", {
   )
 
   # Check if cfg is not affected by credentials list()
-  actual2 <- merge_config(
-    cfg,
-    list(credentials = list(), endpoint = NULL, region = NULL)
-  )
+  actual2 <- merge_config(cfg, list(credentials = list(), endpoint = NULL, region = NULL))
 
   # Check if default config is not affected by default credentials()
   actual3 <- merge_config(
@@ -641,11 +597,7 @@ test_that("merge_config modify default config with param config", {
   # check if list config is modified by credentials()
   actual1 <- merge_config(
     list(),
-    list(
-      credentials = credentials(profile = "dummy"),
-      endpoint = NULL,
-      region = NULL
-    )
+    list(credentials = credentials(profile = "dummy"), endpoint = NULL, region = NULL)
   )
 
   # check if list config is modified by credentials
@@ -657,11 +609,7 @@ test_that("merge_config modify default config with param config", {
   # check if config() is modified by all param config
   actual3 <- merge_config(
     config(),
-    list(
-      credentials = credentials(profile = "dummy"),
-      endpoint = "bar",
-      region = "zoo"
-    )
+    list(credentials = credentials(profile = "dummy"), endpoint = "bar", region = "zoo")
   )
 
   expect_credentials <- as.list(credentials(profile = "dummy"))
@@ -686,11 +634,7 @@ test_that("merge_config config and param config", {
 
   # check if list config is modified by credentials
   actual2 <- merge_config(
-    config(
-      credentials(profile = "dummy"),
-      endpoint = "endpoint1",
-      region = "eu-west-1"
-    ),
+    config(credentials(profile = "dummy"), endpoint = "endpoint1", region = "eu-west-1"),
     list(
       credentials = list(profile = "edited"),
       endpoint = "my-endpoint",
@@ -712,13 +656,8 @@ test_that("merge_config config and param config", {
     )
   )
   actual4 <- merge_config(
-    config(
-      credentials(creds(access_key_id = "dummy", secret_access_key = "secret"))
-    ),
-    list(
-      endpoint = "my-endpoint",
-      region = "us-east-1"
-    )
+    config(credentials(creds(access_key_id = "dummy", secret_access_key = "secret"))),
+    list(endpoint = "my-endpoint", region = "us-east-1")
   )
 
   expect1 <- config(
@@ -732,20 +671,13 @@ test_that("merge_config config and param config", {
     endpoint = "my-endpoint"
   )
   expect3 <- list(
-    credentials = list(
-      profile = "edited"
-    ),
+    credentials = list(profile = "edited"),
     endpoint = "my-endpoint",
     region = "us-east-1"
   )
 
   expect4 <- config(
-    credentials(
-      creds = creds(
-        access_key_id = "dummy",
-        secret_access_key = "secret"
-      )
-    ),
+    credentials(creds = creds(access_key_id = "dummy", secret_access_key = "secret")),
     endpoint = "my-endpoint",
     region = "us-east-1"
   )
@@ -754,4 +686,60 @@ test_that("merge_config config and param config", {
   expect_equal(actual2, expect2)
   expect_equal(actual3, expect3)
   expect_equal(actual4, expect4)
+})
+
+test_that("set_partition_name", {
+  # regions generated from:
+  # https://github.com/boto/botocore/blob/develop/botocore/data/endpoints.json
+  aws <- c(
+    "af-south-1",
+    "ap-east-1",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-northeast-3",
+    "ap-south-1",
+    "ap-south-2",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ap-southeast-3",
+    "ap-southeast-4",
+    "ap-southeast-5",
+    "ap-southeast-7",
+    "ca-central-1",
+    "ca-west-1",
+    "eu-central-1",
+    "eu-central-2",
+    "eu-north-1",
+    "eu-south-1",
+    "eu-south-2",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "il-central-1",
+    "me-central-1",
+    "me-south-1",
+    "mx-central-1",
+    "sa-east-1",
+    "us-east-1",
+    "us-east-2",
+    "us-west-1",
+    "us-west-2"
+  )
+  aws_cn <- c("cn-north-1", "cn-northwest-1")
+  aws_us_gov <- c("us-gov-east-1", "us-gov-west-1")
+  aws_iso <- c("us-iso-east-1", "us-iso-west-1")
+  aws_isob <- "us-isob-east-1"
+  aws_isoe <- "eu-isoe-west-1"
+  # no region found for this partition used regex pattern for testing
+  aws_isof <- "us-isof-east-1"
+  made_up <- c("region", "dummy_region")
+
+  for (region in aws) expect_equal(set_partition_name(region), "aws")
+  for (region in aws_cn) expect_equal(set_partition_name(region), "aws-cn")
+  for (region in aws_us_gov) expect_equal(set_partition_name(region), "aws-us-gov")
+  for (region in aws_iso) expect_equal(set_partition_name(region), "aws-iso")
+  for (region in aws_isob) expect_equal(set_partition_name(region), "aws-iso-b")
+  for (region in aws_isoe) expect_equal(set_partition_name(region), "aws-iso-e")
+  for (region in aws_isof) expect_equal(set_partition_name(region), "aws-iso-f")
+  for (region in made_up) expect_equal(set_partition_name(region), "")
 })

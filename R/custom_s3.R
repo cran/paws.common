@@ -97,12 +97,7 @@ get_access_point_endpoint <- function(access_point) {
   region <- part[4]
   account <- part[5]
   name <- part[7]
-  endpoint <- sprintf(
-    "%s-%s.s3-accesspoint.%s.amazonaws.com",
-    name,
-    account,
-    region
-  )
+  endpoint <- sprintf("%s-%s.s3-accesspoint.%s.amazonaws.com", name, account, region)
   return(endpoint)
 }
 
@@ -138,8 +133,7 @@ update_endpoint_for_s3_config <- function(request) {
   }
 
   if (use_virtual_host_style) {
-    request$http_request$url <-
-      move_bucket_to_host(request$http_request$url, bucket_name)
+    request$http_request$url <- move_bucket_to_host(request$http_request$url, bucket_name)
   }
 
   return(request)
@@ -196,9 +190,11 @@ copy_source_sse_md5 <- function(params) {
   }
   sse_key_member <- paste0(sse_member_prefix, "Key")
   sse_md5_member <- paste0(sse_member_prefix, "KeyMD5")
-  key_md5_str <- base64enc::base64encode(
-    digest::digest(params[[sse_key_member]], serialize = FALSE, raw = TRUE)
-  )
+  key_md5_str <- base64enc::base64encode(digest::digest(
+    params[[sse_key_member]],
+    serialize = FALSE,
+    raw = TRUE
+  ))
   attributes(key_md5_str) <- attributes(params[[sse_md5_member]])
   params[[sse_md5_member]] <- key_md5_str
   return(params)
@@ -216,20 +212,18 @@ copy_source_sse_md5 <- function(params) {
 content_md5 <- function(request) {
   operation_name <- request$operation$name
   if (
-    !(
-      operation_name %in%
-        c(
-          "PutBucketCors",
-          "PutBucketLifecycle",
-          "PutBucketPolicy",
-          "PutBucketTagging",
-          "DeleteObjects",
-          "PutBucketLifecycleConfiguration",
-          "PutBucketReplication",
-          "PutObject",
-          "UploadPart"
-        )
-    )
+    !(operation_name %in%
+      c(
+        "PutBucketCors",
+        "PutBucketLifecycle",
+        "PutBucketPolicy",
+        "PutBucketTagging",
+        "DeleteObjects",
+        "PutBucketLifecycleConfiguration",
+        "PutBucketReplication",
+        "PutObject",
+        "UploadPart"
+      ))
   ) {
     return(request)
   }
@@ -272,10 +266,7 @@ s3_unmarshal_error <- function(request) {
     request$http_response$body,
     request$operation$stream_api
   )
-  data <- tryCatch(
-    decode_xml(request$http_response$body),
-    error = function(e) NULL
-  )
+  data <- tryCatch(decode_xml(request$http_response$body), error = function(e) NULL)
   # Bucket exists in a different region, and request needs
   # to be made to the correct region.
   if (request$http_response$status_code == 301) {
@@ -285,9 +276,7 @@ s3_unmarshal_error <- function(request) {
       request$config$region,
       request$config$endpoint
     )
-    if (
-      nzchar(v <- request$http_response$header[["x-amz-bucket-region"]] %||% "")
-    ) {
+    if (nzchar(v <- request$http_response$header[["x-amz-bucket-region"]] %||% "")) {
       error_msg[[2]] <- sprintf(", bucket is in '%s' region", v)
     }
     request$error <- Error(
@@ -312,12 +301,7 @@ s3_unmarshal_error <- function(request) {
     return(request)
   }
 
-  request$error <- Error(
-    code,
-    message,
-    request$http_response$status_code,
-    error_response
-  )
+  request$error <- Error(code, message, request$http_response$status_code, error_response)
   return(request)
 }
 
@@ -334,9 +318,7 @@ s3_redirect_from_error <- function(request) {
     return(request)
   }
   if (isTRUE(request$context$s3_redirect)) {
-    log_debug(
-      "S3 request was previously redirected, not redirecting."
-    )
+    log_debug("S3 request was previously redirected, not redirecting.")
     return(request)
   }
   error_code <- request$http_response$status_code
@@ -391,9 +373,10 @@ s3_redirect_from_error <- function(request) {
     request$client_info$endpoint,
     ep_info$endpoint
   )
-  request$http_request$url <- parse_url(
-    paste0(request$client_info$endpoint, request$operation$http_path)
-  )
+  request$http_request$url <- parse_url(paste0(
+    request$client_info$endpoint,
+    request$operation$http_path
+  ))
   request$built <- FALSE
   request$context$s3_redirect <- TRUE
   # re-sign redirect request
@@ -409,32 +392,25 @@ can_be_redirected <- function(request, error_code, error) {
   # if we sign a Head* request with the wrong region,
   # we'll get a 400 Bad Request but we won't get a
   # body saying it's an "AuthorizationHeaderMalformed".
-  is_special_head_object <- (
-    error_code %in% c("301", "400") & request$operation$name == "HeadObject"
-  )
-  is_special_head_bucket <- (
-    error_code %in%
-      c("301", "400") &
-      request$operation$name == "HeadBucket" &
-      "x-amz-bucket-region" %in% names(request$http_response$header)
-  )
-  is_wrong_signing_region <- (
-    error$Code == "AuthorizationHeaderMalformed" & "Region" %in% names(error)
-  )
+  is_special_head_object <- (error_code %in%
+    c("301", "400") &
+    request$operation$name == "HeadObject")
+  is_special_head_bucket <- (error_code %in%
+    c("301", "400") &
+    request$operation$name == "HeadBucket" &
+    "x-amz-bucket-region" %in% names(request$http_response$header))
+  is_wrong_signing_region <- (error$Code == "AuthorizationHeaderMalformed" &
+    "Region" %in% names(error))
   is_redirect_status <- request$http_response$status_code %in% c(301, 302, 307)
   is_permanent_redirect <- error$Code == "PermanentRedirect"
 
-  return(
-    any(
-      c(
-        is_special_head_object,
-        is_wrong_signing_region,
-        is_permanent_redirect,
-        is_special_head_bucket,
-        is_redirect_status
-      )
-    )
-  )
+  return(any(c(
+    is_special_head_object,
+    is_wrong_signing_region,
+    is_permanent_redirect,
+    is_special_head_bucket,
+    is_redirect_status
+  )))
 }
 
 # There are multiple potential sources for the new region to redirect to,
@@ -461,21 +437,15 @@ s3_get_bucket_region <- function(request, error, bucket) {
 # Splice a new endpoint into an existing URL. Note that some endpoints
 # from the endpoint provider have a path component which will be
 # discarded by this function.
-set_request_url <- function(
-  original_endpoint,
-  new_endpoint,
-  use_new_scheme = TRUE
-) {
+set_request_url <- function(original_endpoint, new_endpoint, use_new_scheme = TRUE) {
   new_endpoint_components <- parse_url(new_endpoint)
   final_endpoint_components <- parse_url(original_endpoint)
   scheme <- final_endpoint_components$scheme
   if (use_new_scheme) {
     scheme <- new_endpoint_components[["scheme"]]
   }
-  path <- (
-    if (final_endpoint_components[["path"]] == "/") "" else
-      final_endpoint_components[["path"]]
-  )
+  path <- (if (final_endpoint_components[["path"]] == "/") "" else
+    final_endpoint_components[["path"]])
   final_endpoint_components[["host"]] <- new_endpoint_components$host
   final_endpoint_components[["scheme"]] <- scheme
   final_endpoint_components[["path"]] <- path
@@ -505,12 +475,10 @@ quote_source_header <- function(source, tags) {
   if (is.na(result[2])) {
     return(tag_add(paws_url_encoder(result[1], "/"), tags))
   } else {
-    return(
-      tag_add(
-        paste0(paws_url_encoder(result[1], "/"), VERSION_ID_SUFFIX, result[2]),
-        tags
-      )
-    )
+    return(tag_add(
+      paste0(paws_url_encoder(result[1], "/"), VERSION_ID_SUFFIX, result[2]),
+      tags
+    ))
   }
 }
 
@@ -536,30 +504,12 @@ quote_source_header_from_list <- function(source, tags) {
 ################################################################################
 
 customizations$s3 <- function(handlers) {
-  handlers$build <- handlers_add_front(
-    handlers$build,
-    update_endpoint_for_s3_config
-  )
-  handlers$build <- handlers_add_front(
-    handlers$build,
-    populate_location_constraint
-  )
-  handlers$build <- handlers_add_front(
-    handlers$build,
-    convert_file_to_raw
-  )
-  handlers$build <- handlers_add_front(
-    handlers$build,
-    handle_copy_source_param
-  )
-  handlers$build <- handlers_add_front(
-    handlers$build,
-    sse_md5_build
-  )
-  handlers$build <- handlers_add_back(
-    handlers$build,
-    content_md5
-  )
+  handlers$build <- handlers_add_front(handlers$build, update_endpoint_for_s3_config)
+  handlers$build <- handlers_add_front(handlers$build, populate_location_constraint)
+  handlers$build <- handlers_add_front(handlers$build, convert_file_to_raw)
+  handlers$build <- handlers_add_front(handlers$build, handle_copy_source_param)
+  handlers$build <- handlers_add_front(handlers$build, sse_md5_build)
+  handlers$build <- handlers_add_back(handlers$build, content_md5)
   handlers$send <- handlers_add_back(handlers$send, s3_redirect_from_error)
   handlers$unmarshal <- handlers_add_back(
     handlers$unmarshal,

@@ -18,37 +18,18 @@ new_handlers <- function(protocol, signer) {
     get(paste0(protocol, "_", type))
   }
   handlers <- Handlers(
-    validate = HandlerList(
-      validate_endpoint_handler,
-      validate_parameters_handler
-    ),
-    build = HandlerList(
-      add_host_exec_env_user_agent_handler,
-      handler(protocol, "build")
-    ),
+    validate = HandlerList(validate_endpoint_handler, validate_parameters_handler),
+    build = HandlerList(add_host_exec_env_user_agent_handler, handler(protocol, "build")),
     sign = HandlerList(
       build_content_length_handler,
       handler(signer, "sign_request_handler")
     ),
-    send = HandlerList(
-      validate_req_sig_handler,
-      send_handler
-    ),
-    validate_response = HandlerList(
-      validate_response_handler
-    ),
-    unmarshal = HandlerList(
-      handler(protocol, "unmarshal")
-    ),
-    unmarshal_meta = HandlerList(
-      handler(protocol, "unmarshal_meta")
-    ),
-    unmarshal_error = HandlerList(
-      handler(protocol, "unmarshal_error")
-    ),
-    retry = HandlerList(
-      standard_retry_handler
-    )
+    send = HandlerList(validate_req_sig_handler, send_handler),
+    validate_response = HandlerList(validate_response_handler),
+    unmarshal = HandlerList(handler(protocol, "unmarshal")),
+    unmarshal_meta = HandlerList(handler(protocol, "unmarshal_meta")),
+    unmarshal_error = HandlerList(handler(protocol, "unmarshal_error")),
+    retry = HandlerList(standard_retry_handler)
   )
   return(handlers)
 }
@@ -142,11 +123,7 @@ new_service <- function(metadata, handlers, cfgs = NULL, operation = Operation()
 
   handlers <- customize(handlers, metadata$service_name)
 
-  svc <- Client(
-    config = cfg$config,
-    client_info = client_info,
-    handlers = handlers
-  )
+  svc <- Client(config = cfg$config, client_info = client_info, handlers = handlers)
   return(svc)
 }
 
