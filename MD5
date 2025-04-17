@@ -1,6 +1,6 @@
-8528a190a6a628841fdd9baa10167265 *DESCRIPTION
+ea4d43796be1dc080bde5162eb36031a *DESCRIPTION
 89580b89a639fc884d5bfe36ba1d1740 *NAMESPACE
-06c82b3bc8bb8c3e4caf7a61be25ef5b *NEWS.md
+f9181d5ca2ef149453006863a1de807e *NEWS.md
 567213af90c19793b72063ef6c19d7b9 *R/RcppExports.R
 9b8e571c30ef2551b023e25eba526d00 *R/cache.R
 1f019993bf303ab52c56ad1b3b0b4a58 *R/client.R
@@ -82,7 +82,7 @@ c52e05fc744229c2279f6fc749a39fc2 *src/ini_utils.cpp
 4806801ccb4d62ad0ef64381e180883b *src/json_escape.cpp
 4db33cc9c45e67f779acfef7d425b9fa *src/resolve_endpoint.cpp
 0547c57030ce906034b0b2c599037356 *src/set_partition_name.cpp
-30e2bc65f3e1a721e11953f48d1969e5 *src/url_parse.cpp
+766b5d5bac2b314463f85c4a661b6586 *src/url_parse.cpp
 0ca3253c5dca95f2428f205a59df2bbb *src/utils.cpp
 bc274f4a1666546b20f5d8f93d946299 *tests/testthat.R
 787bfb5f56723238e609855c2075c879 *tests/testthat/data_ini
@@ -127,6 +127,6 @@ e43774a41a5937a50e0196af4e6b4712 *tests/testthat/test_service.R
 83514c58c1e0053cc73de9d5c50eaab9 *tests/testthat/test_signer_v4.R
 182952127a9fd9e3427243841e123e45 *tests/testthat/test_struct.R
 9a1357b5c4d432257a28268531b4e699 *tests/testthat/test_tags.R
-30c4cd87c940cd6ed2df2622319f71d3 *tests/testthat/test_url.R
+ff1baae558a2a498f5523dde9c817768 *tests/testthat/test_url.R
 6a0527c870354cfa4253ef848e42f376 *tests/testthat/test_util.R
 0ceda2ebe46f7e104159b51a4366ae29 *tests/testthat/test_xmlutil.R
