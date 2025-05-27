@@ -1,6 +1,6 @@
-ea4d43796be1dc080bde5162eb36031a *DESCRIPTION
+8cea63247fc703b706969976ab6e29a6 *DESCRIPTION
 89580b89a639fc884d5bfe36ba1d1740 *NAMESPACE
-f9181d5ca2ef149453006863a1de807e *NEWS.md
+6e7563073c1a824f7be0c85e54f781a3 *NEWS.md
 567213af90c19793b72063ef6c19d7b9 *R/RcppExports.R
 9b8e571c30ef2551b023e25eba526d00 *R/cache.R
 1f019993bf303ab52c56ad1b3b0b4a58 *R/client.R
@@ -23,7 +23,7 @@ f60aa263360e62231b453b5550c732b7 *R/handlers_query.R
 b356a94898b33f8698dfa1e8c5ef00bb *R/handlers_rest.R
 8a2e47d183ebe5a90a257cc81d04ff2d *R/handlers_restjson.R
 9f795ecbe3f069a666af701c175bd182 *R/handlers_restxml.R
-696783daeba96e38e692857eaffe93cd *R/handlers_stream.R
+a7a9278ad577b261ba6e46260a91e167 *R/handlers_stream.R
 95b5a7265da71ee3bb03fc65e7603ce7 *R/head_bucket.R
 c9769b135e72cc26531c1085aee6c19b *R/http_status.R
 0b53892025070a8b3336ac95106e6f88 *R/idempotency.R
@@ -112,7 +112,7 @@ a5dca8c10c6ab46275d844674b675037 *tests/testthat/test_handlers_query.R
 5a18066ea056d07bb8bd1e7c5bdfdfe5 *tests/testthat/test_handlers_restjson.R
 fd809a9d6c6dca265d12e65a07148ae5 *tests/testthat/test_handlers_restxml.R
 f8d15057208ef9171930daf97e74084d *tests/testthat/test_handlers_sse.R
-24b05f448ed34a21122cbd00059a2c71 *tests/testthat/test_handlers_stream.R
+9d4bd3acd8e51d403791fbacc7a4bade *tests/testthat/test_handlers_stream.R
 13308b656c7071f6671aa8f4e35fb113 *tests/testthat/test_iniutil.R
 a3422df8b3a47201366f62366e577249 *tests/testthat/test_jsonutil.R
 fcab4d8a83c9bc3da2bd2602fae49aec *tests/testthat/test_logging.R

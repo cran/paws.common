@@ -1,7 +1,7 @@
 Package: paws.common
 Type: Package
 Title: Paws Low-Level Amazon Web Services API
-Version: 0.8.3
+Version: 0.8.4
 Authors@R: c(
         person("David", "Kretch", email = "david.kretch@gmail.com", role = "aut"),
         person("Adam", "Banker", email = "adam.banker39@gmail.com", role = "aut"),
@@ -14,7 +14,9 @@ Description: Functions for making low-level API requests to Amazon Web Services
     higher-level interfaces to individual services, such as Simple Storage
     Service (S3).
 License: Apache License (>= 2.0)
-URL: https://github.com/paws-r/paws
+URL: https://github.com/paws-r/paws,
+        https://paws-r.r-universe.dev/paws.common,
+        https://www.paws-r-sdk.com
 BugReports: https://github.com/paws-r/paws/issues
 Encoding: UTF-8
 LinkingTo: Rcpp
@@ -39,11 +41,11 @@ Collate: 'RcppExports.R' 'util.R' 'cache.R' 'struct.R' 'handlers.R'
         'time.R'
 Config/testthat/edition: 3
 NeedsCompilation: yes
-Packaged: 2025-04-17 12:40:52 UTC; dyfanjones
+Packaged: 2025-05-27 08:42:07 UTC; dyfanjones
 Author: David Kretch [aut],
   Adam Banker [aut],
   Dyfan Jones [cre],
   Amazon.com, Inc. [cph]
 Maintainer: Dyfan Jones <dyfan.r.jones@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-04-17 13:40:02 UTC
+Date/Publication: 2025-05-27 09:40:09 UTC
