@@ -1,3 +1,8 @@
+# paws.common 0.8.5
+* restrict httr2 version (#933). Thanks to @idavydov for raising the issue.
+* fix host prefix allowing for parameters to be passed in based on hostLabel (#941). Thanks to @dannypage for raising the issue.
+* add s3_virtual_address to force how url address is built (#937) thanks to @noamross for raising the issue.
+
 # paws.common 0.8.4
 * fix ensure byte buffer push back is working correctly in paws_stream_parser (#930). Thanks to @joeramirez for raising issue.
 
