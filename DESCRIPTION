@@ -1,7 +1,7 @@
 Package: paws.common
 Type: Package
 Title: Paws Low-Level Amazon Web Services API
-Version: 0.8.5
+Version: 0.8.6
 Authors@R: c(
         person("David", "Kretch", email = "david.kretch@gmail.com", role = "aut"),
         person("Adam", "Banker", email = "adam.banker39@gmail.com", role = "aut"),
@@ -24,7 +24,7 @@ Imports: base64enc, curl, digest, httr2 (>= 1.0.4), jsonlite, methods,
         utils, stats, Rcpp, xml2
 Suggests: covr, crayon, mockery, withr, rstudioapi, testthat (>= 3.0.0)
 SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Collate: 'RcppExports.R' 'util.R' 'cache.R' 'struct.R' 'handlers.R'
         'iniutil.R' 'config.R' 'logging.R' 'dateutil.R'
         'credential_sso.R' 'credential_sts.R' 'url.R' 'net.R'
@@ -36,12 +36,12 @@ Collate: 'RcppExports.R' 'util.R' 'cache.R' 'struct.R' 'handlers.R'
         'handlers_restxml.R' 'handlers_stream.R' 'idempotency.R'
         'jsonutil.R' 'mock_bindings.R' 'onLoad.R' 'paginate.R'
         'populate.R' 'populateutil.R' 'queryutil.R' 'request.R'
-        'retry.R' 'service_parameter_helper.R' 'signer_v4.R'
-        'signer_s3.R' 'signer_s3v4.R' 'signer_v1.R' 'signer_v2.R'
-        'time.R'
+        'retry.R' 'service_parameter_helper.R' 'signer_bearer.R'
+        'signer_v4.R' 'signer_s3.R' 'signer_s3v4.R' 'signer_v1.R'
+        'signer_v2.R' 'time.R'
 Config/testthat/edition: 3
 NeedsCompilation: yes
-Packaged: 2025-07-25 13:57:56 UTC; dyfanjones
+Packaged: 2025-11-19 16:29:49 UTC; dyfanjones
 Author: David Kretch [aut],
   Adam Banker [aut],
   Dyfan Jones [cre],
@@ -49,4 +49,4 @@ Author: David Kretch [aut],
 Maintainer: Dyfan Jones <dyfan.r.jones@gmail.com>
 Depends: R (>= 4.1.0)
 Repository: CRAN
-Date/Publication: 2025-07-25 14:50:02 UTC
+Date/Publication: 2025-11-19 17:30:02 UTC

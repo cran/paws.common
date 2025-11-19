@@ -17,8 +17,7 @@ convert_type <- function(value, timestamp_format) {
 # Convert a value to a base64-encoded string.
 # e.g. "foo" (raw: 66 6f 6f) -> "Zm9v".
 convert_blob <- function(blob) {
-  string <- raw_to_base64(blob)
-  return(string)
+  return(raw_to_base64(blob))
 }
 
 # Convert a "truthy" R value to a string.
