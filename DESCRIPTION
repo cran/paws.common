@@ -1,7 +1,7 @@
 Package: paws.common
 Type: Package
 Title: Paws Low-Level Amazon Web Services API
-Version: 0.8.7
+Version: 0.8.8
 Authors@R: c(
         person("David", "Kretch", email = "david.kretch@gmail.com", role = "aut"),
         person("Adam", "Banker", email = "adam.banker39@gmail.com", role = "aut"),
@@ -14,6 +14,7 @@ Description: Functions for making low-level API requests to Amazon Web Services
     higher-level interfaces to individual services, such as Simple Storage
     Service (S3).
 License: Apache License (>= 2.0)
+Depends: R (>= 4.1.0)
 URL: https://github.com/paws-r/paws,
         https://paws-r.r-universe.dev/paws.common,
         https://www.paws-r-sdk.com
@@ -35,18 +36,17 @@ Collate: 'RcppExports.R' 'util.R' 'cache.R' 'struct.R' 'handlers.R'
         'handlers_rest.R' 'handlers_restjson.R' 'tags.R' 'xmlutil.R'
         'handlers_restxml.R' 'handlers_stream.R' 'idempotency.R'
         'jsonutil.R' 'mock_bindings.R' 'onLoad.R' 'paginate.R'
-        'populate.R' 'populateutil.R' 'queryutil.R' 'request.R'
-        'retry.R' 'service_parameter_helper.R' 'signer_bearer.R'
-        'signer_v4.R' 'signer_s3.R' 'signer_s3v4.R' 'signer_v1.R'
-        'signer_v2.R' 'time.R'
+        'populateutil.R' 'queryutil.R' 'request.R' 'retry.R'
+        'service_parameter_helper.R' 'signer_bearer.R' 'signer_v4.R'
+        'signer_s3.R' 'signer_s3v4.R' 'signer_v1.R' 'signer_v2.R'
+        'time.R'
 Config/testthat/edition: 3
 NeedsCompilation: yes
-Packaged: 2025-11-25 10:00:52 UTC; dyfanjones
+Packaged: 2026-01-13 15:38:26 UTC; dyfanjones
 Author: David Kretch [aut],
   Adam Banker [aut],
   Dyfan Jones [cre],
   Amazon.com, Inc. [cph]
 Maintainer: Dyfan Jones <dyfan.r.jones@gmail.com>
-Depends: R (>= 4.1.0)
 Repository: CRAN
-Date/Publication: 2025-11-25 12:10:02 UTC
+Date/Publication: 2026-01-13 17:00:03 UTC
