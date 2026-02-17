@@ -1,7 +1,7 @@
 Package: paws.common
 Type: Package
 Title: Paws Low-Level Amazon Web Services API
-Version: 0.8.8
+Version: 0.8.9
 Authors@R: c(
         person("David", "Kretch", email = "david.kretch@gmail.com", role = "aut"),
         person("Adam", "Banker", email = "adam.banker39@gmail.com", role = "aut"),
@@ -42,11 +42,11 @@ Collate: 'RcppExports.R' 'util.R' 'cache.R' 'struct.R' 'handlers.R'
         'time.R'
 Config/testthat/edition: 3
 NeedsCompilation: yes
-Packaged: 2026-01-13 15:38:26 UTC; dyfanjones
+Packaged: 2026-02-16 23:51:09 UTC; Dyfan.Jones
 Author: David Kretch [aut],
   Adam Banker [aut],
   Dyfan Jones [cre],
   Amazon.com, Inc. [cph]
 Maintainer: Dyfan Jones <dyfan.r.jones@gmail.com>
 Repository: CRAN
-Date/Publication: 2026-01-13 17:00:03 UTC
+Date/Publication: 2026-02-17 06:10:20 UTC
