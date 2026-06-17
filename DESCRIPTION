@@ -1,7 +1,7 @@
 Package: paws.common
 Type: Package
 Title: Paws Low-Level Amazon Web Services API
-Version: 0.8.9
+Version: 0.8.10
 Authors@R: c(
         person("David", "Kretch", email = "david.kretch@gmail.com", role = "aut"),
         person("Adam", "Banker", email = "adam.banker39@gmail.com", role = "aut"),
@@ -25,7 +25,6 @@ Imports: base64enc, curl, digest, httr2 (>= 1.0.4), jsonlite, methods,
         utils, stats, Rcpp, xml2
 Suggests: covr, crayon, mockery, withr, rstudioapi, testthat (>= 3.0.0)
 SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
-RoxygenNote: 7.3.3
 Collate: 'RcppExports.R' 'util.R' 'cache.R' 'struct.R' 'handlers.R'
         'iniutil.R' 'config.R' 'logging.R' 'dateutil.R'
         'credential_sso.R' 'credential_sts.R' 'url.R' 'net.R'
@@ -41,12 +40,13 @@ Collate: 'RcppExports.R' 'util.R' 'cache.R' 'struct.R' 'handlers.R'
         'signer_s3.R' 'signer_s3v4.R' 'signer_v1.R' 'signer_v2.R'
         'time.R'
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0
 NeedsCompilation: yes
-Packaged: 2026-02-16 23:51:09 UTC; Dyfan.Jones
+Packaged: 2026-06-17 12:58:08 UTC; Dyfan.Jones
 Author: David Kretch [aut],
   Adam Banker [aut],
   Dyfan Jones [cre],
   Amazon.com, Inc. [cph]
 Maintainer: Dyfan Jones <dyfan.r.jones@gmail.com>
 Repository: CRAN
-Date/Publication: 2026-02-17 06:10:20 UTC
+Date/Publication: 2026-06-17 16:40:02 UTC
