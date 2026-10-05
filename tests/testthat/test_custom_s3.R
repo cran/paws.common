@@ -127,6 +127,17 @@ test_that("content_md5 create new Content-Md5", {
   expect_equal(actual$http_request$header$`Content-Md5`, expect_hash)
 })
 
+test_that("content_md5 skips when a flexible checksum will be applied instead", {
+  request <- list(
+    "operation" = list("name" = "PutObject"),
+    body = raw(1),
+    context = list(checksum = list(request_algorithm = "CRC32"))
+  )
+
+  actual <- content_md5(request)
+  expect_null(actual$http_request$header$`Content-Md5`)
+})
+
 test_that("s3_unmarshal_get_bucket_location", {
   op <- Operation(name = "GetBucketLocation")
   svc <- Client()
@@ -183,6 +194,45 @@ test_that("S3 access points", {
   host <- "test-123456789012.s3-accesspoint.us-west-2.amazonaws.com"
 
   req <- build_request(bucket = access_point_arn, operation = "ListObjects")
+  actual <- update_endpoint_for_s3_config(req)
+  expect_equal(actual$http_request$url$host, host)
+  expect_equal(actual$client_info$signing_name, "s3")
+  expect_equal(actual$client_info$signing_region, "us-west-2")
+})
+
+test_that("S3 on Outposts access points", {
+  outpost_arn <- paste0(
+    "arn:aws:s3-outposts:us-west-2:123456789012:outpost/op-01234567890123456",
+    "/accesspoint/test"
+  )
+  host <- "test-123456789012.op-01234567890123456.s3-outposts.us-west-2.amazonaws.com"
+
+  req <- build_request(bucket = outpost_arn, operation = "ListObjects")
+  actual <- update_endpoint_for_s3_config(req)
+  expect_equal(actual$http_request$url$host, host)
+  expect_equal(actual$client_info$signing_name, "s3-outposts")
+  expect_equal(actual$client_info$signing_region, "us-west-2")
+})
+
+test_that("S3 Object Lambda access points", {
+  olap_arn <- "arn:aws:s3-object-lambda:us-west-2:123456789012:accesspoint/test"
+  host <- "test-123456789012.s3-object-lambda.us-west-2.amazonaws.com"
+
+  req <- build_request(bucket = olap_arn, operation = "ListObjects")
+  actual <- update_endpoint_for_s3_config(req)
+  expect_equal(actual$http_request$url$host, host)
+  expect_equal(actual$client_info$signing_name, "s3-object-lambda")
+  expect_equal(actual$client_info$signing_region, "us-west-2")
+})
+
+test_that("S3 ARN endpoints respect the partition DNS suffix", {
+  outpost_arn <- paste0(
+    "arn:aws-cn:s3-outposts:cn-north-1:123456789012:outpost/op-01234567890123456",
+    "/accesspoint/test"
+  )
+  host <- "test-123456789012.op-01234567890123456.s3-outposts.cn-north-1.amazonaws.com.cn"
+
+  req <- build_request(bucket = outpost_arn, operation = "ListObjects")
   actual <- update_endpoint_for_s3_config(req)
   expect_equal(actual$http_request$url$host, host)
 })

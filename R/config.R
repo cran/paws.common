@@ -202,6 +202,36 @@ get_iam_role <- function() {
   return(iam_role_name)
 }
 
+IMDS_BASE_URL_IPV4 <- "http://169.254.169.254"
+IMDS_BASE_URL_IPV6 <- "http://[fd00:ec2::254]"
+IMDS_ENDPOINT_MODES <- c("ipv4", "ipv6")
+
+# Resolve the IMDS base URL, mirroring botocore's resolve_imds_endpoint_mode()/
+# IMDSFetcher._select_base_url():
+# https://github.com/boto/botocore/blob/develop/botocore/utils.py
+resolve_imds_base_url <- function() {
+  custom <- get_env("AWS_EC2_METADATA_SERVICE_ENDPOINT")
+  if (nzchar(custom)) {
+    return(custom)
+  }
+  mode <- tolower(get_env("AWS_EC2_METADATA_SERVICE_ENDPOINT_MODE"))
+  if (nzchar(mode)) {
+    if (!(mode %in% IMDS_ENDPOINT_MODES)) {
+      stopf(
+        "Invalid EC2 Instance Metadata Service endpoint mode: %s. Valid modes are: %s.",
+        mode,
+        paste(IMDS_ENDPOINT_MODES, collapse = ", ")
+      )
+    }
+    if (mode == "ipv6") {
+      return(IMDS_BASE_URL_IPV6)
+    }
+  } else if (tolower(get_env("AWS_IMDS_USE_IPV6")) %in% c("true", "1")) {
+    return(IMDS_BASE_URL_IPV6)
+  }
+  return(IMDS_BASE_URL_IPV4)
+}
+
 # Gets the instance metadata by making an http request to an instance metadata services
 # Please see security recommendations by AWS: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html
 get_instance_metadata <- function(query_path = "") {
@@ -210,10 +240,11 @@ get_instance_metadata <- function(query_path = "") {
   if (trimws(tolower(get_env("AWS_EC2_METADATA_DISABLED"))) %in% c("true", "1")) {
     return(NULL)
   }
+  imds_base_url <- resolve_imds_base_url()
   # Get token timeout for IMDSv2 tokens
   token <- "" # Token to be used in case of more secure IMDSv2 authentication
   # try IMDSv2  (more information): https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html
-  metadata_token_url <- file.path("http://169.254.169.254/latest/api/token")
+  metadata_token_url <- file.path(imds_base_url, "latest/api/token", fsep = "/")
   metadata_token_request <- new_http_request(
     "PUT",
     metadata_token_url,
@@ -233,7 +264,7 @@ get_instance_metadata <- function(query_path = "") {
       token <- rawToChar(metadata_token_response[["body"]])
     }
   }
-  metadata_url <- file.path("http://169.254.169.254/latest/meta-data", query_path)
+  metadata_url <- file.path(imds_base_url, "latest/meta-data", query_path, fsep = "/")
   if (token != "") {
     metadata_request <- new_http_request(
       "GET",
@@ -449,7 +480,18 @@ get_sts_regional_endpoint <- function(profile = "") {
   return(sts_regional_endpoint %||% "")
 }
 
-.optional_config_parameter <- list("sts_regional_endpoint" = get_sts_regional_endpoint)
+# Get the AWS_USE_DUALSTACK_ENDPOINT setting from the environment. The envvar
+# is only consulted as a fallback default when `config$use_dual_stack` isn't
+# set explicitly, mirroring botocore's precedence.
+get_use_dual_stack <- function(profile = "") {
+  use_dual_stack <- get_env("AWS_USE_DUALSTACK_ENDPOINT")
+  return(tolower(trimws(use_dual_stack)) %in% c("true", "1"))
+}
+
+.optional_config_parameter <- list(
+  "sts_regional_endpoint" = get_sts_regional_endpoint,
+  "use_dual_stack" = get_use_dual_stack
+)
 
 # Ensures config is built correctly from service parameters
 build_config <- function(cfg) {

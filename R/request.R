@@ -10,7 +10,8 @@ Operation <- struct(
   host_prefix = "",
   paginator = list(),
   stream_api = FALSE,
-  before_presign_fn = function() {}
+  before_presign_fn = function() {},
+  http_checksum = NULL
 )
 
 #' Return an API operation object
@@ -26,6 +27,7 @@ Operation <- struct(
 #' @param paginator List input_token and output_token.
 #' @param stream_api Set if operation is stream api or not
 #' @param before_presign_fn Currently unused.
+#' @param http_checksum The operation's `httpChecksum` trait, or `NULL`.
 #'
 #' @family API request functions
 #'
@@ -46,7 +48,8 @@ new_operation <- function(
   host_prefix,
   paginator,
   stream_api = FALSE,
-  before_presign_fn = NULL
+  before_presign_fn = NULL,
+  http_checksum = NULL
 ) {
   args <- as.list(environment())
   args[lengths(args) == 0] <- NULL
@@ -231,6 +234,17 @@ get_host <- function(http_request) {
 
 # Return the port from an HTTP request.
 get_port <- function(host) {
+  if (startsWith(host, "[")) {
+    close_bracket <- regexpr("]", host, fixed = TRUE)
+    if (close_bracket == -1) {
+      return("")
+    }
+    rest <- substring(host, close_bracket + 1)
+    if (startsWith(rest, ":")) {
+      return(substring(rest, 2))
+    }
+    return("")
+  }
   port <- strsplit(host, ":")[[1]][-1]
   if (length(port) == 0) {
     port <- ""
@@ -240,6 +254,13 @@ get_port <- function(host) {
 
 # Return a host with the port stripped off, e.g. "example.com:80" -> "example.com."
 strip_port <- function(host) {
+  if (startsWith(host, "[")) {
+    close_bracket <- regexpr("]", host, fixed = TRUE)
+    if (close_bracket == -1) {
+      return(host)
+    }
+    return(substring(host, 1, close_bracket))
+  }
   port <- strsplit(host, ":")[[1]][1]
   return(port)
 }
